@@ -1,6 +1,6 @@
 # Live2D_VideoChat
 Fight for GPA
 
-QT:7.3.0
+QT:5.12.5
 
 OpenCV: 4.1.1
