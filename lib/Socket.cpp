@@ -148,13 +148,17 @@ std::string Socket::ReceiveLine() {
   }
 }
 
-void Socket::SendLine(std::string s) {
+void Socket::SendLine(std::string s) {//fixed using build-in exceptions
   s += '\n';
-  send(s_,s.c_str(),s.length(),0);
+  if (send(s_, s.c_str(), s.length(), 0) == SOCKET_ERROR) {
+	  throw WSAGetLastError();
+  }
 }
 
-void Socket::SendBytes(const std::string& s) {
-  send(s_,s.c_str(),s.length(),0);
+void Socket::SendBytes(const std::string& s) {//fixed using build-in exceptions
+  if(send(s_,s.c_str(),s.length(),0) == SOCKET_ERROR) {
+	  throw WSAGetLastError();
+  }
 }
 
 SocketServer::SocketServer(int port, int connections, TypeSocket type) {
