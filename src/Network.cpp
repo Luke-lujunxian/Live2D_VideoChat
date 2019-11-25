@@ -6,17 +6,31 @@ using namespace std;
 //Thread funtions
 void callHandleFun(Socket* s) {
 
+	//varification
 	if (s->ReceiveLine() != "1919810") {
 		s->Close();
 		return;
 	}
+
+	/*
+	*
+	*TODO:
+	*Info Exchange
+	*
+	*/
+
+	MotionObject* motion = new MotionObject();
+	Network::getInstance()->getDisplayObjects()->push_back(motion);
+
+
 	while (!Network::getInstance()->shouldStop())
 	{
-
-
+		motion->writeObject(s->ReceiveLine());
+		s->SendLine(Network::getInstance()->getSendJson()->dump());
 	}
+	
 	//TODO: Some finishing work
-
+	motion->alive = false;
 }
 
 void listenerfun() {
@@ -33,19 +47,23 @@ void listenerfun() {
 
 		return;
 	}
-
-	while (!Network::getInstance()->shouldStop()) {
-		Socket* call = listener->Accept();
-		if (call == 0)//No incoming connection
-			continue;
-		calls.push_back(thread(callHandleFun, call));
+	
+	if (true/*p2p mode*/) {
+		while (!Network::getInstance()->shouldStop()) {
+				Socket* call = listener->Accept();
+				if (call == 0)//No incoming connection
+					continue;
+				Network::getInstance();
+				calls.push_back(thread(callHandleFun, call));
+			}
 	}
+	
 	//TODO: Some finishing work
 }
 
 //Thread funtions End
 
-Network::Network() {
+Network::Network() { 
 	stopFlag = false;
 }
 
@@ -55,15 +73,21 @@ void Network::networkInit() {
 	listener = thread(listenerfun);//open listen port
 }
 
-void Network::updateMotion(json motion)
+void Network::updateMotion(json& motion)
 {
 	this->sendObject = motion;
 }
 
-vector<json>* Network::getMotion()
+std::vector<MotionObject*>* Network::getDisplayObjects()
 {
 	return &this->displayObjects;
 }
+
+json* Network::getSendJson()
+{
+	return &sendObject;
+}
+
 
 
 
