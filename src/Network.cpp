@@ -2,7 +2,7 @@
 #include "Setting.h"
 #include <Socket.h>
 
-
+using namespace std;
 //Thread funtions
 void callHandleFun(Socket* s) {
 

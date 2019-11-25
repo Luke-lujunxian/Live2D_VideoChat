@@ -2,7 +2,6 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <thread>
-using namespace std;
 using namespace nlohmann;
 
 
@@ -11,7 +10,7 @@ class Network {
 public:
 	void networkInit();
 	void updateMotion(json motion);
-	vector<json>* getMotion();
+	std::vector<json>* getMotion();
 	bool shouldStop() {
 		return stopFlag;
 	}
@@ -22,12 +21,12 @@ public:
 	}
 
 private:
-	vector<json> displayObjects;
+	std::vector<json> displayObjects;
 	json sendObject;
 	Network();
 	Network(Network&) = delete;
 	Network& operator=(Network) = delete;
-	thread listener;
+	std::thread listener;
 	bool stopFlag;
 	static Network* network;
 
