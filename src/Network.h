@@ -5,15 +5,20 @@
 using namespace std;
 using namespace nlohmann;
 
+
 class Network {
 
 public:
 	void networkInit();
 	void updateMotion(json motion);
 	vector<json>* getMotion();
-	static Network* getInstance();
 	bool shouldStop() {
 		return stopFlag;
+	}
+	static Network* getInstance() {
+		if (network == nullptr)
+			network = new Network();
+		return network;
 	}
 
 private:
@@ -23,8 +28,8 @@ private:
 	Network(Network&) = delete;
 	Network& operator=(Network) = delete;
 	thread listener;
-	static Network* network;
 	bool stopFlag;
+	static Network* network;
 
 	//Warning: All Network will end
 	void stop() {
@@ -33,4 +38,5 @@ private:
 	
 };
 
+Network* Network::network = nullptr;
 
