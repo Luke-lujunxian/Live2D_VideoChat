@@ -10,9 +10,9 @@ class Setting {
 
 public:
 	static Setting* getSetting() {
-		if(inited)
-			return setting;
-		return nullptr;
+		if (!Setting::inited)
+			setting = new Setting();
+		return setting;
 	}
 
 	short const getListenPort() {
@@ -28,7 +28,7 @@ public:
 	}
 
 private:
-	Setting();
+	Setting() {};
 	Setting(Setting&);
 	static bool inited;
 	short listenPort;
@@ -37,3 +37,5 @@ private:
 	static Setting* setting;
 };
 
+bool Setting::inited = false;
+Setting* Setting::setting = nullptr;

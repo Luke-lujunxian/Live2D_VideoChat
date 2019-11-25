@@ -27,6 +27,11 @@
 
 #include "Socket.h"
 #include <iostream>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdio.h>
+
+#pragma comment(lib, "Ws2_32.lib")
 
 using namespace std;
 
@@ -170,7 +175,7 @@ SocketServer::SocketServer(int port, int connections, TypeSocket type) {
   sa.sin_port = htons(port);          
   s_ = socket(AF_INET, SOCK_STREAM, 0);
   if (s_ == INVALID_SOCKET) {
-    throw "INVALID_SOCKET";
+    throw WSAGetLastError();
   }
 
   if(type==NonBlockingSocket) {
@@ -181,7 +186,7 @@ SocketServer::SocketServer(int port, int connections, TypeSocket type) {
   /* bind the socket to the internet address */
   if (bind(s_, (sockaddr *)&sa, sizeof(sockaddr_in)) == SOCKET_ERROR) {
     closesocket(s_);
-    throw "INVALID_SOCKET";
+    throw WSAGetLastError();
   }
   
   listen(s_, connections);                               
@@ -195,7 +200,7 @@ Socket* SocketServer::Accept() {
       return 0; // non-blocking call, no request pending
     }
     else {
-      throw "Invalid Socket";
+      throw rc;
     }
   }
 
