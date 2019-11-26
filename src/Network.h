@@ -4,6 +4,8 @@
 #include <thread>
 #include <guiddef.h>
 #include <time.h>
+#include <opencv.hpp>
+#include <Base64.h>
 using namespace nlohmann;
 
 //https://lowrey.me/guid-generation-in-c-11/
@@ -42,6 +44,8 @@ private:
 	std::string sessionId;
 	json motion;
 	clock_t lastSuccessful;
+	cv::Mat profile;
+	const std::string modelID;
 public:
 	bool alive;
 	MotionObject() {
@@ -97,7 +101,15 @@ public:
 		}
 	}
 
-	
+	void setProfileByBase64(std::string base64) {
+		try {
+			profile = Base2Mat(base64);
+		}
+		catch (int e) {
+			//prifile = dafault
+			return;
+		}
+	}
 	
 };
 
