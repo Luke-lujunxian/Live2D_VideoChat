@@ -94,6 +94,17 @@ set(Framework
 else ()
 
 # ここにプロジェクトに追加するソースファイルを追加 OpenGL
+set(THIRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../thirdParty)
+set(GLEW_DIR ${THIRDPARTY_DIR}/glew-2.1.0)
+set(GLEW_DIR ${THIRDPARTY_DIR}/glew-2.1.0)
+if(${WIN_64})
+    set(GLFW_DIR ${THIRDPARTY_DIR}/glfw-3.3.bin.WIN64)
+else()
+    set(GLFW_DIR ${THIRDPARTY_DIR}/glfw-3.3.bin.WIN32)
+endif()
+
+set(FRAMEWORK_GLFW_PATH ${GLFW_DIR})
+set(FRAMEWORK_GLEW_PATH ${GLEW_DIR})
 
 # アプリケーション側で設定したgl系のincludeパスをセットする
 include_directories("${FRAMEWORK_GLFW_PATH}")
