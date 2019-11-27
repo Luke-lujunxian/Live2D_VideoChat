@@ -47,6 +47,7 @@ private:
 	cv::Mat profile;
 	const std::string modelID;
 public:
+	std::string name;
 	bool alive;
 	MotionObject() {
 		this->alive = true;
@@ -130,6 +131,8 @@ public:
 			network = new Network();
 		return network;
 	}
+	void call(std::string, int);
+	void call(std::string target);
 
 private:
 	std::vector<MotionObject*> displayObjects;

@@ -31,10 +31,14 @@ public:
 	void setProfile(std::string addr) {
 		//Probably some translate? / \?
 		profilePhoto = cv::imread(addr);
+		profiletype = addr.substr(addr.find_last_of('.')+1, addr.length() - addr.find_last_of('.') - 1);
 	}
 
 	cv::Mat getProfile() {
 		return profilePhoto;
+	}
+	std::string getProfileType() {
+		return profiletype;
 	}
 	std::string getName() {
 		return name;
@@ -55,6 +59,7 @@ private:
 	std::string name;
 	std::string modelID;
 	cv::Mat profilePhoto;
+	std::string profiletype;
 	std::vector<std::string> MACBlackList;
 };
 

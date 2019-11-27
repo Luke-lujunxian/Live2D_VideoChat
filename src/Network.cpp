@@ -2,8 +2,10 @@
 #include "Setting.h"
 #include <Socket.h>
 #include "Base64.h"
+#include < helper.h>
 
 using namespace std;
+
 //Thread funtions
 void callHandleFun(Socket* s) {
 
@@ -40,6 +42,7 @@ void callHandleFun(Socket* s) {
 	MotionObject* motion = new MotionObject(sendTemp["data"]["session_id"]);
 	Network::getInstance()->getDisplayObjects()->push_back(motion);
 	motion->setProfileByBase64(callerInfo["ID"]["profile_photo"]);
+	motion->name = callerInfo["ID"]["name"];
 
 	json sendJson;
 	sendJson["ID"]["session_id"] = sendTemp["data"]["session_id"];
@@ -87,11 +90,77 @@ void listenerfun() {
 	}
 	
 	//TODO: Some finishing work
+	delete listener;
+}
+
+void callerfun(Socket* s,MotionObject* motionObj) {
+	clock_t sendTime = clock();
+	while (!Network::getInstance()->shouldStop())
+	{
+		motionObj->writeObject(s->ReceiveLine());
+		if (clock() - sendTime > 1000 / 30) {//Send in 30 FPS
+			s->SendLine(Network::getInstance()->getSendJson()->dump());
+			sendTime = clock();
+		}
+	}
+	//Some finish
 }
 
 //Thread funtions End
 
-Network::Network() { 
+void Network::call(string target)
+{
+	if(target.find_first_of(':') == string::npos) {
+		if (target.find_first_of('£º') == string::npos) {
+			throw "BAD_ADDRESS";
+		}
+		else
+		{
+			target[target.find_first_of('£º')] = ':';
+		}
+	}
+	try {
+		call(target.substr(target.find_first_of(':')), stoi(target.substr(target.find_first_of(':') + 1, target.length() - target.find_first_of(':') - 1)));
+	}
+	catch (string e) {
+		throw "BAD_ADDRESS";
+	}
+}
+
+void Network::call(string ip, int port)
+{
+	SocketClient* caller = new SocketClient(ip, port);
+	caller->SendLine("1919810");
+	if (caller->ReceiveLine() != "114514") {
+		caller->Close();
+		throw "NO_RESPONSE";
+	}
+
+	json exchange;
+	exchange["ID"]["name"] = Setting::getSetting()->getName();
+	exchange["ID"]["name"] = Mat2Base64(Setting::getSetting()->getProfile(), Setting::getSetting()->getProfileType());
+
+	std::string temp = "";
+	if (GetMacByGetAdaptersInfo(temp))
+		exchange["ID"]["MAC"] = temp;
+	else
+		exchange["ID"]["MAC"] = "UNKNOWN";
+
+	exchange["data"]["model_id"] = Setting::getSetting()->getModelID();
+	caller->SendLine(exchange.dump());
+	json info = json::parse(caller->ReceiveLine());
+
+	MotionObject* thisCall = new MotionObject(info["data"]["session_id"]);
+	thisCall->setProfileByBase64(info["ID"]["profile_photo"]);
+	thisCall->name = (std::string)info["ID"]["name"];
+
+	thread callThd = thread(callerfun, &caller,thisCall);
+	Network::getInstance()->getDisplayObjects()->push_back(thisCall);
+	callThd.joinable
+	
+}
+
+Network::Network() {
 	stopFlag = false;
 }
 

@@ -33,7 +33,7 @@ bool GetMacByGetAdaptersInfo(std::string& macOUT)
 			if (pAdapter->AddressLength != 6)
 				continue;
 			char acMAC[32];
-			sprintf(acMAC, "%02X-%02X-%02X-%02X-%02X-%02X",
+			sprintf_s(acMAC, "%02X-%02X-%02X-%02X-%02X-%02X",
 				int(pAdapter->Address[0]),
 				int(pAdapter->Address[1]),
 				int(pAdapter->Address[2]),
