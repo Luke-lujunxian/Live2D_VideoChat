@@ -42,7 +42,7 @@ void callHandleFun(Socket* s) {
 	MotionObject* motion = new MotionObject(sendTemp["data"]["session_id"]);
 	Network::getInstance()->getDisplayObjects()->push_back(motion);
 	motion->setProfileByBase64(callerInfo["ID"]["profile_photo"]);
-	motion->name = callerInfo["ID"]["name"];
+	motion->name = (std::string)callerInfo["ID"]["name"];
 
 	json sendJson;
 	sendJson["ID"]["session_id"] = sendTemp["data"]["session_id"];
@@ -156,7 +156,7 @@ void Network::call(string ip, int port)
 
 	thread callThd = thread(callerfun, &caller,thisCall);
 	Network::getInstance()->getDisplayObjects()->push_back(thisCall);
-	callThd.joinable
+	
 	
 }
 
