@@ -2,12 +2,12 @@
 #include "Setting.h"
 #include <Socket.h>
 #include "Base64.h"
-#include < helper.h>
+#include <helper.h>
 
 using namespace std;
 
 //Thread funtions
-void callHandleFun(Socket* s) {
+static void callHandleFun(Socket* s) {
 
 	//varification
 	if (s->ReceiveLine() != "1919810") {
@@ -42,7 +42,10 @@ void callHandleFun(Socket* s) {
 	MotionObject* motion = new MotionObject(sendTemp["data"]["session_id"]);
 	Network::getInstance()->getDisplayObjects()->push_back(motion);
 	motion->setProfileByBase64(callerInfo["ID"]["profile_photo"]);
-	motion->name = (std::string)callerInfo["ID"]["name"];
+	if (callerInfo["ID"]["name"].is_string())
+		motion->name = callerInfo["ID"]["name"].get<std::string>();
+	else
+		motion->name = "UNKNOW";
 
 	json sendJson;
 	sendJson["ID"]["session_id"] = sendTemp["data"]["session_id"];
@@ -64,10 +67,10 @@ void callHandleFun(Socket* s) {
 	motion->alive = false;
 }
 
-void listenerfun() {
+static void listenerfun() {
 	Setting* setting = Setting::getSetting();
 	SocketServer* listener;
-	vector<thread> calls = vector<thread>(5);
+	vector<thread*> calls = vector<thread*>(5);
 	try {
 		listener = new SocketServer(setting->getListenPort(), setting->getMaximumListenQueue(), NonBlockingSocket);
 	}
@@ -85,7 +88,7 @@ void listenerfun() {
 				if (call == 0)//No incoming connection
 					continue;
 				Network::getInstance();
-				calls.push_back(thread(callHandleFun, call));
+				calls.push_back(new thread(callHandleFun, call));
 			}
 	}
 	
@@ -93,7 +96,7 @@ void listenerfun() {
 	delete listener;
 }
 
-void callerfun(Socket* s,MotionObject* motionObj) {
+static void callerfun(Socket* s,MotionObject* motionObj) {
 	clock_t sendTime = clock();
 	while (!Network::getInstance()->shouldStop())
 	{
@@ -152,9 +155,12 @@ void Network::call(string ip, int port)
 
 	MotionObject* thisCall = new MotionObject(info["data"]["session_id"]);
 	thisCall->setProfileByBase64(info["ID"]["profile_photo"]);
-	thisCall->name = (std::string)info["ID"]["name"];
+	if (info["ID"]["name"].is_string())
+		thisCall->name = info["ID"]["name"].get<std::string>();
+	else
+		thisCall->name = "UNKNOW";
 
-	thread callThd = thread(callerfun, &caller,thisCall);
+	thread callThd(callerfun, caller,thisCall);
 	Network::getInstance()->getDisplayObjects()->push_back(thisCall);
 	
 	
@@ -167,7 +173,7 @@ Network::Network() {
 void Network::networkInit() {
 	getInstance();
 	stopFlag = false;
-	listener = thread(listenerfun);//open listen port
+	listener = new thread(listenerfun);//open listen port
 }
 
 void Network::updateMotion(json& motion)

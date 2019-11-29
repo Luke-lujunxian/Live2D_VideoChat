@@ -140,7 +140,7 @@ private:
 	Network();
 	Network(Network&) = delete;
 	Network& operator=(Network) = delete;
-	std::thread listener;
+	std::thread* listener;
 	bool stopFlag;
 	static Network* network;
 
