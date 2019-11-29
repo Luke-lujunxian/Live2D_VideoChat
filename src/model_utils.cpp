@@ -3,14 +3,29 @@
 // The implementation of the functions in this file is mostly copied 
 // from the demo given by Live2D SDK.
 
-#include "buffer.hpp"
+#include "model_utils.hpp"
 #include <sys/stat.h>
 #include <exception>
 #include <ifstream>
 
 using namespace Csm;
 
-Csm::csmByte* loadFileAsBytes(const std::string& filePath, Csm::csmSizeInt* outSize) {
+static csmFloat32 s_deltaTime = 0.0f;
+static csmFloat32 s_currentFrame = 0.0f;
+static csmFloat32 s_lastFrame = 0.0f;
+
+csmFloat32 getDeltaTime() {
+	return s_deltaTime;
+}
+
+void updateTime() {
+	throw std::exception("This function is not implemented yet");
+	s_currentFrame = 42.0f;	// TODO: Call the timer function provided by Qt
+	s_deltaTime = s_currentFrame - s_lastFrame;
+	s_lastFrame = s_currentFrame;
+}
+
+csmByte* loadFileAsBytes(const std::string& filePath, csmSizeInt* outSize) {
 	// Use stat() to obtain the size of the file
 	int fileSize = 0;
 	struct stat fileStatus;
@@ -35,6 +50,6 @@ Csm::csmByte* loadFileAsBytes(const std::string& filePath, Csm::csmSizeInt* outS
 	return reinterpret_cast<csmByte*>(buf);
 }
 
-void releaseBytes(Csm::csmByte* byteData) {
+void releaseBytes(csmByte* byteData) {
 	delete[] byteData;
 }
