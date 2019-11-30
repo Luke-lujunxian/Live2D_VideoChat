@@ -3,6 +3,7 @@
 #include <winsock2.h>
 #include <string>
 #include <iphlpapi.h>
+#include <math.h>
 #pragma comment(lib, "IPHLPAPI.lib")
 
 bool GetMacByGetAdaptersInfo(std::string& macOUT)
@@ -50,3 +51,23 @@ bool GetMacByGetAdaptersInfo(std::string& macOUT)
 	return ret;
 }
 //https://blog.csdn.net/sean_xyz/article/details/43272547
+
+
+
+inline double euclideanDistance(double x1, double y1, double x2, double y2) {
+	return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+}
+
+template<typename T>
+struct euclideanPoint {
+	T x;
+	T y
+};
+
+template<typename T>
+inline euclideanPoint<T> rotate(T x, T y,double theta) {
+	euclideanPoint<T> temp;
+	temp.x = cos(theta) * x + sin(theta) * y;
+	temp.y = cos(theta) * y - sin(theta) * x;
+	return temp;
+}
