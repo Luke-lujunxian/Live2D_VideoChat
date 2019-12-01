@@ -1,9 +1,8 @@
 #pragma once
-
 #include <winsock2.h>
 #include <string>
 #include <iphlpapi.h>
-#include <math.h>
+#include <cmath>
 #pragma comment(lib, "IPHLPAPI.lib")
 
 bool GetMacByGetAdaptersInfo(std::string& macOUT)
@@ -61,7 +60,7 @@ inline double euclideanDistance(double x1, double y1, double x2, double y2) {
 template<typename T>
 struct euclideanPoint {
 	T x;
-	T y
+	T y;
 };
 
 template<typename T>

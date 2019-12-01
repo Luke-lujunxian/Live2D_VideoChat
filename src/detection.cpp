@@ -34,12 +34,24 @@
 #include <dlib/image_processing.h>
 #include <dlib/gui_widgets.h>
 #include <detection.h>
-#include <helper.h>
+
 
 using namespace dlib;
 using namespace nlohmann;
 
+FacialLandmarkDetector* FacialLandmarkDetector::facialLandmarkDetector = nullptr;
+
 void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawFacePos>* rawPoses);
+
+json praseRawData2JSON(RawFacePos& pos, RawFacePos& nutral);
+
+json praseRawData2JSON(RawFacePos& pos);
+
+cv::Vec3f eyeDetection(cv::Mat image, CvRect size);
+
+cv::Mat EdgeDetect(cv::Mat& edgeimg);
+
+std::vector<cv::Vec3f> Hough(cv::Mat& midImage, CvRect size);
 
 void FacialLandmarkDetector::detection()
 {
@@ -75,25 +87,69 @@ void FacialLandmarkDetector::detection()
 			// contain dangling pointers.  This basically means you shouldn't modify temp
 			// while using cimg.
 			cv_image<dlib::bgr_pixel> cimg(temp);
-
+			if (temp.empty())
+				continue;
 			// Detect faces 
 			std::vector<dlib::rectangle> faces = detector(cimg);
-			// Find the pose of each face.
-			std::vector<dlib::full_object_detection> shapes;
-			for (unsigned long i = 0; i < faces.size(); ++i)
-				shapes.push_back(pose_model(cimg, faces[i]));
+			json data;
+			
+				// Find the pose of each face.
+				std::vector<dlib::full_object_detection> shapes;
+				for (unsigned long i = 0; i < faces.size(); ++i)
+					shapes.push_back(pose_model(cimg, faces[i]));
 
-			std::vector<RawFacePos> rawPoses(shapes.size());
-			pointReader(shapes, &rawPoses);
+				std::vector<RawFacePos> rawPoses(shapes.size());
+				pointReader(shapes, &rawPoses);
 
-			//Capture one fram as nutural face
-			if (captureNuturalFaceFlag) {
-				this->nuturalFace = rawPoses[0];
-				captureNuturalFaceFlag = false;
+			if (faces.size() != 0) {
+				//Capture one fram as nutural face
+				if (captureNuturalFaceFlag) {
+					this->nuturalFace = rawPoses[1];
+
+					RawFacePos pos = rawPoses[1];
+					int margin = 10;
+					CvRect Lrect(pos.leftEyeMinX - margin, pos.leftEyeMinY - margin, pos.leftEyeMaxX - pos.leftEyeMinX + margin, pos.leftEyeMaxY - pos.leftEyeMinY + margin);
+					cv::Mat Leye = temp(Lrect);
+					CvRect Rrect(pos.rightEyeMinX - margin, pos.rightEyeMinY - margin, pos.rightEyeMaxX - pos.rightEyeMinX + margin, pos.rightEyeMaxY - pos.rightEyeMinY + margin);
+					cv::Mat Reye = temp(Rrect);
+					this->nuturalFace.leftIris = eyeDetection(Leye, Lrect);
+					this->nuturalFace.rightIris = eyeDetection(Reye, Rrect);
+
+					captureNuturalFaceFlag = false;
+				}
+
+				if (nuturalFace.inited)
+					data = praseRawData2JSON(rawPoses[1], nuturalFace);
+				else
+					data = praseRawData2JSON(rawPoses[1]);
+
+				//eyeProcess
+				{
+					RawFacePos pos = rawPoses[1];
+					int margin = 10;
+					CvRect Lrect = CvRect(pos.leftEyeMinX - margin, pos.leftEyeMinY - margin, pos.leftEyeMaxX - pos.leftEyeMinX + margin, pos.leftEyeMaxY - pos.leftEyeMinY + margin);
+					std::cout << Lrect.x << Lrect.y << std::endl;
+        			cv::Mat Leye = temp(Lrect);
+					CvRect Rrect(pos.rightEyeMinX - margin, pos.rightEyeMinY - margin, pos.rightEyeMaxX - pos.rightEyeMinX + margin, pos.rightEyeMaxY - pos.rightEyeMinY + margin);
+					cv::Mat Reye = temp(Rrect);
+					cv::Vec3f Lpos = eyeDetection(Leye, Lrect);
+					cv::Vec3f Rpos = eyeDetection(Reye, Rrect);
+					if (this->nuturalFace.inited) {
+						data["eye"]["eyeBallX"] = (((Lpos[1] / (this->nuturalFace.leftIris[1])) - 1) + ((Rpos[1] / (this->nuturalFace.rightIris[1])) - 1)) / 2;
+						data["eye"]["eyeBallY"] = (((Lpos[1] / (this->nuturalFace.leftIris[2])) - 1) + ((Rpos[1] / (this->nuturalFace.rightIris[2])) - 1)) / 2;
+					}
+					else {
+						data["eye"]["eyeBallX"] = (((Lpos[1] / (Lrect.width / 2.0)) - 1) + ((Rpos[1] / (Rrect.width / 2.0)) - 1)) / 2;
+						data["eye"]["eyeBallY"] = (((Lpos[2] / (Lrect.width / 2.0)) - 1) + ((Rpos[2] / (Rrect.width / 2.0)) - 1)) / 2;
+					}
+
+				}
+
 			}
-
 			// Display it all on the screen
 			if (debug) {
+				std::cout << data.dump(1) << std::endl;
+				system("cls");
 				win.clear_overlay();
 				win.set_image(cimg);
 				win.add_overlay(render_face_detections(shapes));
@@ -139,20 +195,22 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 		{
 			// Around Chin. Ear to Ear
 			{
-				int minX = 0, maxX = 0, maxY = 0;
+				volatile int minX = INT_MAX, maxX = 0, minY = INT_MAX, maxY = 0;
 				for (unsigned long i = 1; i <= 16; ++i) {
 					minX = minX < d.part(i).x() ? minX : d.part(i).x();
 					maxX = maxX > d.part(i).x() ? maxX : d.part(i).x();
+					minY = minY < d.part(i).y() ? minY : d.part(i).y();
 					maxY = maxY > d.part(i).y() ? maxY : d.part(i).y();
 				}
 				pos.faceLeftX = minX;
 				pos.faceRightX = maxX;
 				pos.faceDownY = maxY;
+				pos.faceTopY = minY;
 			}
 			
 			// Line on top of nose
 			{
-				int minX = 0, maxX = 0, minY = 0, maxY = 0;
+				int minX = INT_MAX, maxX = 0, minY = INT_MAX, maxY = 0;
 				for (unsigned long i = 28; i <= 30; ++i) {
 					minX = minX < d.part(i).x() ? minX : d.part(i).x();
 					maxX = maxX > d.part(i).x() ? maxX : d.part(i).x();
@@ -163,7 +221,10 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 				pos.noseMiddleMinX = minX;
 				pos.noseMiddleMaxY = maxY;
 				pos.noseMiddleMinX = minY;
-				pos.angle = atan(((double)maxY - minY) / (maxX - minX));
+				if (maxX - minX != 0)
+					pos.angle = 90 - atan(((double)maxY - minY) / (maxX - minX));
+				else
+					pos.angle = 0;
 			}
 
 			// left eyebrow
@@ -189,7 +250,7 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 
 			// Left eye
 			{
-				int minX = 0, maxX = 0, minY = 0, maxY = 0;
+				int minX = INT_MAX, maxX = 0, minY = INT_MAX, maxY = 0;
 				for (unsigned long i = 37; i <= 41; ++i){
 					minX = minX < d.part(i).x() ? minX : d.part(i).x();
 					maxX = maxX > d.part(i).x() ? maxX : d.part(i).x();
@@ -205,7 +266,7 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 
 			// Right eye
 			{
-				int minX = 0, maxX = 0, minY = 0, maxY = 0;
+				int minX = INT_MAX, maxX = 0, minY = INT_MAX, maxY = 0;
 				for (unsigned long i = 43; i <= 47; ++i) {
 					minX = minX < d.part(i).x() ? minX : d.part(i).x();
 					maxX = maxX > d.part(i).x() ? maxX : d.part(i).x();
@@ -225,7 +286,7 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 
 			// Lips inside part
 			{
-				int minY = 0, maxY = 0;
+				int minY = INT_MAX, maxY = 0;
 				for (unsigned long i = 61; i <= 67; ++i) {
 					minY = minY < d.part(i).y() ? minY : d.part(i).y();
 					maxY = maxY > d.part(i).y() ? maxY : d.part(i).y();
@@ -236,6 +297,7 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 			}
 
 		}
+
 		rawPoses->push_back(pos);
 	}
 
@@ -243,10 +305,56 @@ void pointReader(std::vector<dlib::full_object_detection> dets, std::vector<RawF
 
 json praseRawData2JSON(RawFacePos& pos, RawFacePos& nutral) {
 	json ret;
-	ret["ID"];
-	ret["data"]["head"];
+	ret["head"]["angleZ"] = pos.angle;
+	ret["head"]["angleX"] = (((pos.noseMiddleMaxX + pos.noseMiddleMinX) / 2.0 - pos.faceLeftX) / ((nutral.leftEyeMaxY - nutral.leftEyeMinY) * 2) - 1) * 30.0;
+	ret["head"]["angleY"] = asin((pos.faceDownY - pos.noseMiddleMaxY) / ((nutral.faceDownY - nutral.noseMiddleMaxY) * ((pos.noseMiddleMaxY - pos.noseMiddleMinY) / (nutral.noseMiddleMaxY - nutral.noseMiddleMinY))+1));
+	ret["mouthOpen"] = (pos.LipsInnerMaxY - pos.LipsInnerMinY) / ((pos.noseMiddleMaxY - pos.noseMiddleMinY) / 2.0);
+	return ret;
 }
 
 json praseRawData2JSON(RawFacePos& pos) {
-	json head;
+	json ret;
+	ret["head"]["angleZ"] = pos.angle;
+	ret["head"]["angleX"] = ((pos.rightEyeMinX - pos.faceRightX)/(pos.rightEyeMaxX-pos.rightEyeMinX+1)-1)*30;//Face ratial + -?
+	//The distance between top face and eye middle line / eye hight *30
+	ret["head"]["angleY"] = (pos.faceTopY - (((pos.leftEyeMaxY + pos.rightEyeMaxY) / 2 - (pos.leftEyeMinY + pos.rightEyeMinY) / 2) / 2 + (pos.leftEyeMinY + pos.rightEyeMinY) / 2)) / ((pos.leftEyeMaxY + pos.rightEyeMaxY) / 2 - (pos.leftEyeMinY + pos.rightEyeMinY) / 2 + 1) * 30;
+	if (pos.leftEyeMaxY - pos.leftEyeMinY < 0.25 * (pos.leftEyeMaxX - pos.leftEyeMinX))
+		ret["eye"]["eyeLOpen"] = 0.0;
+	else 
+		ret["eye"]["eyeLOpen"] = 2.0;
+	ret["mouthOpen"] = (pos.LipsInnerMaxY - pos.LipsInnerMinY) / ((pos.noseMiddleMaxY - pos.noseMiddleMinY + 1 ) / 2.0);
+	return ret;
+
+}
+
+cv::Vec3f eyeDetection(cv::Mat image, CvRect size) {
+
+	cv::Mat Lprocessed = EdgeDetect(image);
+	std::vector<cv::Vec3f> ret = Hough(Lprocessed, size);
+	if (ret.size() >= 2)
+		return ret[1];
+	else
+		return cv::Vec3f(0,0,0);
+}
+
+cv::Mat EdgeDetect(cv::Mat& edgeimg)
+{
+	cv::Mat edgeout;
+	cv::cvtColor(edgeimg, edgeimg, cv::COLOR_BGR2GRAY);// 彩色图转换成灰度图
+	cv::GaussianBlur(edgeimg, edgeimg, cv::Size(9, 9), 2, 2);// 高斯平滑
+	equalizeHist(edgeimg, edgeimg);//直方图均值化
+	Canny(edgeimg, edgeout, 100, 200, 3);//输入图像,输出图像,低阈值,高阈值，opencv建议是低阈值的3倍,内部sobel滤波器大小
+	return edgeout;
+}
+//	————————————————
+//		版权声明：本文为CSDN博主「zhouyongxiu」的原创文章，遵循 CC 4.0 BY - SA 版权协议，转载请附上原文出处链接及本声明。
+//		原文链接：https ://blog.csdn.net/zyx1990412/article/details/51219076
+
+using namespace cv;
+
+std::vector<Vec3f> Hough(Mat& midImage, CvRect size)
+{
+	std::vector<Vec3f> circles;
+	HoughCircles(midImage, circles, HOUGH_GRADIENT, 1.5, 5, 100, 20, size.height / 4, size.height / 3);
+	return circles;
 }
