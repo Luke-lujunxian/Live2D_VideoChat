@@ -48,8 +48,20 @@ public:
 		return modelID;
 	}
 
+	bool getDebugMode() {
+		return debug;
+	}
+
 private:
-	Setting() {};
+	Setting() {
+		inited = true;
+		listenPort = 1919;
+		callPort = 1145;
+		maximumListenQueue = 5;
+		name = "Leader1";
+		modelID = "Tasho koji";
+		debug = false;
+	};
 	Setting(Setting&);
 	static bool inited;
 	short listenPort;
@@ -61,7 +73,6 @@ private:
 	cv::Mat profilePhoto;
 	std::string profiletype;
 	std::vector<std::string> MACBlackList;
+	bool debug;
 };
 
-bool Setting::inited = false;
-Setting* Setting::setting = nullptr;
