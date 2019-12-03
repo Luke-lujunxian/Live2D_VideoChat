@@ -1,4 +1,8 @@
 #pragma once
+#ifndef NETWORK_H
+#define NETWORK_H
+
+
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <thread>
@@ -13,29 +17,12 @@ using namespace nlohmann;
 #include <random>
 #include <string>
 
-unsigned int random_char() {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(0, 255);
-	return dis(gen);
-}
 
-std::string generate_hex(const unsigned int len) {
-	std::stringstream ss;
-	for (auto i = 0; i < len; i++) {
-		const auto rc = random_char();
-		std::stringstream hexstream;
-		hexstream << std::hex << rc;
-		auto hex = hexstream.str();
-		ss << (hex.length() < 2 ? '0' + hex : hex);
-	}
-	return ss.str();
-}
+unsigned int random_char();
 
-std::string GenerateGuid()
-{
-	return generate_hex(8) + '-' + generate_hex(4) + '-' + generate_hex(4) + '-' + generate_hex(4) + '-' + generate_hex(12);
-}
+std::string generate_hex(const unsigned int len);
+
+std::string GenerateGuid();
 
 typedef enum LatencyState{NORMAL,DELAY,DISCONNECTED};
 
@@ -151,5 +138,7 @@ private:
 	
 };
 
-Network* Network::network = nullptr;
+
+
+#endif // !NETWORK_H
 

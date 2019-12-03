@@ -3,6 +3,9 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 #include <opencv.hpp>
+#include <Network.h>
+#include <Setting.h>
+
 
 typedef struct RawFacePos {
 	float angle;//+clockwise TODO
@@ -24,7 +27,7 @@ class FacialLandmarkDetector {
 private:
 	void detection();
 	FacialLandmarkDetector() {
-		debug = true;
+		debug = Setting::getSetting()->getDebugMode();
 		nuturalFace.inited = false;
 		captureNuturalFaceFlag = false;
 		detectThread = nullptr;
