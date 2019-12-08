@@ -15,12 +15,21 @@ public:
 			setting = new Setting();
 		return setting;
 	}
+	short const getCameraID() {
+		return cameraID;
+	}
+	bool setCameraID(short ID) {
+		this->cameraID = ID;
+		return true;
+	}
 
 	short const getListenPort() {
 		return this->listenPort;
 	}
 	bool setListenPort(short port) {
 		this->listenPort = port;
+		return true;
+
 	}
 
 	short const getAudioPort() {
@@ -28,12 +37,16 @@ public:
 	}
 	bool setAudioPort(short port) {
 		this->audioPort = port;
+		return true;
+
 	}
 	short const getCallPort() {
 		return this->callPort;
 	}
 	bool setCallPort(short port) {
 		this->callPort = port;
+		return true;
+
 	}
 
 	short const getMaximumListenQueue() {
@@ -43,10 +56,12 @@ public:
 		 this->maximumListenQueue = maximumListenQueue;
 	}
 
-	void setProfile(std::string addr) {
+	bool setProfile(std::string addr) {
 		//Probably some translate? / \?
 		profilePhoto = cv::imread(addr);
 		profiletype = addr.substr(addr.find_last_of('.')+1, addr.length() - addr.find_last_of('.') - 1);
+		return true;
+
 	}
 
 	cv::Mat getProfile() {
@@ -59,7 +74,7 @@ public:
 		return name;
 	}
 	bool setName(std::string name) {
-		if (name.length() < 4 || name.length() > 15)
+		if (name.length() < 4 || name.length() > 16)
 			return false;
 		this->name = name;
 		return true;
@@ -68,8 +83,10 @@ public:
 	std::string getModelID() {
 		return modelID;
 	}
-	void setModelID(std::string ModelID) {
+	bool setModelID(std::string ModelID) {
 		this->modelID = ModelID;
+		return true;
+
 	}
 /*
 	bool getDebugMode() {
@@ -91,6 +108,7 @@ private:
 	};
 	Setting(Setting&);
 	static bool inited;
+	short cameraID;
 	short listenPort;
 	short callPort;
 	short audioPort;

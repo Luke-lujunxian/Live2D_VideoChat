@@ -57,8 +57,8 @@
     <rect>
      <x>30</x>
      <y>40</y>
-     <width>451</width>
-     <height>353</height>
+     <width>461</width>
+     <height>371</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -95,7 +95,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Name:</string>
+           <string>Name(4-16):</string>
           </property>
          </widget>
         </item>
@@ -336,7 +336,7 @@
            <set>Qt::ImhDigitsOnly</set>
           </property>
           <property name="maxLength">
-           <number>4</number>
+           <number>5</number>
           </property>
          </widget>
         </item>
@@ -353,6 +353,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QLabel" name="label_AudioPort">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>Audio Port:</string>
           </property>

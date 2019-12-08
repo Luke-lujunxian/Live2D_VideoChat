@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     about.cpp \
     chat.cpp \
+    errorwin.cpp \
     main.cpp \
     mainwindow.cpp \
     settingwin.cpp
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     about.h \
     chat.h \
+    errorwin.h \
     mainwindow.h \
     settingwin.h
 
@@ -32,7 +34,8 @@ FORMS += \
     Chat.ui \
     MainWindow.ui \
     Setting.ui \
-    about.ui
+    about.ui \
+    errorwin.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

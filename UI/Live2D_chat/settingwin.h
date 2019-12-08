@@ -26,3 +26,7 @@ private:
 };
 
 #endif // SETTING_H
+
+bool setError(QWidget* obj);
+
+bool clearError(QWidget* obj, bool AC);

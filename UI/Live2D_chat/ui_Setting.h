@@ -113,7 +113,7 @@ public:
 
         verticalLayoutWidget = new QWidget(SettingWin);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 40, 451, 353));
+        verticalLayoutWidget->setGeometry(QRect(30, 40, 461, 371));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -290,7 +290,7 @@ public:
         lineEdit_ListenPort = new QLineEdit(verticalLayoutWidget);
         lineEdit_ListenPort->setObjectName(QString::fromUtf8("lineEdit_ListenPort"));
         lineEdit_ListenPort->setInputMethodHints(Qt::ImhDigitsOnly);
-        lineEdit_ListenPort->setMaxLength(4);
+        lineEdit_ListenPort->setMaxLength(5);
 
         horizontalLayout_3->addWidget(lineEdit_ListenPort);
 
@@ -312,7 +312,7 @@ public:
         lineEdit_CallPort = new QLineEdit(verticalLayoutWidget);
         lineEdit_CallPort->setObjectName(QString::fromUtf8("lineEdit_CallPort"));
         lineEdit_CallPort->setInputMethodHints(Qt::ImhDigitsOnly);
-        lineEdit_CallPort->setMaxLength(4);
+        lineEdit_CallPort->setMaxLength(5);
 
         horizontalLayout->addWidget(lineEdit_CallPort);
 
@@ -328,13 +328,18 @@ public:
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         label_AudioPort = new QLabel(verticalLayoutWidget);
         label_AudioPort->setObjectName(QString::fromUtf8("label_AudioPort"));
+        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(label_AudioPort->sizePolicy().hasHeightForWidth());
+        label_AudioPort->setSizePolicy(sizePolicy5);
 
         horizontalLayout_4->addWidget(label_AudioPort);
 
         lineEdit_AudioPort = new QLineEdit(verticalLayoutWidget);
         lineEdit_AudioPort->setObjectName(QString::fromUtf8("lineEdit_AudioPort"));
         lineEdit_AudioPort->setInputMethodHints(Qt::ImhDigitsOnly);
-        lineEdit_AudioPort->setMaxLength(4);
+        lineEdit_AudioPort->setMaxLength(5);
 
         horizontalLayout_4->addWidget(lineEdit_AudioPort);
 
@@ -423,7 +428,7 @@ public:
         pushButton_Cancel->setText(QCoreApplication::translate("SettingWin", "Calcel", nullptr));
         pushButton_Apply->setText(QCoreApplication::translate("SettingWin", "Apply", nullptr));
         label_9->setText(QCoreApplication::translate("SettingWin", "General:", nullptr));
-        label_6->setText(QCoreApplication::translate("SettingWin", "Name:", nullptr));
+        label_6->setText(QCoreApplication::translate("SettingWin", "Name(4-16):", nullptr));
         label_8->setText(QCoreApplication::translate("SettingWin", "Profile Photo", nullptr));
         label_7->setText(QCoreApplication::translate("SettingWin", "Model:", nullptr));
         pushButton_ProfilePhoto->setText(QCoreApplication::translate("SettingWin", "Select...", nullptr));

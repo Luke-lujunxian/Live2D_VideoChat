@@ -74,6 +74,9 @@
     <ClCompile Include="..\..\lib\Socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="errorwin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="about.h">
@@ -86,6 +89,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="settingwin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="errorwin.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -108,6 +114,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="about.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="errorwin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

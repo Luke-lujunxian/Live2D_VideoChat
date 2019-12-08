@@ -199,6 +199,7 @@
     <ClCompile Include="..\..\src\Setting.cpp" />
     <ClCompile Include="about.cpp" />
     <ClCompile Include="chat.cpp" />
+    <ClCompile Include="errorwin.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="settingwin.cpp" />
@@ -234,6 +235,7 @@
   <ItemGroup>
     <QtUic Include="Chat.ui">
     </QtUic>
+    <QtUic Include="errorwin.ui" />
     <QtUic Include="MainWindow.ui">
     </QtUic>
     <QtUic Include="Setting.ui">
@@ -253,6 +255,7 @@
     <ClInclude Include="..\..\src\detection.h" />
     <ClInclude Include="..\..\src\Network.h" />
     <ClInclude Include="..\..\src\Setting.h" />
+    <QtMoc Include="errorwin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

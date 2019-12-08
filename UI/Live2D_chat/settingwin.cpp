@@ -2,6 +2,7 @@
 #include "settingwin.h"
 #include "ui_setting.h"
 #include "setting.h"
+#include "errorwin.h"
 SettingWin::SettingWin(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SettingWin)
@@ -43,13 +44,28 @@ void SettingWin::canApply(){
 void SettingWin::on_pushButton_Apply_clicked(){
     //Do something
 	Setting* setting = Setting::getSetting();
-	setting->setName(ui->lineEdit_Name->text().toStdString());
-	setting->setListenPort(ui->lineEdit_ListenPort->text().toInt());
-	setting->setCallPort(ui->lineEdit_CallPort->text().toInt());
-	setting->setAudioPort(ui->lineEdit_AudioPort->text().toInt());
-	setting->setProfile(ui->comboBox_ProfilePhoto->currentText().toStdString());
-	setting
-    ui->pushButton_Apply->setEnabled(false);
+	bool allClear = true;
+	QString errorColor = "background-color: rgba(255, 0, 0, 100)";
+	//background-color: rgba(255, 0, 0, 100);
+	allClear = setting->setName(ui->lineEdit_Name->text().toStdString()) ? clearError(ui->lineEdit_Name,allClear) : setError(ui->lineEdit_Name);
+	allClear = setting->setListenPort(ui->lineEdit_ListenPort->text().toInt()) ? clearError(ui->lineEdit_ListenPort, allClear) : setError(ui->lineEdit_ListenPort);
+	allClear = setting->setCallPort(ui->lineEdit_CallPort->text().toInt()) ? clearError(ui->lineEdit_CallPort, allClear) : setError(ui->lineEdit_CallPort);
+	allClear = setting->setAudioPort(ui->lineEdit_AudioPort->text().toInt()) ? clearError(ui->lineEdit_AudioPort, allClear) : setError(ui->lineEdit_AudioPort);
+	allClear = setting->setProfile(ui->comboBox_ProfilePhoto->currentText().toStdString()) ? clearError(ui->comboBox_ProfilePhoto, allClear) : setError(ui->comboBox_ProfilePhoto);
+	allClear = setting->setModelID(ui->comboBox_Model->currentText().toStdString()) ? clearError(ui->comboBox_Model, allClear) : setError(ui->comboBox_Model);
+	allClear = setting->setCameraID(ui->comboBox_Camera->currentText().toInt()) ? clearError(ui->comboBox_Camera, allClear) : setError(ui->comboBox_Camera);
+	setting->setMaximumListenQueue(ui->spinBox_MaxCallQueue->value());
+	setting->debug = ui->checkBox_Debug_Console->isChecked();
+	setting->showCamera = ui->checkBox_Debug_ShowCamera->isChecked();
+	setting->ShowFR = ui->checkBox_Debug_ShowFEI->isChecked();
+	if(allClear)
+		ui->pushButton_Apply->setEnabled(false);
+	else {
+		ErrorWin* temp = new ErrorWin();
+		temp->setWindowFlags(Qt::Dialog);
+		temp->show();
+		//Error window
+	}
 }
 void SettingWin::on_pushButton_ProfilePhoto_clicked(){
     //Do something
@@ -58,4 +74,15 @@ void SettingWin::on_pushButton_ProfilePhoto_clicked(){
 void SettingWin::on_pushButton_Model_clicked(){
     //Do something
     ui->pushButton_Apply->setEnabled(true);
+}
+
+bool setError(QWidget* obj) {//Hight light the error box
+	obj->setStyleSheet("background-color: rgba(255, 0, 0, 100);");
+	return false;
+}
+
+bool clearError(QWidget* obj, bool AC) {
+	obj->setStyleSheet("");
+	return AC;
+
 }
