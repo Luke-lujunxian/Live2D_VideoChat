@@ -48,7 +48,14 @@ json praseRawData2JSON(RawFacePos& pos, RawFacePos& nutral);
 
 json praseRawData2JSON(RawFacePos& pos);
 
-
+/*
+double meter
+double eyebrow_move
+double eye_open
+void FacialLandmarkDetector::detection
+From https://github.com/HTTdesu/SimpleFacerig
+Modified
+*/
 
 double meter(double A, double B, double C, double x, double y)
 {

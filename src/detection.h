@@ -2,7 +2,7 @@
 #include <thread>
 #include <vector>
 #include <nlohmann/json.hpp>
-#include <opencv.hpp>
+#include <opencv2/opencv.hpp>
 #include <Network.h>
 #include <Setting.h>
 
@@ -27,7 +27,7 @@ class FacialLandmarkDetector {
 private:
 	void detection();
 	FacialLandmarkDetector() {
-		debug = Setting::getSetting()->getDebugMode();
+		debug = Setting::getSetting()->debug;
 		nuturalFace.inited = false;
 		captureNuturalFaceFlag = false;
 		detectThread = nullptr;

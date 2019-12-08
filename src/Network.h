@@ -8,7 +8,7 @@
 #include <thread>
 #include <guiddef.h>
 #include <time.h>
-#include <opencv.hpp>
+#include <opencv2/opencv.hpp>
 #include <Base64.h>
 using namespace nlohmann;
 
