@@ -1,12 +1,12 @@
 #include "Model.hpp"
-#include "model_utils.hpp"
 #include <cstring>
 #include <exception>
+#include <LApp/LAppPal.hpp>
 
 using namespace Csm;
 
 Model::Model()
-	: CubismUserModel() { }
+	: LAppModel() { }
 
 Model::~Model() {
 	resetCurrentExpression();
@@ -135,8 +135,8 @@ void Model::update(nlohmann::json* data) {
 void Model::setExpression(nlohmann::json* data) {
 	resetCurrentExpression();
 
-	int size;
-	csmByte* buffer = convertJsonToBytes(data, &size);
+	csmSizeInt size;
+	csmByte* buffer = LAppPal::loadNJsonAsBytes(data, &size);
 	_currentExpression = LoadExpression(buffer, size, "dummy");
 
 	DeleteBuffer(buffer, "[Live expression data]");

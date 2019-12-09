@@ -34,7 +34,7 @@ csmByte* LAppModel::CreateBuffer(const csmChar* path, csmSizeInt* size)
 	return LAppPal::LoadFileAsBytes(path, size);
 }
 
-void LAppModel::DeleteBuffer(csmByte* buffer, const csmChar* path = "")
+void LAppModel::DeleteBuffer(csmByte* buffer, const csmChar* path /* ="" */)
 {
 	if (DebugLogEnable)
 	{

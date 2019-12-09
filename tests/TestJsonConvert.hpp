@@ -7,21 +7,24 @@
 #include <Utils/CubismJson.hpp>
 #include <iostream>
 #include <iomanip>
+#include <LApp/LAppPal.hpp>
 
 
 class TestJsonConvert {
-private:
-	using std::cout;	
-	using std::endl;
-
 public:
 	static void runTest() {
-		auto dump = _data.dump();
-		csmByte* buffer = reinterpret_cast<csmByte*>(const_cast<char*>(dump.c_str()));
-		csmSizeInt size = dump.length();
+		using namespace Csm;
+		using namespace Csm::Utils;
+
+		TestJsonConvert test;
+
+		csmSizeInt size;
+		csmByte* buffer = LAppPal::loadNJsonAsBytes(&(test._data), &size);
 
 		auto res = CubismJson::Create(buffer, size);
-		print(res);
+		print(*res);
+
+		LAppPal::ReleaseBytes(buffer);
 	}
 	
 private:
@@ -45,22 +48,21 @@ private:
 	nlohmann::json _data;
 
 private:
-	void print(const Csm::Utils::CubismJson& j) const {
+	static void print(const Csm::Utils::CubismJson& j){
+		using std::cout;
+
 		auto stateFlags = cout.flags();
 		cout << std::boolalpha;
 
-		doPrint(j);
+		doPrint(&j);
 
 		cout.flags(stateFlags);
 	}
 
-	void doPrint(const Csm::Utils::CubismJson& j) const {
-		auto root = j.GetRoot();
-		auto jMap = root.GetMap();
-		for (auto it = jMap->Begin(); it != jMap->End(); ++it) {
-			cout << it->First << ": ";
-			cout << it->Second->GetString() << endl;
-		}
+	static void doPrint(const Csm::Utils::CubismJson* j) {
+		using std::cout;	using std::endl;
+
+		cout << j->GetRoot().GetRawString() << endl;
 	}
 };
 

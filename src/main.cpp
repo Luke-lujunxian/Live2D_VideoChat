@@ -1,9 +1,18 @@
 
-#include "tests/TestJsonConvert.hpp"
+#include "LApp/LAppAllocator.hpp"
+
+#include "../tests/TestJsonConvert.hpp"
 
 
 int main() {
+	using namespace Live2D::Cubism::Framework;
+
+	LAppAllocator allocator;
+	CubismFramework::StartUp(&allocator);
+
 	TestJsonConvert::runTest();
+
+	CubismFramework::Dispose();
 
 	system("pause");
 }

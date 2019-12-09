@@ -77,7 +77,7 @@ public:
     static void PrintMessage(const Csm::csmChar* message);
 
 	// Convert a nlohmann-style json object to a CubismJson object
-	static Csm::Utils::CubismJson* convertToCubismJson(const nlohmann::json* data);
+	static Csm::csmByte* loadNJsonAsBytes(const nlohmann::json* data, Csm::csmSizeInt* outSize);
 
 private:
     static double s_currentFrame;

@@ -87,8 +87,8 @@ void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]) co
     int maxWidth, maxHeight;
     glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &maxWidth, &maxHeight);
 
-    if (maxWidth == 0 || maxHeight == 0)
-    {
+    if (maxWidth == 0 || maxHeight == 0) 
+	{
         return; // この際は描画できず
     }
 

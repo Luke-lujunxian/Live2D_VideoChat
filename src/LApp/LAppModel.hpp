@@ -22,8 +22,8 @@
 class LAppModel : public Csm::CubismUserModel
 {
 protected:
-	static csmByte* CreateBuffer(const csmChar* path, csmSizeInt* size);
-	void DeleteBuffer(csmByte* buffer, const csmChar* path = "");
+	static Csm::csmByte* CreateBuffer(const Csm::csmChar* path, Csm::csmSizeInt* size);
+	void DeleteBuffer(Csm::csmByte* buffer, const Csm::csmChar* path = "");
 
 public:
     /**
@@ -122,6 +122,8 @@ protected:
      */
     void DoDraw();
 
+	Csm::csmFloat32 _userTimeSeconds; ///< デルタ時間の積算値[秒]
+
 private:
     /**
      * @brief model3.jsonからモデルを生成する。<br>
@@ -170,7 +172,6 @@ private:
 
     Csm::ICubismModelSetting* _modelSetting; ///< モデルセッティング情報
     Csm::csmString _modelHomeDir; ///< モデルセッティングが置かれたディレクトリ
-    Csm::csmFloat32 _userTimeSeconds; ///< デルタ時間の積算値[秒]
     Csm::csmVector<Csm::CubismIdHandle> _eyeBlinkIds; ///<　モデルに設定されたまばたき機能用パラメータID
     Csm::csmVector<Csm::CubismIdHandle> _lipSyncIds; ///< モデルに設定されたリップシンク機能用パラメータID
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _motions; ///< 読み込まれているモーションのリスト

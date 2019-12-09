@@ -16,6 +16,8 @@
 #include <Model/CubismMoc.hpp>
 #include "LAppDefine.hpp"
 
+#include <cstring>
+
 using std::endl;
 using namespace Csm;
 using namespace std;
@@ -24,6 +26,7 @@ using namespace LAppDefine;
 double LAppPal::s_currentFrame = 0.0;
 double LAppPal::s_lastFrame = 0.0;
 double LAppPal::s_deltaTime = 0.0;
+
 
 csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize)
 {
@@ -93,14 +96,19 @@ void LAppPal::PrintMessage(const csmChar* message)
     PrintLog("%s", message);
 }
 
-Utils::CubismJson* LAppPal::convertToCubismJson(const nlohmann::json* data) {
+Csm::csmByte* LAppPal::loadNJsonAsBytes(const nlohmann::json* data, csmSizeInt* outSize) {
 	using Utils::CubismJson;
 	
 	auto dump = data->dump();
-	csmByte* buffer = dump.c_str();
-	csmSizeInt size = dump.length();
+	const char* src = dump.c_str();
+	const csmSizeInt size = static_cast<csmSizeInt>(strlen(src));
+	csmByte* buffer = new csmByte[size];
 
-	// Parse and Create a CubismJson object.
-	// Return NULL if failures occur.
-	return CubismJson::Create(buffer, size);
+	for (csmSizeInt i = 0; i < size; i++) {
+		buffer[i] = static_cast<csmByte>(src[i]);
+	}
+
+	*outSize = size;
+
+	return buffer;
 }

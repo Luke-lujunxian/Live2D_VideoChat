@@ -41,3 +41,8 @@
 */
 #define CSM_LOG_LEVEL CSM_LOG_LEVEL_VERBOSE
 
+
+//========================================================
+//  My Settings
+//========================================================
+#define CSM_TARGET_WIN_GL	// Activate Windows GL inclusion

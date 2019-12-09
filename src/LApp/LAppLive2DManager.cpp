@@ -101,7 +101,6 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
             {
                 LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
             }
-			_models[i]->SetDefaultExpression();
         }
         else if (_models[i]->HitTest(HitAreaNameBody, x, y))
         {
@@ -110,7 +109,6 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
                 LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
             }
             _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
-			_models[i]->SetDefaultExpression();
         }
     }
 }
