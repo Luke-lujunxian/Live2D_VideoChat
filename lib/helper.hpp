@@ -70,3 +70,5 @@ inline euclideanPoint<T> rotate(T x, T y,double theta) {
 	temp.y = cos(theta) * y - sin(theta) * x;
 	return temp;
 }
+
+

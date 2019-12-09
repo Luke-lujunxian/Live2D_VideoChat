@@ -17,7 +17,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
+    void on_pushButton_Call_clicked();
     void endProgram();
 private:
     SettingWin* settingWin;

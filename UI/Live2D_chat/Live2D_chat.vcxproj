@@ -195,10 +195,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\lib\Socket.cpp" />
     <ClCompile Include="..\..\src\detection.cpp" />
+    <ClCompile Include="..\..\src\helper.cpp" />
     <ClCompile Include="..\..\src\Network.cpp" />
     <ClCompile Include="..\..\src\Setting.cpp" />
     <ClCompile Include="about.cpp" />
     <ClCompile Include="chat.cpp" />
+    <ClCompile Include="connecting.cpp" />
     <ClCompile Include="errorwin.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -249,12 +251,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\lib\Base64.h" />
-    <ClInclude Include="..\..\lib\helper.h" />
+    <ClInclude Include="..\..\lib\helper.hpp" />
     <ClInclude Include="..\..\lib\nlohmann\json.hpp" />
     <ClInclude Include="..\..\lib\Socket.h" />
     <ClInclude Include="..\..\src\detection.h" />
     <ClInclude Include="..\..\src\Network.h" />
     <ClInclude Include="..\..\src\Setting.h" />
+    <QtMoc Include="connecting.h" />
     <QtMoc Include="errorwin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

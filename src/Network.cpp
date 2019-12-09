@@ -2,7 +2,7 @@
 #include "Setting.h"
 #include <Socket.h>
 #include "Base64.h"
-#include <helper.h>
+#include <helper.hpp>
 
 using namespace std;
 Network* Network::network = nullptr;
@@ -153,16 +153,19 @@ void Network::call(string ip, int port)
 	exchange["data"]["model_id"] = Setting::getSetting()->getModelID();
 	caller->SendLine(exchange.dump());
 	json info = json::parse(caller->ReceiveLine());
+	if (info["ID"]["Accept"]) {
+		MotionObject* thisCall = new MotionObject(info["data"]["session_id"]);
+		thisCall->setProfileByBase64(info["ID"]["profile_photo"]);
+		if (info["ID"]["name"].is_string())
+			thisCall->name = info["ID"]["name"].get<std::string>();
+		else
+			thisCall->name = "UNKNOW";
 
-	MotionObject* thisCall = new MotionObject(info["data"]["session_id"]);
-	thisCall->setProfileByBase64(info["ID"]["profile_photo"]);
-	if (info["ID"]["name"].is_string())
-		thisCall->name = info["ID"]["name"].get<std::string>();
-	else
-		thisCall->name = "UNKNOW";
+		thread callThd(callerfun, caller, thisCall);
+		Network::getInstance()->getDisplayObjects()->push_back(thisCall);
+	}
 
-	thread callThd(callerfun, caller,thisCall);
-	Network::getInstance()->getDisplayObjects()->push_back(thisCall);
+
 	
 	
 }

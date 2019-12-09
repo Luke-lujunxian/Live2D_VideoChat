@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <Network.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,4 +24,15 @@ void MainWindow::endProgram(){
     //do someting;
     delete aboutWin;
     this->close();
+}
+
+void MainWindow::on_pushButton_Call_clicked() {
+    try {
+        Network::getInstance()->call(ui->lineEdit_IP->text().toStdU16String(), ui->lineEdit_Port->text().toInt());
+    }
+    catch (std::string e) {
+        if (e == "NO_RESPONSE") {
+
+        }
+    }
 }

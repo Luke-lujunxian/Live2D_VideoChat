@@ -26,7 +26,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_Setting
+class Ui_SettingWin
 {
 public:
     QWidget *gridLayoutWidget_3;
@@ -51,7 +51,6 @@ public:
     QHBoxLayout *horizontalLayout_9;
     QComboBox *comboBox_Model;
     QPushButton *pushButton_Model;
-    QSpacerItem *horizontalSpacer;
     QFrame *line_5;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_11;
@@ -60,14 +59,18 @@ public:
     QFrame *line;
     QLabel *label;
     QGridLayout *gridLayout_2;
-    QHBoxLayout *horizontalLayout;
-    QLabel *Setting_CallPort;
-    QLineEdit *lineEdit_CallPort;
-    QPushButton *pushButton_TestCallPort;
     QHBoxLayout *horizontalLayout_3;
     QLabel *Setting_ListenPort;
     QLineEdit *lineEdit_ListenPort;
     QPushButton *pushButton_TestListenPort;
+    QHBoxLayout *horizontalLayout;
+    QLabel *Setting_CallPort;
+    QLineEdit *lineEdit_CallPort;
+    QPushButton *pushButton_TestCallPort;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_AudioPort;
+    QLineEdit *lineEdit_AudioPort;
+    QPushButton *pushButton_AudioPortTest;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_5;
     QSpinBox *spinBox_MaxCallQueue;
@@ -79,19 +82,22 @@ public:
     QCheckBox *checkBox_Debug_ShowFEI;
     QFrame *line_3;
 
-    void setupUi(QWidget *Setting)
+    void setupUi(QWidget *SettingWin)
     {
-        if (Setting->objectName().isEmpty())
-            Setting->setObjectName(QString::fromUtf8("Setting"));
-        Setting->resize(561, 485);
-        gridLayoutWidget_3 = new QWidget(Setting);
+        if (SettingWin->objectName().isEmpty())
+            SettingWin->setObjectName(QString::fromUtf8("SettingWin"));
+        SettingWin->setWindowModality(Qt::ApplicationModal);
+        SettingWin->resize(561, 485);
+        gridLayoutWidget_3 = new QWidget(SettingWin);
         gridLayoutWidget_3->setObjectName(QString::fromUtf8("gridLayoutWidget_3"));
-        gridLayoutWidget_3->setGeometry(QRect(270, 380, 251, 54));
+        gridLayoutWidget_3->setGeometry(QRect(270, 400, 251, 54));
         gridLayout_3 = new QGridLayout(gridLayoutWidget_3);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
         pushButton_OK = new QPushButton(gridLayoutWidget_3);
         pushButton_OK->setObjectName(QString::fromUtf8("pushButton_OK"));
+        pushButton_OK->setAutoDefault(false);
+        pushButton_OK->setFlat(false);
 
         gridLayout_3->addWidget(pushButton_OK, 1, 0, 1, 1);
 
@@ -106,9 +112,9 @@ public:
 
         gridLayout_3->addWidget(pushButton_Apply, 1, 2, 1, 1);
 
-        verticalLayoutWidget = new QWidget(Setting);
+        verticalLayoutWidget = new QWidget(SettingWin);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 40, 451, 325));
+        verticalLayoutWidget->setGeometry(QRect(30, 40, 461, 371));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -215,10 +221,6 @@ public:
 
         horizontalLayout_6->addLayout(verticalLayout_3);
 
-        horizontalSpacer = new QSpacerItem(10, 12, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_6->addItem(horizontalSpacer);
-
 
         verticalLayout->addLayout(horizontalLayout_6);
 
@@ -246,7 +248,8 @@ public:
         sizePolicy4.setVerticalStretch(0);
         sizePolicy4.setHeightForWidth(comboBox_Camera->sizePolicy().hasHeightForWidth());
         comboBox_Camera->setSizePolicy(sizePolicy4);
-        comboBox_Camera->setEditable(false);
+        comboBox_Camera->setEditable(true);
+        comboBox_Camera->setCurrentText(QString::fromUtf8("System Default"));
         comboBox_Camera->setDuplicatesEnabled(false);
 
         horizontalLayout_8->addWidget(comboBox_Camera);
@@ -275,26 +278,6 @@ public:
 
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        Setting_CallPort = new QLabel(verticalLayoutWidget);
-        Setting_CallPort->setObjectName(QString::fromUtf8("Setting_CallPort"));
-
-        horizontalLayout->addWidget(Setting_CallPort);
-
-        lineEdit_CallPort = new QLineEdit(verticalLayoutWidget);
-        lineEdit_CallPort->setObjectName(QString::fromUtf8("lineEdit_CallPort"));
-
-        horizontalLayout->addWidget(lineEdit_CallPort);
-
-        pushButton_TestCallPort = new QPushButton(verticalLayoutWidget);
-        pushButton_TestCallPort->setObjectName(QString::fromUtf8("pushButton_TestCallPort"));
-
-        horizontalLayout->addWidget(pushButton_TestCallPort);
-
-
-        gridLayout_2->addLayout(horizontalLayout, 0, 1, 1, 1);
-
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         Setting_ListenPort = new QLabel(verticalLayoutWidget);
@@ -304,6 +287,8 @@ public:
 
         lineEdit_ListenPort = new QLineEdit(verticalLayoutWidget);
         lineEdit_ListenPort->setObjectName(QString::fromUtf8("lineEdit_ListenPort"));
+        lineEdit_ListenPort->setInputMethodHints(Qt::ImhDigitsOnly);
+        lineEdit_ListenPort->setMaxLength(5);
 
         horizontalLayout_3->addWidget(lineEdit_ListenPort);
 
@@ -313,7 +298,56 @@ public:
         horizontalLayout_3->addWidget(pushButton_TestListenPort);
 
 
-        gridLayout_2->addLayout(horizontalLayout_3, 0, 0, 1, 1);
+        gridLayout_2->addLayout(horizontalLayout_3, 1, 0, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        Setting_CallPort = new QLabel(verticalLayoutWidget);
+        Setting_CallPort->setObjectName(QString::fromUtf8("Setting_CallPort"));
+
+        horizontalLayout->addWidget(Setting_CallPort);
+
+        lineEdit_CallPort = new QLineEdit(verticalLayoutWidget);
+        lineEdit_CallPort->setObjectName(QString::fromUtf8("lineEdit_CallPort"));
+        lineEdit_CallPort->setInputMethodHints(Qt::ImhDigitsOnly);
+        lineEdit_CallPort->setMaxLength(5);
+
+        horizontalLayout->addWidget(lineEdit_CallPort);
+
+        pushButton_TestCallPort = new QPushButton(verticalLayoutWidget);
+        pushButton_TestCallPort->setObjectName(QString::fromUtf8("pushButton_TestCallPort"));
+
+        horizontalLayout->addWidget(pushButton_TestCallPort);
+
+
+        gridLayout_2->addLayout(horizontalLayout, 1, 1, 1, 1);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        label_AudioPort = new QLabel(verticalLayoutWidget);
+        label_AudioPort->setObjectName(QString::fromUtf8("label_AudioPort"));
+        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(label_AudioPort->sizePolicy().hasHeightForWidth());
+        label_AudioPort->setSizePolicy(sizePolicy5);
+
+        horizontalLayout_4->addWidget(label_AudioPort);
+
+        lineEdit_AudioPort = new QLineEdit(verticalLayoutWidget);
+        lineEdit_AudioPort->setObjectName(QString::fromUtf8("lineEdit_AudioPort"));
+        lineEdit_AudioPort->setInputMethodHints(Qt::ImhDigitsOnly);
+        lineEdit_AudioPort->setMaxLength(5);
+
+        horizontalLayout_4->addWidget(lineEdit_AudioPort);
+
+        pushButton_AudioPortTest = new QPushButton(verticalLayoutWidget);
+        pushButton_AudioPortTest->setObjectName(QString::fromUtf8("pushButton_AudioPortTest"));
+
+        horizontalLayout_4->addWidget(pushButton_AudioPortTest);
+
+
+        gridLayout_2->addLayout(horizontalLayout_4, 0, 0, 1, 1);
 
 
         verticalLayout->addLayout(gridLayout_2);
@@ -380,43 +414,47 @@ public:
         verticalLayout->addWidget(line_3);
 
 
-        retranslateUi(Setting);
+        retranslateUi(SettingWin);
 
-        QMetaObject::connectSlotsByName(Setting);
+        pushButton_OK->setDefault(false);
+
+
+        QMetaObject::connectSlotsByName(SettingWin);
     } // setupUi
 
-    void retranslateUi(QWidget *Setting)
+    void retranslateUi(QWidget *SettingWin)
     {
-        Setting->setWindowTitle(QCoreApplication::translate("Setting", "Setting", nullptr));
-        pushButton_OK->setText(QCoreApplication::translate("Setting", "OK", nullptr));
-        pushButton_Cancel->setText(QCoreApplication::translate("Setting", "Calcel", nullptr));
-        pushButton_Apply->setText(QCoreApplication::translate("Setting", "Apply", nullptr));
-        label_9->setText(QCoreApplication::translate("Setting", "General:", nullptr));
-        label_6->setText(QCoreApplication::translate("Setting", "Name:", nullptr));
-        label_8->setText(QCoreApplication::translate("Setting", "Profile Photo", nullptr));
-        label_7->setText(QCoreApplication::translate("Setting", "Model:", nullptr));
-        pushButton_ProfilePhoto->setText(QCoreApplication::translate("Setting", "Select...", nullptr));
-        pushButton_Model->setText(QCoreApplication::translate("Setting", "Select...", nullptr));
-        label_11->setText(QCoreApplication::translate("Setting", "Prefered Camera:", nullptr));
-        comboBox_Camera->setItemText(0, QCoreApplication::translate("Setting", "System Default", nullptr));
+        SettingWin->setWindowTitle(QCoreApplication::translate("SettingWin", "Setting", nullptr));
+        pushButton_OK->setText(QCoreApplication::translate("SettingWin", "OK", nullptr));
+        pushButton_Cancel->setText(QCoreApplication::translate("SettingWin", "Calcel", nullptr));
+        pushButton_Apply->setText(QCoreApplication::translate("SettingWin", "Apply", nullptr));
+        label_9->setText(QCoreApplication::translate("SettingWin", "General:", nullptr));
+        label_6->setText(QCoreApplication::translate("SettingWin", "Name(4-16):", nullptr));
+        label_8->setText(QCoreApplication::translate("SettingWin", "Profile Photo", nullptr));
+        label_7->setText(QCoreApplication::translate("SettingWin", "Model:", nullptr));
+        pushButton_ProfilePhoto->setText(QCoreApplication::translate("SettingWin", "Select...", nullptr));
+        pushButton_Model->setText(QCoreApplication::translate("SettingWin", "Select...", nullptr));
+        label_11->setText(QCoreApplication::translate("SettingWin", "Prefered Camera:", nullptr));
+        comboBox_Camera->setItemText(0, QCoreApplication::translate("SettingWin", "System Default", nullptr));
 
-        comboBox_Camera->setCurrentText(QCoreApplication::translate("Setting", "System Default", nullptr));
-        label->setText(QCoreApplication::translate("Setting", "NetWork:", nullptr));
-        Setting_CallPort->setText(QCoreApplication::translate("Setting", "Call Port", nullptr));
-        pushButton_TestCallPort->setText(QCoreApplication::translate("Setting", "Test", nullptr));
-        Setting_ListenPort->setText(QCoreApplication::translate("Setting", "Listen Port", nullptr));
-        pushButton_TestListenPort->setText(QCoreApplication::translate("Setting", "Test", nullptr));
-        label_5->setText(QCoreApplication::translate("Setting", "Maximun Call Queue", nullptr));
-        label_10->setText(QCoreApplication::translate("Setting", "Debug:", nullptr));
-        checkBox_Debug_ShowCamera->setText(QCoreApplication::translate("Setting", "Show camera", nullptr));
-        checkBox_Debug_Console->setText(QCoreApplication::translate("Setting", "Console", nullptr));
-        checkBox_Debug_ShowFEI->setText(QCoreApplication::translate("Setting", "Show facial recognization image", nullptr));
+        label->setText(QCoreApplication::translate("SettingWin", "NetWork:", nullptr));
+        Setting_ListenPort->setText(QCoreApplication::translate("SettingWin", "Listen Port", nullptr));
+        pushButton_TestListenPort->setText(QCoreApplication::translate("SettingWin", "Test", nullptr));
+        Setting_CallPort->setText(QCoreApplication::translate("SettingWin", "Call Port", nullptr));
+        pushButton_TestCallPort->setText(QCoreApplication::translate("SettingWin", "Test", nullptr));
+        label_AudioPort->setText(QCoreApplication::translate("SettingWin", "Audio Port:", nullptr));
+        pushButton_AudioPortTest->setText(QCoreApplication::translate("SettingWin", "Test", nullptr));
+        label_5->setText(QCoreApplication::translate("SettingWin", "Maximun Call Queue", nullptr));
+        label_10->setText(QCoreApplication::translate("SettingWin", "Debug:", nullptr));
+        checkBox_Debug_ShowCamera->setText(QCoreApplication::translate("SettingWin", "Show camera", nullptr));
+        checkBox_Debug_Console->setText(QCoreApplication::translate("SettingWin", "Console", nullptr));
+        checkBox_Debug_ShowFEI->setText(QCoreApplication::translate("SettingWin", "Show facial recognization image", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class SettingWin: public Ui_Setting {};
+    class SettingWin: public Ui_SettingWin {};
 } // namespace Ui
 
 QT_END_NAMESPACE

@@ -51,7 +51,6 @@ public:
     QHBoxLayout *horizontalLayout_9;
     QComboBox *comboBox_Model;
     QPushButton *pushButton_Model;
-    QSpacerItem *horizontalSpacer;
     QFrame *line_5;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_11;
@@ -97,6 +96,8 @@ public:
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
         pushButton_OK = new QPushButton(gridLayoutWidget_3);
         pushButton_OK->setObjectName(QString::fromUtf8("pushButton_OK"));
+        pushButton_OK->setAutoDefault(false);
+        pushButton_OK->setFlat(false);
 
         gridLayout_3->addWidget(pushButton_OK, 1, 0, 1, 1);
 
@@ -220,10 +221,6 @@ public:
 
         horizontalLayout_6->addLayout(verticalLayout_3);
 
-        horizontalSpacer = new QSpacerItem(10, 12, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_6->addItem(horizontalSpacer);
-
 
         verticalLayout->addLayout(horizontalLayout_6);
 
@@ -251,7 +248,8 @@ public:
         sizePolicy4.setVerticalStretch(0);
         sizePolicy4.setHeightForWidth(comboBox_Camera->sizePolicy().hasHeightForWidth());
         comboBox_Camera->setSizePolicy(sizePolicy4);
-        comboBox_Camera->setEditable(false);
+        comboBox_Camera->setEditable(true);
+        comboBox_Camera->setCurrentText(QString::fromUtf8("System Default"));
         comboBox_Camera->setDuplicatesEnabled(false);
 
         horizontalLayout_8->addWidget(comboBox_Camera);
@@ -418,6 +416,9 @@ public:
 
         retranslateUi(SettingWin);
 
+        pushButton_OK->setDefault(false);
+
+
         QMetaObject::connectSlotsByName(SettingWin);
     } // setupUi
 
@@ -436,7 +437,6 @@ public:
         label_11->setText(QCoreApplication::translate("SettingWin", "Prefered Camera:", nullptr));
         comboBox_Camera->setItemText(0, QCoreApplication::translate("SettingWin", "System Default", nullptr));
 
-        comboBox_Camera->setCurrentText(QCoreApplication::translate("SettingWin", "System Default", nullptr));
         label->setText(QCoreApplication::translate("SettingWin", "NetWork:", nullptr));
         Setting_ListenPort->setText(QCoreApplication::translate("SettingWin", "Listen Port", nullptr));
         pushButton_TestListenPort->setText(QCoreApplication::translate("SettingWin", "Test", nullptr));

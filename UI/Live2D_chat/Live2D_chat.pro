@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     about.cpp \
     chat.cpp \
+    connecting.cpp \
     errorwin.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     about.h \
     chat.h \
+    connecting.h \
     errorwin.h \
     mainwindow.h \
     settingwin.h
@@ -35,6 +37,7 @@ FORMS += \
     MainWindow.ui \
     Setting.ui \
     about.ui \
+    connecting.ui \
     errorwin.ui
 
 # Default rules for deployment.

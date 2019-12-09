@@ -32,18 +32,16 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QWidget *gridLayoutWidget;
     QGridLayout *DisplayArea;
-    QOpenGLWidget *openGLWidget_3;
     QOpenGLWidget *openGLWidget;
-    QOpenGLWidget *openGLWidget_2;
 
     void setupUi(QWidget *Chat)
     {
         if (Chat->objectName().isEmpty())
             Chat->setObjectName(QString::fromUtf8("Chat"));
-        Chat->resize(638, 453);
+        Chat->resize(1023, 692);
         horizontalLayoutWidget = new QWidget(Chat);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(40, 380, 561, 71));
+        horizontalLayoutWidget->setGeometry(QRect(180, 600, 641, 81));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
@@ -72,24 +70,15 @@ public:
 
         gridLayoutWidget = new QWidget(Chat);
         gridLayoutWidget->setObjectName(QString::fromUtf8("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(40, 20, 561, 361));
+        gridLayoutWidget->setGeometry(QRect(30, 20, 941, 551));
         DisplayArea = new QGridLayout(gridLayoutWidget);
         DisplayArea->setObjectName(QString::fromUtf8("DisplayArea"));
         DisplayArea->setContentsMargins(0, 0, 0, 0);
-        openGLWidget_3 = new QOpenGLWidget(gridLayoutWidget);
-        openGLWidget_3->setObjectName(QString::fromUtf8("openGLWidget_3"));
-
-        DisplayArea->addWidget(openGLWidget_3, 2, 0, 1, 1);
-
         openGLWidget = new QOpenGLWidget(gridLayoutWidget);
         openGLWidget->setObjectName(QString::fromUtf8("openGLWidget"));
+        openGLWidget->setEnabled(true);
 
         DisplayArea->addWidget(openGLWidget, 0, 0, 1, 1);
-
-        openGLWidget_2 = new QOpenGLWidget(gridLayoutWidget);
-        openGLWidget_2->setObjectName(QString::fromUtf8("openGLWidget_2"));
-
-        DisplayArea->addWidget(openGLWidget_2, 0, 1, 1, 1);
 
 
         retranslateUi(Chat);
