@@ -16,7 +16,7 @@
 #include <Model/CubismMoc.hpp>
 #include "LAppDefine.hpp"
 
-#include <cstring>
+#include <string>
 
 using std::endl;
 using namespace Csm;
@@ -100,12 +100,11 @@ Csm::csmByte* LAppPal::loadNJsonAsBytes(const nlohmann::json* data, csmSizeInt* 
 	using Utils::CubismJson;
 	
 	auto dump = data->dump();
-	const char* src = dump.c_str();
-	const csmSizeInt size = static_cast<csmSizeInt>(strlen(src));
-	csmByte* buffer = new csmByte[size];
+	const csmSizeInt size = dump.length();
+	csmByte* buffer = new csmByte[size];	
 
 	for (csmSizeInt i = 0; i < size; i++) {
-		buffer[i] = static_cast<csmByte>(src[i]);
+		buffer[i] = dump[i];
 	}
 
 	*outSize = size;

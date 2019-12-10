@@ -9,8 +9,11 @@ int main() {
 
 	LAppAllocator allocator;
 	CubismFramework::StartUp(&allocator);
+	CubismFramework::Initialize();
+
 
 	TestJsonConvert::runTest();
+
 
 	CubismFramework::Dispose();
 
