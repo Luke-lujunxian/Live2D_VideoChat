@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>294</width>
-    <height>600</height>
+    <width>291</width>
+    <height>533</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -42,6 +42,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
           <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(255, 255, 255, 150);</string>
+           </property>
            <property name="text">
             <string>IP:</string>
            </property>
@@ -49,6 +52,9 @@
          </item>
          <item>
           <widget class="QLabel" name="label_2">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(255, 255, 255, 150);</string>
+           </property>
            <property name="text">
             <string>Port</string>
            </property>
@@ -62,7 +68,11 @@
           <widget class="QLineEdit" name="lineEdit_IP"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_Port"/>
+          <widget class="QLineEdit" name="lineEdit_Port">
+           <property name="maxLength">
+            <number>5</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -121,20 +131,23 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>80</x>
       <y>50</y>
-      <width>41</width>
-      <height>81</height>
+      <width>121</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Agency FB</family>
-      <pointsize>72</pointsize>
+      <pointsize>26</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 150);</string>
+    </property>
     <property name="text">
-     <string>?</string>
+     <string>Live2D Chat</string>
     </property>
    </widget>
   </widget>
@@ -143,18 +156,37 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>294</width>
-     <height>23</height>
+     <width>291</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSetting">
     <property name="title">
      <string>Setting</string>
     </property>
+    <addaction name="actionSetting"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuSetting"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSetting">
+   <property name="text">
+    <string>Setting</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
