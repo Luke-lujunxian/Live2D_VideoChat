@@ -1,7 +1,9 @@
 
 #include "LApp/LAppAllocator.hpp"
 
+#define _TEST_RUN__
 #include "../tests/TestJsonConvert.hpp"
+#undef _TEST_RUN__
 
 
 int main() {
@@ -12,7 +14,7 @@ int main() {
 	CubismFramework::Initialize();
 
 
-	TestJsonConvert::runTest();
+	TestJsonConvert::runTest2();
 
 
 	CubismFramework::Dispose();

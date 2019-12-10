@@ -69,7 +69,7 @@ private:
 		file.close();
 	}
 
-	std::string _path = "F:\\github\\Live2D_VideoChat\\res\\Hiyori\\expressions\\F06.exp3.json";
+	std::string _path = "..\\..\\expressions\\F06.exp3.json";
 	nlohmann::json _data1, _data2;
 
 private:
