@@ -107,6 +107,7 @@ public:
 
         lineEdit_Port = new QLineEdit(verticalLayoutWidget_2);
         lineEdit_Port->setObjectName(QString::fromUtf8("lineEdit_Port"));
+        lineEdit_Port->setMaxLength(5);
 
         verticalLayout_4->addWidget(lineEdit_Port);
 
@@ -155,7 +156,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 291, 23));
+        menubar->setGeometry(QRect(0, 0, 291, 26));
         menuSetting = new QMenu(menubar);
         menuSetting->setObjectName(QString::fromUtf8("menuSetting"));
         MainWindow->setMenuBar(menubar);

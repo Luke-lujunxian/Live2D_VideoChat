@@ -28,7 +28,9 @@ void MainWindow::endProgram(){
 
 void MainWindow::on_pushButton_Call_clicked() {
     try {
-        Network::getInstance()->call(ui->lineEdit_IP->text().toStdU16String(), ui->lineEdit_Port->text().toInt());
+        std::string host = ui->lineEdit_IP->text().toStdString();
+        host.append(":").append(ui->lineEdit_Port->text().toStdString());
+        Network::getInstance()->call(host);
     }
     catch (std::string e) {
         if (e == "NO_RESPONSE") {

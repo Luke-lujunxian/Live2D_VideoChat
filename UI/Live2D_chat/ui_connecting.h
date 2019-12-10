@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -20,6 +21,7 @@ class Ui_Connecting
 {
 public:
     QLabel *label;
+    QProgressBar *progressBar;
 
     void setupUi(QWidget *Connecting)
     {
@@ -28,8 +30,15 @@ public:
         Connecting->resize(328, 218);
         label = new QLabel(Connecting);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(80, 80, 141, 41));
+        label->setGeometry(QRect(120, 70, 141, 41));
         label->setScaledContents(false);
+        progressBar = new QProgressBar(Connecting);
+        progressBar->setObjectName(QString::fromUtf8("progressBar"));
+        progressBar->setGeometry(QRect(40, 140, 241, 23));
+        progressBar->setValue(24);
+        progressBar->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        progressBar->setTextVisible(false);
+        progressBar->setInvertedAppearance(false);
 
         retranslateUi(Connecting);
 

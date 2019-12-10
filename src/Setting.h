@@ -59,9 +59,10 @@ public:
 	bool setProfile(std::string addr) {
 		//Probably some translate? / \?
 		profilePhoto = cv::imread(addr);
-		profiletype = addr.substr(addr.find_last_of('.')+1, addr.length() - addr.find_last_of('.') - 1);
+		if (profilePhoto.data == NULL)
+			return false;
+		profiletype = addr.substr(addr.find_last_of('.') + 1, addr.length() - addr.find_last_of('.') - 1);
 		return true;
-
 	}
 
 	cv::Mat getProfile() {
@@ -102,6 +103,7 @@ private:
 		listenPort = 1919;
 		callPort = 1145;
 		maximumListenQueue = 5;
+		audioPort = 893;
 		name = "Leader1";
 		modelID = "Tasho koji";
 		debug = false;

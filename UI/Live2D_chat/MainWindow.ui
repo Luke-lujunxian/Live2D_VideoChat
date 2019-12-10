@@ -68,7 +68,11 @@
           <widget class="QLineEdit" name="lineEdit_IP"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_Port"/>
+          <widget class="QLineEdit" name="lineEdit_Port">
+           <property name="maxLength">
+            <number>5</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -153,7 +157,7 @@
      <x>0</x>
      <y>0</y>
      <width>291</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSetting">

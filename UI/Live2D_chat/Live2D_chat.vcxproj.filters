@@ -103,6 +103,9 @@
     <QtMoc Include="connecting.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\src\Network.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -128,6 +131,9 @@
     <QtUic Include="errorwin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="connecting.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\luke\Pictures\pixiv\72408310_p0.jpg">
@@ -143,9 +149,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\detection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Setting.h">

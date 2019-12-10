@@ -3,6 +3,7 @@
 #include "setting.h"
 #include "errorwin.h"
 #include <QFileDialog>
+#include <QtNetwork/qtcpsocket.h>
 
 bool allClear;
 SettingWin::SettingWin(QWidget *parent) :
@@ -19,6 +20,12 @@ SettingWin::SettingWin(QWidget *parent) :
 	ui->lineEdit_ListenPort->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
 	ui->lineEdit_CallPort->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
 	ui->lineEdit_AudioPort->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
+
+	ui->lineEdit_ListenPort->setText(QString::number( Setting::getSetting()->getListenPort()));
+	ui->lineEdit_CallPort->setText(QString::number(Setting::getSetting()->getCallPort()));
+	ui->lineEdit_AudioPort->setText(QString::number(Setting::getSetting()->getAudioPort()));
+	ui->lineEdit_Name->setText(QString::fromStdString(Setting::getSetting()->getName()));
+
     QObject::connect(ui->comboBox_ProfilePhoto,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
     QObject::connect(ui->comboBox_Model,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
     QObject::connect(ui->comboBox_Camera,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
@@ -78,6 +85,7 @@ void SettingWin::on_pushButton_Apply_clicked(){
 		//Error window
 	}
 }
+
 void SettingWin::on_pushButton_ProfilePhoto_clicked(){
     //Do something`
 	//定义文件对话框类
@@ -103,6 +111,7 @@ void SettingWin::on_pushButton_ProfilePhoto_clicked(){
 	//	原文链接：https ://blog.csdn.net/wb175208/article/details/86661722
     ui->pushButton_Apply->setEnabled(true);
 }
+
 void SettingWin::on_pushButton_Model_clicked(){
     //Do something
 	QFileDialog* fileDialog = new QFileDialog(this);
@@ -149,6 +158,7 @@ DEFINE_GUID(CLSID_VideoInputDeviceCategory, 0x860bb310, 0x5d01, 0x11d0, 0xbd, 0x
 DEFINE_GUID(IID_ICreateDevEnum, 0x29840822, 0x5b84, 0x11d0, 0xbd, 0x3b, 0x00, 0xa0, 0xc9, 0x11, 0xce, 0x86);
 
 //列出硬件设备
+//https://www.cnblogs.com/herd/p/9277402.html
 int listDevices(std::vector<std::string>& list)
 {
 	ICreateDevEnum* pDevEnum = NULL;
@@ -217,4 +227,37 @@ int listDevices(std::vector<std::string>& list)
 		}
 	}
 	return deviceCounter;
+}
+
+void SettingWin::on_pushButton_AudioPortTest_clicked() {
+	if (!checkPortAvalibility(ui->pushButton_AudioPortTest->text().toInt())) {
+		setError(ui->lineEdit_AudioPort);
+	}
+	else {
+		clearError(ui->lineEdit_AudioPort,true);
+	}
+}
+void SettingWin::on_pushButton_TestListenPort_clicked() {
+	if (!checkPortAvalibility(ui->pushButton_TestListenPort->text().toInt())) {
+		setError(ui->lineEdit_ListenPort);
+	}
+	else {
+		clearError(ui->lineEdit_ListenPort, true);
+	}
+}
+void SettingWin::on_pushButton_TestCallPort_clicked() {
+	if (!checkPortAvalibility(ui->pushButton_TestCallPort->text().toInt())) {
+		setError(ui->lineEdit_CallPort);
+	}
+	else {
+		clearError(ui->lineEdit_CallPort, true);
+	}
+}
+
+bool checkPortAvalibility(int port) {
+	QTcpSocket* temp = new QTcpSocket();
+	bool state;
+	state = temp->bind(port);
+	delete temp;
+	return state;
 }

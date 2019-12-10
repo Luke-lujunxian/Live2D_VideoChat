@@ -184,7 +184,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(comboBox_ProfilePhoto->sizePolicy().hasHeightForWidth());
         comboBox_ProfilePhoto->setSizePolicy(sizePolicy2);
-        comboBox_ProfilePhoto->setEditable(true);
+        comboBox_ProfilePhoto->setEditable(false);
 
         horizontalLayout_7->addWidget(comboBox_ProfilePhoto);
 
@@ -248,7 +248,7 @@ public:
         sizePolicy4.setVerticalStretch(0);
         sizePolicy4.setHeightForWidth(comboBox_Camera->sizePolicy().hasHeightForWidth());
         comboBox_Camera->setSizePolicy(sizePolicy4);
-        comboBox_Camera->setEditable(true);
+        comboBox_Camera->setEditable(false);
         comboBox_Camera->setCurrentText(QString::fromUtf8("System Default"));
         comboBox_Camera->setDuplicatesEnabled(false);
 

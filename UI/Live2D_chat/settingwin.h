@@ -29,6 +29,9 @@ private slots:
     void on_pushButton_Model_clicked();
 	void on_pushButton_OK_clicked();
 	void on_pushButton_Cancel_clicked();
+    void on_pushButton_AudioPortTest_clicked();
+    void on_pushButton_TestListenPort_clicked();
+    void on_pushButton_TestCallPort_clicked();
 private:
     Ui::SettingWin *ui;
 };
@@ -37,6 +40,9 @@ bool setError(QWidget* obj);
 bool clearError(QWidget* obj, bool AC);
 
 int listDevices(std::vector<std::string>& list);
+
+bool checkPortAvalibility(int port);
+
 
 #endif // SETTING_H
 
