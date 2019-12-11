@@ -31,7 +31,7 @@ private:
 		nuturalFace.inited = false;
 		captureNuturalFaceFlag = false;
 		detectThread = nullptr;
-		starDetector();
+		startDetector();
 	};
 	~FacialLandmarkDetector() {
 		detectThread->join();
@@ -53,7 +53,7 @@ public:
 		}
 		return facialLandmarkDetector;
 	}
-	void starDetector() {
+	void startDetector() {
 		if (detectThread != nullptr && detectThread->joinable()) {
 			throw "Already Running";
 		}

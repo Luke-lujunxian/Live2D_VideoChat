@@ -10,6 +10,19 @@
 #include <LApp/LAppPal.hpp>
 #include <fstream>
 
+
+//////////////////////////////////////////////////////////////////////////
+#include <string>
+#include <windows.h>
+
+// Source: https://stackoverflow.com/questions/143174/how-do-i-get-the-directory-that-a-program-is-running-from
+std::string getexepath()
+{
+	char result[MAX_PATH];
+	return std::string(result, GetModuleFileName(NULL, result, MAX_PATH));
+}
+//////////////////////////////////////////////////////////////////////////
+
 class TestJsonConvert {
 public:
 	static void runTest() {
@@ -62,6 +75,7 @@ private:
 
 		std::fstream file(_path, std::ios::in);
 		if (!file.is_open()) {
+			std::cerr << getexepath() << std::endl;
 			std::cerr << "Cannot open " << _path << std::endl;
 			exit(2);
 		}
