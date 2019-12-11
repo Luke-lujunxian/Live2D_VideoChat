@@ -25,5 +25,6 @@ private:
     SettingWin* settingWin;
     About* aboutWin;
     Ui::MainWindow *ui;
+    QThread* listener;
 };
 #endif // MAINWINDOW_H

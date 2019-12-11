@@ -65,12 +65,6 @@
     <ClCompile Include="..\..\src\detection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Network.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Setting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\lib\Socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,6 +75,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="connecting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Network_QT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -103,7 +103,10 @@
     <QtMoc Include="connecting.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\src\Network.h">
+    <QtMoc Include="..\..\src\detection.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\src\Network_QT.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -131,9 +134,6 @@
     <QtUic Include="errorwin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="connecting.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\luke\Pictures\pixiv\72408310_p0.jpg">
@@ -148,16 +148,13 @@
     <ClInclude Include="..\..\lib\Base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\detection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Setting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\lib\Socket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\lib\helper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Setting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

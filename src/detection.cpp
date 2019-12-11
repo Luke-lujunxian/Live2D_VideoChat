@@ -293,9 +293,9 @@ void FacialLandmarkDetector::detection()
 					data["brow"]["browRY"] = eyebrow_right;
 					data["mouthOpen"] = mouth_open;
 
-					Network::getInstance()->getSendJson()->erase("data");
-					Network::getInstance()->getSendJson()->emplace("data",data);
+					Network_QT::getInstance()->updateMotion(data);
 					
+					emit NewDetection();
 				}
 
 			}

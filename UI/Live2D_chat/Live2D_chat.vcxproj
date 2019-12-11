@@ -78,10 +78,10 @@
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>E:\project\Live2D_VideoChat\lib;E:\project\Live2D_VideoChat\src;E:\project\Live2D_VideoChat\UI\build-Live2D_chat-Desktop_Qt_5_13_2_MSVC2017_64bit-Debug;$(IncludePath)</IncludePath>
+    <IncludePath>E:\project\Live2D_VideoChat\include;E:\project\Live2D_VideoChat\lib;E:\project\Live2D_VideoChat\src;E:\project\Live2D_VideoChat\UI\build-Live2D_chat-Desktop_Qt_5_13_2_MSVC2017_64bit-Debug;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>E:\project\Live2D_VideoChat\lib;E:\project\Live2D_VideoChat\src;E:\project\Live2D_VideoChat\UI\build-Live2D_chat-Desktop_Qt_5_13_2_MSVC2017_64bit-Debug;$(IncludePath)</IncludePath>
+    <IncludePath>E:\project\Live2D_VideoChat\include;E:\project\Live2D_VideoChat\lib;E:\project\Live2D_VideoChat\src;E:\project\Live2D_VideoChat\UI\build-Live2D_chat-Desktop_Qt_5_13_2_MSVC2017_64bit-Debug;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -126,11 +126,15 @@
     </ResourceCompile>
     <QtMoc>
       <CompilerFlavor>msvc</CompilerFlavor>
-      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <Include>./$(Configuration)/moc_predefs.h;%(Include)</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <DynamicSource>output</DynamicSource>
       <QtMocDir>$(Configuration)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+      <ForceInclude>
+      </ForceInclude>
+      <PathPrefix>
+      </PathPrefix>
     </QtMoc>
     <QtUic>
       <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
@@ -185,18 +189,22 @@
     </QtUic>
     <QtMoc>
       <CompilerFlavor>msvc</CompilerFlavor>
-      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <Include>./$(Configuration)/moc_predefs.h;%(Include)</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <DynamicSource>output</DynamicSource>
       <QtMocDir>$(Configuration)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+      <ForceInclude>
+      </ForceInclude>
+      <PathPrefix>
+      </PathPrefix>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lib\Socket.cpp" />
     <ClCompile Include="..\..\src\detection.cpp" />
     <ClCompile Include="..\..\src\helper.cpp" />
-    <ClCompile Include="..\..\src\Network.cpp" />
+    <ClCompile Include="..\..\src\Network_QT.cpp" />
     <ClCompile Include="..\..\src\Setting.cpp" />
     <ClCompile Include="about.cpp" />
     <ClCompile Include="chat.cpp" />
@@ -254,9 +262,14 @@
     <ClInclude Include="..\..\lib\helper.hpp" />
     <ClInclude Include="..\..\lib\nlohmann\json.hpp" />
     <ClInclude Include="..\..\lib\Socket.h" />
-    <ClInclude Include="..\..\src\detection.h" />
-    <ClInclude Include="..\..\src\Network.h" />
     <ClInclude Include="..\..\src\Setting.h" />
+    <QtMoc Include="..\..\src\Network_QT.h">
+      <Include Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Include)</Include>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Include)</Include>
+      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(ForceInclude)</ForceInclude>
+      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ForceInclude)</ForceInclude>
+    </QtMoc>
+    <QtMoc Include="..\..\src\detection.h" />
     <QtMoc Include="connecting.h" />
     <QtMoc Include="errorwin.h" />
   </ItemGroup>

@@ -3,9 +3,9 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 #include <opencv2/opencv.hpp>
-#include <Network.h>
+#include <Network_QT.h>
 #include <Setting.h>
-
+#include <qobject.h>
 
 typedef struct RawFacePos {
 	float angle;//+clockwise TODO
@@ -23,7 +23,8 @@ typedef struct RawFacePos {
 	cv::Vec3f rightIris;
 };
 
-class FacialLandmarkDetector {
+class FacialLandmarkDetector:public QObject {
+	Q_OBJECT;
 private:
 	void detection();
 	FacialLandmarkDetector() {
@@ -70,7 +71,8 @@ public:
 		captureNuturalFaceFlag = true;
 		while (captureNuturalFaceFlag) {}
 	}
-
+signals:
+	void NewDetection();
 };
 
 
