@@ -4,7 +4,7 @@
 
 #include <nlohmann/json.hpp>
 #include "detection.h"
-#include "Network.h"
+#include "Network_QT.h"
 #include <iostream>
 
 class TestFacialDetection {
@@ -15,7 +15,7 @@ public:
 		auto dummyHandle = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
 		while (true) {
 			system("pause");
-			auto j = Network::getInstance()->getSendJson();
+			auto j = Network_QT::getInstance()->getSendJson();
 			cout << *j << endl;
 		}
 	}
