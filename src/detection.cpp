@@ -282,16 +282,16 @@ void FacialLandmarkDetector::detection()
 				//Finalize and put into Json
 				{
 					json data;
-					data["head"]["angleZ"] = z_rotate;
-					data["head"]["angleX"] = x_rotate;
-					data["head"]["angleY"] = y_rotate;
-					data["eye"]["eyeLOpen"] = left_eye;
-					data["eye"]["eyeROpen"] = right_eye;
-					data["eye"]["eyeBallX"] = eyeBallX;
-					data["eye"]["eyeBallY"] = eyeBallY;
-					data["brow"]["browLY"] = eyebrow_left;
-					data["brow"]["browRY"] = eyebrow_right;
-					data["mouthOpen"] = mouth_open;
+					data["head"]["ParamAngleZ"] = z_rotate;
+					data["head"]["ParamAngleX"] = x_rotate;
+					data["head"]["ParamAngleY"] = y_rotate;
+					data["eye"]["ParamEyeLOpen"] = left_eye;
+					data["eye"]["ParamEyeROpen"] = right_eye;
+					data["eye"]["ParamEyeBallX"] = eyeBallX;
+					data["eye"]["ParamEyeBallY"] = eyeBallY;
+					data["brow"]["ParamBrowLY"] = eyebrow_left;
+					data["brow"]["ParamBrowRY"] = eyebrow_right;
+					data["ParamMouthOpenY"] = mouth_open;
 
 					Network_QT::getInstance()->updateMotion(data);
 					
