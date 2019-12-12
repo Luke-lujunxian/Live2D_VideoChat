@@ -83,6 +83,9 @@
     <ClCompile Include="..\..\src\Setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="about.h">
@@ -109,6 +112,9 @@
     <QtMoc Include="..\..\src\Network_QT.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\src\Audio.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -125,13 +131,13 @@
     <QtUic Include="MainWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="Setting.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="about.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="errorwin.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SettingWin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

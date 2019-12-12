@@ -4,6 +4,7 @@
 #include "errorwin.h"
 #include <QFileDialog>
 #include <QtNetwork/qtcpsocket.h>
+#include <QtMultimedia/QAudioDeviceInfo>
 
 bool allClear;
 SettingWin::SettingWin(QWidget *parent) :
@@ -48,6 +49,13 @@ SettingWin::SettingWin(QWidget *parent) :
 		
 	}
 
+	for (int i = 0; i < QAudioDeviceInfo::availableDevices(QAudio::AudioInput).size()/2;i++) {
+		ui->comboBox_InputDevice->addItem(QAudioDeviceInfo::availableDevices(QAudio::AudioInput)[i].deviceName());
+	}
+	for (int i = 0; i < QAudioDeviceInfo::availableDevices(QAudio::AudioOutput).size() / 2; i++) {
+		ui->comboBox_OutputDevice->addItem(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput)[i].deviceName());
+	}
+
 }
 
 SettingWin::~SettingWin()
@@ -76,6 +84,8 @@ void SettingWin::on_pushButton_Apply_clicked(){
 	setting->debug = ui->checkBox_Debug_Console->isChecked();
 	setting->showCamera = ui->checkBox_Debug_ShowCamera->isChecked();
 	setting->ShowFR = ui->checkBox_Debug_ShowFEI->isChecked();
+	setting->setOutputDevice(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput)[ui->comboBox_OutputDevice->currentIndex()]);
+	setting->setInputDevice(QAudioDeviceInfo::availableDevices(QAudio::AudioInput)[ui->comboBox_InputDevice->currentIndex()]);
 	if(allClear)
 		ui->pushButton_Apply->setEnabled(false);
 	else {
