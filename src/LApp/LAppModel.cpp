@@ -345,7 +345,7 @@ void LAppModel::Update()
     if (_motionManager->IsFinished())
     {
         // モーションの再生がない場合、待機表情の中からランダムで再生する
-		SetRandomExpression();
+		//SetRandomExpression();
     }
     else
     {

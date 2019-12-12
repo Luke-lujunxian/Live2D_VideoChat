@@ -3,6 +3,7 @@
 #include <exception>
 #include <LApp/LAppPal.hpp>
 #include <JsonConverter.hpp>
+#include <LApp/LAppDefine.hpp>
 
 #include <QDebug>
 
@@ -121,6 +122,7 @@ void Model::update(const nlohmann::json* data) {
 	// Expression
 	_model->LoadParameters();
 	if (data == nullptr) {
+		//StartRandomMotion(LAppDefine::MotionGroupIdle, LAppDefine::PriorityIdle);
 		//SetRandomExpression();
 	}
 	else {
@@ -130,7 +132,7 @@ void Model::update(const nlohmann::json* data) {
 	_model->SaveParameters();
 	//////////////////////////////////////////////////////////////////////////
 
-	_model->Update();
+	Update();
 }
 
 void Model::setExpression(const nlohmann::json* data) {
