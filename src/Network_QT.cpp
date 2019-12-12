@@ -64,6 +64,7 @@ void Network_QT::ConnectHandler() {
 	QThread* newCallThd = new QThread(this);
 	CallObj* newCall = new CallObj(motion, s);
 	Network_QT::getInstance()->calls.push_back(newCallThd);
+	Network_QT::getInstance()->callObjs.push_back(newCall);
 	newCallThd->start();
 	newCall->moveToThread(newCallThd);
 	
@@ -123,6 +124,7 @@ void Network_QT::call(std::string ip, int port){
 		newCallThd->start();
 		newCallObj->moveToThread(newCallThd);
 		Network_QT::getInstance()->calls.push_back(newCallThd);
+		Network_QT::getInstance()->callObjs.push_back(newCallObj);
 	}
 }
 

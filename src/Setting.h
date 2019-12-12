@@ -7,6 +7,7 @@ A single instance class to store and access global settings.
 */
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <QtMultimedia/QAudioDeviceInfo>
 class Setting {
 
 public:
@@ -89,6 +90,18 @@ public:
 		return true;
 
 	}
+	void setInputDevice(QAudioDeviceInfo& device) {
+		inputDevice = device;
+	}
+	void setOutputDevice(QAudioDeviceInfo& device) {
+		outputDevice = device;
+	}
+	QAudioDeviceInfo getOutputDevice() {
+		return outputDevice;
+	}
+	QAudioDeviceInfo getInputDevice() {
+		return inputDevice;
+	}
 /*
 	bool getDebugMode() {
 		return debug;
@@ -107,6 +120,8 @@ private:
 		name = "Leader1";
 		modelID = "Tasho koji";
 		debug = false;
+		outputDevice = QAudioDeviceInfo::defaultOutputDevice();
+		inputDevice = QAudioDeviceInfo::defaultInputDevice();
 	};
 	Setting(Setting&);
 	static bool inited;
@@ -121,6 +136,8 @@ private:
 	cv::Mat profilePhoto;
 	std::string profiletype;
 	std::vector<std::string> MACBlackList;
+	QAudioDeviceInfo outputDevice;
+	QAudioDeviceInfo inputDevice;
 public:
 	bool debug;
 	bool showCamera;

@@ -113,7 +113,7 @@
       <LinkIncremental>false</LinkIncremental>
       <OutputFile>$(OutDir)\Live2D_chat.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
     <Midl>
@@ -171,7 +171,7 @@
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <OutputFile>$(OutDir)\Live2D_chat.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
     <Midl>
@@ -202,6 +202,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lib\Socket.cpp" />
+    <ClCompile Include="..\..\src\Audio.cpp" />
     <ClCompile Include="..\..\src\detection.cpp" />
     <ClCompile Include="..\..\src\helper.cpp" />
     <ClCompile Include="..\..\src\Network_QT.cpp" />
@@ -248,8 +249,7 @@
     <QtUic Include="errorwin.ui" />
     <QtUic Include="MainWindow.ui">
     </QtUic>
-    <QtUic Include="Setting.ui">
-    </QtUic>
+    <QtUic Include="SettingWin.ui" />
     <QtUic Include="about.ui">
     </QtUic>
   </ItemGroup>
@@ -262,6 +262,7 @@
     <ClInclude Include="..\..\lib\helper.hpp" />
     <ClInclude Include="..\..\lib\nlohmann\json.hpp" />
     <ClInclude Include="..\..\lib\Socket.h" />
+    <QtMoc Include="..\..\src\Audio.h" />
     <ClInclude Include="..\..\src\Setting.h" />
     <QtMoc Include="..\..\src\Network_QT.h">
       <Include Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Include)</Include>

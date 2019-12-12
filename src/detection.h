@@ -6,6 +6,7 @@
 #include <Network_QT.h>
 #include <Setting.h>
 #include <qobject.h>
+#include <qdebug.h>
 
 typedef struct RawFacePos {
 	float angle;//+clockwise TODO
@@ -28,7 +29,7 @@ class FacialLandmarkDetector:public QObject {
 private:
 	void detection();
 	FacialLandmarkDetector() {
-		debug = Setting::getSetting()->debug;
+		debug = Setting::getSetting()->ShowFR;
 		nuturalFace.inited = false;
 		captureNuturalFaceFlag = false;
 		detectThread = nullptr;

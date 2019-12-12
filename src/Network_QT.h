@@ -22,11 +22,13 @@
 #include <detection.h>
 #include <quuid.h>
 #include <helper.hpp>
+#include <QtNetwork/qudpsocket.h>
+#include <Audio.h>
 using namespace nlohmann;
 std::string GenerateGuid();
 
 typedef enum LatencyState { NORMAL, DELAY, DISCONNECTED };
-
+class CallObj;
 class MotionObject {
 private:
 	std::string sessionId;
@@ -119,6 +121,9 @@ public:
 	}
 	void call(std::string, int);
 	void call(std::string target);
+	std::vector<CallObj*>* getCallObjs() {
+		return &callObjs;
+	}
 
 private:
 	std::vector<MotionObject*> displayObjects;
@@ -130,7 +135,7 @@ private:
 	bool stopFlag;
 	static Network_QT* network_QT;
 	std::vector<QThread*> calls = std::vector<QThread*>(5);
-
+	std::vector<CallObj*> callObjs = std::vector<CallObj*>(5);
 	//Warning: All Network will end
 	void stop() {
 		stopFlag = true;
@@ -146,6 +151,9 @@ class CallObj :public QObject {
 	QTcpSocket* s;
 public:
 	CallObj(MotionObject* motion, QTcpSocket* s);
+	QTcpSocket* getSocket() {
+		return s;
+	}
 
 
 private slots:
