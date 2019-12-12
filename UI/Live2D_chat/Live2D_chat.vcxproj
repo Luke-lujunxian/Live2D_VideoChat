@@ -201,7 +201,6 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\lib\Socket.cpp" />
     <ClCompile Include="..\..\src\Audio.cpp" />
     <ClCompile Include="..\..\src\detection.cpp" />
     <ClCompile Include="..\..\src\helper.cpp" />
@@ -261,7 +260,6 @@
     <ClInclude Include="..\..\lib\Base64.h" />
     <ClInclude Include="..\..\lib\helper.hpp" />
     <ClInclude Include="..\..\lib\nlohmann\json.hpp" />
-    <ClInclude Include="..\..\lib\Socket.h" />
     <QtMoc Include="..\..\src\Audio.h" />
     <ClInclude Include="..\..\src\Setting.h" />
     <QtMoc Include="..\..\src\Network_QT.h">

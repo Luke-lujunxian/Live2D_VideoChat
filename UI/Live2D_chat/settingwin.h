@@ -20,6 +20,8 @@ class SettingWin : public QWidget
 public:
     explicit SettingWin(QWidget *parent = nullptr);
     ~SettingWin();
+signals:
+    void settingApplySuccess();
 
 public slots:
     void canApply();

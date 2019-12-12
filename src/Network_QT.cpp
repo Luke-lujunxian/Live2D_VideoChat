@@ -164,4 +164,5 @@ CallObj::CallObj(MotionObject* motion, QTcpSocket* s) {
 	this->s = s;
 	QObject::connect(s, &QTcpSocket::readyRead, this, &CallObj::writeObject);
 	QObject::connect(FacialLandmarkDetector::getInstance(), &FacialLandmarkDetector::NewDetection, this, &CallObj::sendObject);
+	Audio::getInstance()->audioStart();
 }
