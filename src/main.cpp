@@ -6,7 +6,7 @@
 #undef _TEST_RUN__
 
 
-int main() {
+int main(int argc, char *argv[]) {
 	using namespace Live2D::Cubism::Framework;
 
 	// Cubism Framework initialization
@@ -16,10 +16,10 @@ int main() {
 
 	// Do something here
 	TestFacialDetection::runTest();
+
 	
+	system("pause");
 
 	// Cubism Framework disposal
 	CubismFramework::Dispose();
-
-	system("pause");
 }

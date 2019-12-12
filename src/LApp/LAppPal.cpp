@@ -95,19 +95,3 @@ void LAppPal::PrintMessage(const csmChar* message)
 {
     PrintLog("%s", message);
 }
-
-Csm::csmByte* LAppPal::loadNJsonAsBytes(const nlohmann::json* data, csmSizeInt* outSize) {
-	using Utils::CubismJson;
-	
-	auto dump = data->dump();
-	const csmSizeInt size = dump.length();
-	csmByte* buffer = new csmByte[size];	
-
-	for (csmSizeInt i = 0; i < size; i++) {
-		buffer[i] = dump[i];
-	}
-
-	*outSize = size;
-
-	return buffer;
-}

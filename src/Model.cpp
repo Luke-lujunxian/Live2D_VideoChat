@@ -2,6 +2,7 @@
 #include <cstring>
 #include <exception>
 #include <LApp/LAppPal.hpp>
+#include <JsonConverter.hpp>
 
 using namespace Csm;
 
@@ -136,7 +137,10 @@ void Model::setExpression(nlohmann::json* data) {
 	resetCurrentExpression();
 
 	csmSizeInt size;
-	csmByte* buffer = LAppPal::loadNJsonAsBytes(data, &size);
+	csmByte* buffer;
+
+	auto _ = JsonConverter::convert(data, &buffer, &size);
+
 	_currentExpression = LoadExpression(buffer, size, "dummy");
 
 	DeleteBuffer(buffer, "[Live expression data]");

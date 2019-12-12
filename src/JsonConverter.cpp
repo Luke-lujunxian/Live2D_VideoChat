@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NJsonModifier.hpp"
+#include "JsonConverter.hpp"
 
 // A static class of filter functions
 class DataFilter {
@@ -53,14 +53,8 @@ private:
 	DataFilter() = delete;
 };
 
-nlohmann::json NJsonModifier::modify(const nlohmann::json* src) {
-	nlohmann::json ret{};
-	
-	rewrite(ret, src);
-	return std::move(ret);
-}
 
-void NJsonModifier::rewrite(nlohmann::json& j, const nlohmann::json* src) {
+void JsonConverter::rewrite(nlohmann::json& j, const nlohmann::json* src) {
 	j["Type"] = "Live2D Expression";
 	auto data = (*src)["data"];
 
@@ -74,15 +68,15 @@ void NJsonModifier::rewrite(nlohmann::json& j, const nlohmann::json* src) {
 	// eyeball data
 	auto paramEyeBallX = DataFilter::filterEyeBall(eye["ParamEyeBallX"]);
 	auto paramEyeBallY = DataFilter::filterEyeBall(eye["ParamEyeBallY"]);
-	auto paramEyeLOpen= DataFilter::filterEyeOpen(eye["ParamEyeLOpen"]);
-	auto paramEyeROpen= DataFilter::filterEyeOpen(eye["ParamEyeROpen"]);
+	auto paramEyeLOpen = DataFilter::filterEyeOpen(eye["ParamEyeLOpen"]);
+	auto paramEyeROpen = DataFilter::filterEyeOpen(eye["ParamEyeROpen"]);
 	// head angle data
 	auto paramAngleX = DataFilter::filterHeadAngle(head["ParamAngleX"]);
 	auto paramAngleY = DataFilter::filterHeadAngle(head["ParamAngleY"]);
 	auto paramAngleZ = DataFilter::filterHeadAngle(head["ParamAngleZ"]);
 	// mouth data
 	auto paramMouthOpenY = DataFilter::filterMouthOpen(data["ParamMouthOpenY"]);
-	
+
 	j["Parameters"] = {
 		// brow data
 		{
@@ -119,4 +113,43 @@ void NJsonModifier::rewrite(nlohmann::json& j, const nlohmann::json* src) {
 			{"Id", "ParamMouthOpenY"}, {"Value", paramMouthOpenY}, {"Blend", "Add"}
 		}
 	};
+}
+
+nlohmann::json JsonConverter::modify(const nlohmann::json* src) {
+	nlohmann::json ret{};
+	
+	rewrite(ret, src);
+	return std::move(ret);
+}
+
+
+Csm::Utils::CubismJson* JsonConverter::convert(const nlohmann::json* src, Csm::csmByte** outBuffer, Csm::csmSizeInt* outSize) {
+	using namespace Csm;
+
+	nlohmann::json modifiedNJson = modify(src);
+
+	csmSizeInt size;
+	csmByte* buffer = loadNJsonAsBytes(&modifiedNJson, &size);
+	Utils::CubismJson* cuJson = Utils::CubismJson::Create(buffer, size);
+
+	*outBuffer = buffer;
+	*outSize = size;
+
+	return cuJson;
+}
+
+Csm::csmByte* JsonConverter::loadNJsonAsBytes(const nlohmann::json* data, Csm::csmSizeInt* outSize) {
+	using namespace Csm;
+
+	auto dump = data->dump();
+	const csmSizeInt size = dump.length();
+	csmByte* buffer = new csmByte[size];
+
+	for (csmSizeInt i = 0; i < size; i++) {
+		buffer[i] = dump[i];
+	}
+
+	*outSize = size;
+
+	return buffer;
 }
