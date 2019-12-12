@@ -132,6 +132,7 @@ void LAppDelegate::Release()
 void LAppDelegate::Run()
 {
     //メインループ
+	// Main Loop
     while (glfwWindowShouldClose(_window) == GL_FALSE && !_isEnd)
     {
         int width, height;

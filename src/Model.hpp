@@ -12,13 +12,13 @@ public:
 	Model& operator=(const Model&) = delete;
 
 public:
-	void update(nlohmann::json* data);
+	void update(const nlohmann::json* data);
 	//void initialize(ICubismModelSetting* setting)
 	void setDefaultExpression();
 	void setErrorExpression();
 
 private:
-	void setExpression(nlohmann::json* data);
+	void setExpression(const nlohmann::json* data);
 	void resetCurrentExpression();
 
 private:

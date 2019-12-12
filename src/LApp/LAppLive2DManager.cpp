@@ -16,6 +16,9 @@
 #include "LAppModel.hpp"
 #include "LAppView.hpp"
 
+#include "Communicator.hpp"
+#include "JsonConverter.hpp"
+
 using namespace Csm;
 using namespace LAppDefine;
 using namespace std;
@@ -45,10 +48,9 @@ void LAppLive2DManager::ReleaseInstance()
 }
 
 LAppLive2DManager::LAppLive2DManager()
-    : _viewMatrix(NULL)
-    , _sceneIndex(0)
+    : _viewMatrix(NULL), _self_model(new Model())
 {
-    ChangeScene(_sceneIndex);
+    ChangeScene(0);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
@@ -58,32 +60,36 @@ LAppLive2DManager::~LAppLive2DManager()
 
 void LAppLive2DManager::ReleaseAllModel()
 {
-    for (csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
-        delete _models[i];
-    }
+    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
+    //{
+    //    delete _models[i];
+    //}
 
-    _models.Clear();
+    //_models.Clear();
+
+	delete _self_model;
 }
 
-LAppModel* LAppLive2DManager::GetModel(csmUint32 no) const
-{
-    if (no < _models.GetSize())
-    {
-        return _models[no];
-    }
+//LAppModel* LAppLive2DManager::GetModel(csmUint32 no) const
+//{
+//    if (no < _models.GetSize())
+//    {
+//        return _models[no];
+//    }
+//
+//    return NULL;
+//}
 
-    return NULL;
-}
 
 void LAppLive2DManager::OnDrag(csmFloat32 x, csmFloat32 y) const
 {
-    for (csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
-        LAppModel* model = GetModel(i);
+    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
+    //{
+    //    LAppModel* model = GetModel(i);
 
-        model->SetDragging(x, y);
-    }
+    //    model->SetDragging(x, y);
+    //}
+	_self_model->SetDragging(x, y);
 }
 
 void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
@@ -93,24 +99,26 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
         LAppPal::PrintLog("[APP]tap point: {x:%.2f y:%.2f}", x, y);
     }
 
-    for (csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
-        if (_models[i]->HitTest(HitAreaNameHead, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
-            }
-        }
-        else if (_models[i]->HitTest(HitAreaNameBody, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
-            }
-            _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
-        }
-    }
+    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
+    //{
+    //    if (_models[i]->HitTest(HitAreaNameHead, x, y))
+    //    {
+    //        if (DebugLogEnable)
+    //        {
+    //            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
+    //        }
+    //    }
+    //    else if (_models[i]->HitTest(HitAreaNameBody, x, y))
+    //    {
+    //        if (DebugLogEnable)
+    //        {
+    //            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
+    //        }
+    //        _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
+    //    }
+    //}
+
+	// Do nothing
 }
 
 void LAppLive2DManager::OnUpdate() const
@@ -126,48 +134,61 @@ void LAppLive2DManager::OnUpdate() const
     }
 
     const CubismMatrix44    saveProjection = projection;
-    csmUint32 modelCount = _models.GetSize();
-    for (csmUint32 i = 0; i < modelCount; ++i)
-    {
-        LAppModel* model = GetModel(i);
-        projection = saveProjection;
+    //csmUint32 modelCount = _models.GetSize();
+    //for (csmUint32 i = 0; i < modelCount; ++i)
+    //{
+    //    LAppModel* model = GetModel(i);
+    //    projection = saveProjection;
 
-        // モデル1体描画前コール
-        LAppDelegate::GetInstance()->GetView()->PreModelDraw(*model);
+    //    // モデル1体描画前コール
+    //    LAppDelegate::GetInstance()->GetView()->PreModelDraw(*model);
 
-        model->Update();
-        model->Draw(projection);///< 参照渡しなのでprojectionは変質する
+    //    model->Update();
+    //    model->Draw(projection);///< 参照渡しなのでprojectionは変質する
 
-        // モデル1体描画後コール
-        LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
-    }
+    //    // モデル1体描画後コール
+    //    LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
+    //}
+
+	projection = saveProjection;
+
+	LAppDelegate::GetInstance()->GetView()->PreModelDraw(*_self_model);
+
+	auto nj = Communicator::getInstance()->getNJson();
+	_self_model->update(nj);
+	_self_model->Draw(projection);
+
+	LAppDelegate::GetInstance()->GetView()->PostModelDraw(*_self_model);
 }
 
 void LAppLive2DManager::NextScene()
 {
-    csmInt32 no = (_sceneIndex + 1) % ModelDirSize;
-    ChangeScene(no);
+    //csmInt32 no = (_sceneIndex + 1) % ModelDirSize;
+    //ChangeScene(no);
+
+	// Do nothing
 }
 
 void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
 {
-    _sceneIndex = index;
-    if (DebugLogEnable)
-    {
-        LAppPal::PrintLog("[APP]model index: %d", _sceneIndex);
-    }
+    //_sceneIndex = index;
+    //if (DebugLogEnable)
+    //{
+    //    LAppPal::PrintLog("[APP]model index: %d", _sceneIndex);
+    //}
 
     // ModelDir[]に保持したディレクトリ名から
     // model3.jsonのパスを決定する.
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと.
     std::string model = ModelDir[index];
-    std::string modelPath = ResourcesPath + model + "/";
+    std::string modelPath = ResourcesPath + model + "\\";
     std::string modelJsonName = ModelDir[index];
     modelJsonName += ".model3.json";
 
-    ReleaseAllModel();
-    _models.PushBack(new LAppModel());
-    _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
+    //ReleaseAllModel();
+    //_models.PushBack(new LAppModel());
+    //_models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
+	_self_model->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
 
     /*
      * モデル半透明表示を行うサンプルを提示する。
@@ -201,7 +222,7 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
     }
 }
 
-csmUint32 LAppLive2DManager::GetModelNum() const
-{
-    return _models.GetSize();
-}
+//csmUint32 LAppLive2DManager::GetModelNum() const
+//{
+//    return _models.GetSize();
+//}

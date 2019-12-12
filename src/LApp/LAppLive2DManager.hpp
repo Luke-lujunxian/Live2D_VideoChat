@@ -10,6 +10,7 @@
 #include <CubismFramework.hpp>
 #include <Math/CubismMatrix44.hpp>
 #include <Type/csmVector.hpp>
+#include "Model.hpp"
 
 class LAppModel;
 
@@ -42,7 +43,9 @@ public:
     * @param[in]   no  モデルリストのインデックス値
     * @return      モデルのインスタンスを返す。インデックス値が範囲外の場合はNULLを返す。
     */
-    LAppModel* GetModel(Csm::csmUint32 no) const;
+    //LAppModel* GetModel(Csm::csmUint32 no) const;
+	Model* getModel() const { return _self_model; }
+
 
     /**
     * @brief   現在のシーンで保持しているすべてのモデルを解放する
@@ -88,7 +91,7 @@ public:
      * @brief   モデル個数を得る
      * @return  所持モデル個数
      */
-    Csm::csmUint32 GetModelNum() const;
+    //Csm::csmUint32 GetModelNum() const;
 
 private:
     /**
@@ -102,6 +105,6 @@ private:
     virtual ~LAppLive2DManager();
 
     Csm::CubismMatrix44*        _viewMatrix; ///< モデル描画に用いるView行列
-    Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
-    Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
+    //Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
+	Model* _self_model = nullptr;
 };

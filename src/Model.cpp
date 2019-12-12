@@ -4,6 +4,8 @@
 #include <LApp/LAppPal.hpp>
 #include <JsonConverter.hpp>
 
+#include <QDebug>
+
 using namespace Csm;
 
 Model::Model()
@@ -112,28 +114,26 @@ Model::~Model() {
 //	_initialized = true;
 //}
 
-void Model::update(nlohmann::json* data) {
+void Model::update(const nlohmann::json* data) {
 	const csmFloat32 deltaTimeSeconds = LAppPal::GetDeltaTime();
 	_userTimeSeconds += deltaTimeSeconds;
 
 	// Expression
 	_model->LoadParameters();
 	if (data == nullptr) {
-		setErrorExpression();
+		//SetRandomExpression();
 	}
 	else {
 		setExpression(data);
+		_expressionManager->StartMotionPriority(_currentExpression, false, 3);	// Level3 is the highest 'Force' level
 	}
 	_model->SaveParameters();
 	//////////////////////////////////////////////////////////////////////////
 
-
-	_expressionManager->StartMotionPriority(_currentExpression, false, 3);	// Level3 is the highest 'Force' level
-
 	_model->Update();
 }
 
-void Model::setExpression(nlohmann::json* data) {
+void Model::setExpression(const nlohmann::json* data) {
 	resetCurrentExpression();
 
 	csmSizeInt size;

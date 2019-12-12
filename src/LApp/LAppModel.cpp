@@ -78,7 +78,7 @@ LAppModel::~LAppModel()
 
 void LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
 {
-    _modelHomeDir = dir;
+	_modelHomeDir = dir;
 
     if (_debugMode)
     {

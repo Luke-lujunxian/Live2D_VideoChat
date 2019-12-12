@@ -4,15 +4,15 @@
 #include <nlohmann/json.hpp>
 #include <Utils/CubismJson.hpp>
 
-class Communicator {
-	Q_OBJECT
+class Communicator : public QObject {
+	Q_OBJECT;
 public:
 	static void initialize();
 	static void dispose();
-	static const Communicator* getInstance() { return s_self; }
+	static const Communicator* getInstance();
 
 public:
-	const nlohmann::json* getValidNJson() const;
+	const nlohmann::json* getNJson() const;
 
 private:
 	Communicator();
@@ -20,11 +20,11 @@ private:
 	~Communicator() {}
 
 private:
-	static Communicator* s_self;
+	static Communicator* s_instance;
 
 	// temporary trick
-	nlohmann::json* _current_received_json = nullptr;
-	nlohmann::json* _last_received_json = nullptr;
+	const nlohmann::json* _current_received_json = nullptr;
+	const nlohmann::json* _last_received_json = nullptr;
 
 private slots:
 	void fetchJson();	// Get the newly written json object

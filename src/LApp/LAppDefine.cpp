@@ -25,7 +25,7 @@ namespace LAppDefine {
     const csmFloat32 ViewLogicalMaxTop = 2.0f;
 
     // 相対パス
-    const csmChar* ResourcesPath = "../../../../Res/";
+    const csmChar* ResourcesPath = "..\\..\\res\\";
 
     // モデルの後ろにある背景の画像ファイル
     const csmChar* BackImageName = "back_class_normal.png";
@@ -38,11 +38,11 @@ namespace LAppDefine {
     // モデルを配置したディレクトリ名の配列
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
     const csmChar* ModelDir[] = {
-        "Haru",
-        "Hiyori",
-        "Mark",
-        "Natori",
-        "Rice"
+		"Haru"/*,
+		"Hiyori"
+		"Mark",
+		"Natori",
+		"Rice"*/
     };
     const csmInt32 ModelDirSize = sizeof(ModelDir) / sizeof(const csmChar*);
 

@@ -23,8 +23,6 @@ using namespace LAppDefine;
 LAppView::LAppView():
     _programId(0),
     _back(NULL),
-    _gear(NULL),
-    _power(NULL),
     _renderSprite(NULL),
     _renderTarget(SelectTarget_None)
 {
@@ -51,8 +49,6 @@ LAppView::~LAppView()
     delete _deviceToScreen;
     delete _touchManager;
     delete _back;
-    delete _gear;
-    delete _power;
 }
 
 void LAppView::Initialize()
@@ -94,8 +90,6 @@ void LAppView::Initialize()
 void LAppView::Render()
 {
     _back->Render();
-    _gear->Render();
-    _power->Render();
 
     LAppLive2DManager* Live2DManager = LAppLive2DManager::GetInstance();
 
@@ -113,17 +107,25 @@ void LAppView::Render()
             1.0f, 0.0f,
         };
 
-        for (csmUint32 i = 0; i < Live2DManager->GetModelNum(); i++)
-        {
-            float alpha = GetSpriteAlpha(i); // サンプルとしてαに適当な差をつける
-            _renderSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
+        //for (csmUint32 i = 0; i < Live2DManager->GetModelNum(); i++)
+        //{
+        //    float alpha = GetSpriteAlpha(i); // サンプルとしてαに適当な差をつける
+        //    _renderSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
 
-            LAppModel *model = Live2DManager->GetModel(i);
-            if (model)
-            {
-                _renderSprite->RenderImmidiate( model->GetRenderBuffer().GetColorBuffer(), uvVertex);
-            }
-        }
+        //    LAppModel *model = Live2DManager->GetModel(i);
+        //    if (model)
+        //    {
+        //        _renderSprite->RenderImmidiate( model->GetRenderBuffer().GetColorBuffer(), uvVertex);
+        //    }
+        //}
+		float alpha = GetSpriteAlpha(0); // サンプルとしてαに適当な差をつける
+		_renderSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
+
+		LAppModel *model = Live2DManager->getModel();
+		if (model)
+		{
+			_renderSprite->RenderImmidiate(model->GetRenderBuffer().GetColorBuffer(), uvVertex);
+		}
     }
 }
 
@@ -146,23 +148,23 @@ void LAppView::InitializeSprite()
     float fHeight = static_cast<float>(height * 0.95f);
     _back = new LAppSprite(x, y, fWidth, fHeight, backgroundTexture->id, _programId);
 
-    imageName = GearImageName;
-    LAppTextureManager::TextureInfo* gearTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
+    //imageName = GearImageName;
+    //LAppTextureManager::TextureInfo* gearTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
 
-    x = static_cast<float>(width - gearTexture->width * 0.5f);
-    y = static_cast<float>(height - gearTexture->height * 0.5f);
-    fWidth = static_cast<float>(gearTexture->width);
-    fHeight = static_cast<float>(gearTexture->height);
-    _gear = new LAppSprite(x, y, fWidth, fHeight, gearTexture->id, _programId);
+    //x = static_cast<float>(width - gearTexture->width * 0.5f);
+    //y = static_cast<float>(height - gearTexture->height * 0.5f);
+    //fWidth = static_cast<float>(gearTexture->width);
+    //fHeight = static_cast<float>(gearTexture->height);
+    //_gear = new LAppSprite(x, y, fWidth, fHeight, gearTexture->id, _programId);
 
-    imageName = PowerImageName;
-    LAppTextureManager::TextureInfo* powerTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
+    //imageName = PowerImageName;
+    //LAppTextureManager::TextureInfo* powerTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
 
-    x = static_cast<float>(width - powerTexture->width * 0.5f);
-    y = static_cast<float>(powerTexture->height * 0.5f);
-    fWidth = static_cast<float>(powerTexture->width);
-    fHeight = static_cast<float>(powerTexture->height);
-    _power = new LAppSprite(x, y, fWidth, fHeight, powerTexture->id, _programId);
+    //x = static_cast<float>(width - powerTexture->width * 0.5f);
+    //y = static_cast<float>(powerTexture->height * 0.5f);
+    //fWidth = static_cast<float>(powerTexture->width);
+    //fHeight = static_cast<float>(powerTexture->height);
+    //_power = new LAppSprite(x, y, fWidth, fHeight, powerTexture->id, _programId);
 
     // 画面全体を覆うサイズ
     x = width * 0.5f;
@@ -201,18 +203,6 @@ void LAppView::OnTouchesEnded(float px, float py) const
             LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", x, y);
         }
         live2DManager->OnTap(x, y);
-
-        // 歯車にタップしたか
-        if (_gear->IsHit(px, py))
-        {
-            live2DManager->NextScene();
-        }
-
-        // 電源ボタンにタップしたか
-        if (_power->IsHit(px, py))
-        {
-            LAppDelegate::GetInstance()->AppEnd();
-        }
     }
 }
 
@@ -354,34 +344,6 @@ void LAppView::ResizeSprite()
             fWidth = static_cast<float>(texInfo->width * 2);
             fHeight = static_cast<float>(height) * 0.95f;
             _back->ResetRect(x, y, fWidth, fHeight);
-        }
-    }
-
-    if (_power)
-    {
-        GLuint id = _power->GetTextureId();
-        LAppTextureManager::TextureInfo* texInfo = textureManager->GetTextureInfoById(id);
-        if (texInfo)
-        {
-            x = static_cast<float>(width - texInfo->width * 0.5f);
-            y = static_cast<float>(texInfo->height * 0.5f);
-            fWidth = static_cast<float>(texInfo->width);
-            fHeight = static_cast<float>(texInfo->height);
-            _power->ResetRect(x, y, fWidth, fHeight);
-        }
-    }
-
-    if (_gear)
-    {
-        GLuint id = _gear->GetTextureId();
-        LAppTextureManager::TextureInfo* texInfo = textureManager->GetTextureInfoById(id);
-        if (texInfo)
-        {
-            x = static_cast<float>(width - texInfo->width * 0.5f);
-            y = static_cast<float>(height - texInfo->height * 0.5f);
-            fWidth = static_cast<float>(texInfo->width);
-            fHeight = static_cast<float>(texInfo->height);
-            _gear->ResetRect(x, y, fWidth, fHeight);
         }
     }
 }
