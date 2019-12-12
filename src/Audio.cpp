@@ -10,18 +10,27 @@ Audio* Audio::getInstance()
 	return audio;
 }
 
-bool Audio::audioStart(int port)
+bool Audio::audioStart()
 {
-	audioSocket->bind(QHostAddress::Any, port);
+    int port = Setting::getSetting()->getAudioPort();
+    if (m_Output != nullptr && m_Input != nullptr)
+        return false;
+    return audioRestart();
+}
+bool Audio::audioRestart() {
+    if (m_Output != nullptr && m_Input != nullptr) {
+        delete m_Output;
+        delete m_Input;
+    }
+    int port = Setting::getSetting()->getAudioPort();
+    audioSocket->bind(QHostAddress::Any, port);
     setaudioformat(8000, 1, 16);//TODO:add setting
-    inputDevice = input->start();
-    outputDevice = m_OutPut->start();
+    inputDevice = m_Input->start();
+    outputDevice = m_Output->start();
     timer->start(60);
     QObject::connect(inputDevice, &QIODevice::readyRead, this, &Audio::onReadyRecord);
     QObject::connect(timer, &QTimer::timeout, this, &Audio::play);
     QObject::connect(audioSocket, &QUdpSocket::readyRead, this, &Audio::receiveData);
-    if (m_OutPut != nullptr) delete m_OutPut;
-    
     return true;
 }
 
@@ -29,7 +38,7 @@ Audio::Audio()
 {
 	audioSocket = new QUdpSocket();
     timer = new QTimer();
-	audioStart(Setting::getSetting()->getAudioPort());
+	audioStart();
 }
 
 void Audio::setaudioformat(int samplerate, int channelcount, int samplesize) {
@@ -45,8 +54,8 @@ void Audio::setaudioformat(int samplerate, int channelcount, int samplesize) {
         qWarning() << "Default format not supported, trying to use the nearest.";
         format = info.nearestFormat(format);
     }
-    input = new QAudioInput(info,format, this);
-    m_OutPut = new QAudioOutput(outfo,format);
+    m_Input = new QAudioInput(info,format, this);
+    m_Output = new QAudioOutput(outfo,format);
 
 }
 void Audio::onReadyRecord() {
@@ -102,9 +111,9 @@ void Audio::addAudioBuffer(char* pData, int len)
 }
 
 Audio::~Audio() {
-    delete input;
+    delete m_Input;
     delete inputDevice;
-    delete m_OutPut;
+    delete m_Output;
     delete outputDevice;
     delete timer;
 }

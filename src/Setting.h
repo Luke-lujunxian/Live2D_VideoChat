@@ -59,11 +59,15 @@ public:
 
 	bool setProfile(std::string addr) {
 		//Probably some translate? / \?
+		pathToProfile = addr;
 		profilePhoto = cv::imread(addr);
 		if (profilePhoto.data == NULL)
 			return false;
 		profiletype = addr.substr(addr.find_last_of('.') + 1, addr.length() - addr.find_last_of('.') - 1);
 		return true;
+	}
+	std::string getProfilePath() {
+		return pathToProfile;
 	}
 
 	cv::Mat getProfile() {
@@ -122,6 +126,9 @@ private:
 		debug = false;
 		outputDevice = QAudioDeviceInfo::defaultOutputDevice();
 		inputDevice = QAudioDeviceInfo::defaultInputDevice();
+		pathToProfile = "..\\..\\res\\defaultProfile.jpg";
+		showCamera = false;
+		ShowFR = false;
 	};
 	Setting(Setting&);
 	static bool inited;
@@ -138,6 +145,7 @@ private:
 	std::vector<std::string> MACBlackList;
 	QAudioDeviceInfo outputDevice;
 	QAudioDeviceInfo inputDevice;
+	std::string pathToProfile;
 public:
 	bool debug;
 	bool showCamera;

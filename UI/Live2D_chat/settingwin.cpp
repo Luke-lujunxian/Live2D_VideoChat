@@ -28,6 +28,7 @@ SettingWin::SettingWin(QWidget *parent) :
 	ui->lineEdit_Name->setText(QString::fromStdString(Setting::getSetting()->getName()));
 
     QObject::connect(ui->comboBox_ProfilePhoto,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
+	ui->comboBox_ProfilePhoto->addItem("..\\..\\res\\defaultProfile.jpg");
     QObject::connect(ui->comboBox_Model,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
     QObject::connect(ui->comboBox_Camera,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
 
@@ -36,6 +37,8 @@ SettingWin::SettingWin(QWidget *parent) :
     QObject::connect(ui->checkBox_Debug_Console,&QCheckBox::stateChanged,this,&SettingWin::canApply);
     QObject::connect(ui->checkBox_Debug_ShowCamera,&QCheckBox::stateChanged,this,&SettingWin::canApply);
     QObject::connect(ui->checkBox_Debug_ShowFEI,&QCheckBox::stateChanged,this,&SettingWin::canApply);
+
+
 	allClear = true;
     //QObject::connect(ui->pushButton_Apply,&QPushButton::clicked,this,&Setting::applyFun);
 	std::vector<std::string> CamList;
@@ -86,8 +89,10 @@ void SettingWin::on_pushButton_Apply_clicked(){
 	setting->ShowFR = ui->checkBox_Debug_ShowFEI->isChecked();
 	setting->setOutputDevice(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput)[ui->comboBox_OutputDevice->currentIndex()]);
 	setting->setInputDevice(QAudioDeviceInfo::availableDevices(QAudio::AudioInput)[ui->comboBox_InputDevice->currentIndex()]);
-	if(allClear)
+	if (allClear) {
 		ui->pushButton_Apply->setEnabled(false);
+		emit settingApplySuccess();
+	}
 	else {
 		ErrorWin* temp = new ErrorWin();
 		temp->setWindowFlags(Qt::Dialog);
@@ -113,8 +118,9 @@ void SettingWin::on_pushButton_ProfilePhoto_clicked(){
 	//打印所有选择的文件的路径
 	QStringList fileNames;
 	if (fileDialog->exec()) {
-		ui->comboBox_ProfilePhoto->setCurrentText(fileDialog->selectedFiles()[0]);
 		ui->comboBox_ProfilePhoto->addItem(fileDialog->selectedFiles()[0]);
+		ui->comboBox_ProfilePhoto->setCurrentText(fileDialog->selectedFiles()[0]);
+
 	}
 	//————————————————
 	//	版权声明：本文为CSDN博主「wb175208」的原创文章，遵循 CC 4.0 BY - SA 版权协议，转载请附上原文出处链接及本声明。

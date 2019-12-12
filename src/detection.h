@@ -29,7 +29,7 @@ class FacialLandmarkDetector:public QObject {
 private:
 	void detection();
 	FacialLandmarkDetector() {
-		debug = Setting::getSetting()->ShowFR;
+		debug = Setting::getSetting()->debug;
 		nuturalFace.inited = false;
 		captureNuturalFaceFlag = false;
 		detectThread = nullptr;

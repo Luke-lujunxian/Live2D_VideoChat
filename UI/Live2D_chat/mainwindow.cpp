@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <Network_QT.h>
+#include <qpixmap.h>
+#include<settingwin.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,8 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     aboutWin = nullptr;
     QObject::connect(ui->actionExit,&QAction::triggered,this,&MainWindow::endProgram);
     QObject::connect(ui->actionAbout,&QAction::triggered,this,[this](){this->aboutWin = this->aboutWin == nullptr ?  new About():this->aboutWin;this->aboutWin->show();});
-    QObject::connect(ui->actionSetting,&QAction::triggered,this,[this](){this->settingWin = this->settingWin == nullptr ?  new SettingWin():this->settingWin;this->settingWin->show();});
-
+    QObject::connect(ui->actionSetting,&QAction::triggered,this,[this](){
+        this->settingWin = this->settingWin == nullptr ?  new SettingWin():
+            this->settingWin;this->settingWin->show(); QObject::connect(settingWin, &SettingWin::settingApplySuccess, this, &MainWindow::updateInfo, Qt::QueuedConnection);
+        });
+    
+    updateInfo();
     Network_QT::getInstance()->networkInit();
     listener = new QThread(this);
     listener->start();
@@ -42,4 +48,14 @@ void MainWindow::on_pushButton_Call_clicked() {
 
         }
     }
+}
+
+void MainWindow::updateInfo() {
+    qDebug() << "Info Updated";
+    QPixmap tempPixmap(QString::fromStdString(Setting::getSetting()->getProfilePath()));
+    tempPixmap.scaled(ui->label_Profile->size(), Qt::KeepAspectRatio);
+    ui->label_Profile->setScaledContents(true);
+    ui->label_Profile->setPixmap(tempPixmap);
+    ui->label_Name->setText(QString::fromStdString(Setting::getSetting()->getName()));
+
 }

@@ -14,8 +14,9 @@ class Audio: public QObject {
 public:
 	QUdpSocket* audioSocket;
 	static Audio* audio;
-	Audio* getInstance();
-	bool audioStart(int port);
+	static Audio* getInstance();
+	bool audioStart();
+	bool audioRestart();
 private:
 	Audio();
 	Audio(Audio&) = delete;
@@ -23,9 +24,9 @@ private:
 
 	void setaudioformat(int samplerate, int channelcount, int samplesize);
 
-	QAudioInput* input;
-	QIODevice* inputDevice;
-	QAudioOutput* m_OutPut = nullptr;
+	QAudioInput* m_Input = nullptr;
+	QIODevice* inputDevice = nullptr;
+	QAudioOutput* m_Output = nullptr;
 	QIODevice* outputDevice = nullptr;
 
 	QAudioFormat format;

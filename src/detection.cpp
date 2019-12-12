@@ -321,8 +321,8 @@ void FacialLandmarkDetector::detection()
 			//
 			// Display it all on the screen
 			if (debug) {
-				//system("cls");
-				std::cout << "x_rotate" << x_rotate << "\n"
+				system("cls");
+				qDebug() << "x_rotate" << x_rotate << "\n"
 					<< "y_rotate" << y_rotate << "\n"
 					<< "z_rotate" << z_rotate << "\n"
 					<< "left_eye" << left_eye << "\n"
@@ -331,11 +331,13 @@ void FacialLandmarkDetector::detection()
 					<< "eyebrow_right" << eyebrow_right << "\n"
 					<< "mouth_open" << mouth_open << "\n"
 					<< "eyeBallX" << eyeBallX << "\n"
-					<< "eyeBallY" << eyeBallY << "\n" << std::endl;
+					<< "eyeBallY" << eyeBallY << "\n";	
+			}
+			if (Setting::getSetting()->ShowFR) {
 				cv::imshow("Feature points", temp);
 				cv::waitKey(30);
-
 			}
+
 		}
 			
 
