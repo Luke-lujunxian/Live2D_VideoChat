@@ -15,8 +15,14 @@ bool Network_QT::networkInit() {
 void Network_QT::ConnectHandler() {
 	QTcpSocket* s = this->listener->nextPendingConnection();
 
-	while (!s->canReadLine()) {
-
+	{
+		time_t call = time(nullptr);
+		while (!s->canReadLine()) {
+			if (time(nullptr) - call > 3) {
+				s->close();
+				return;
+			}
+		}
 	}
 	if (s->readLine() != "1919810") {
 		s->close();
@@ -93,9 +99,18 @@ void Network_QT::call(std::string ip, int port){
 	QTcpSocket* caller = new QTcpSocket();
 	caller->connectToHost(QString::fromStdString(ip), port);
 	caller->write("1919810");
+
+	{
+		time_t call = time(nullptr);
+		while (!caller->canReadLine()) {
+			if (time(nullptr) - call > 3)
+				throw std::exception("NO_RESPONSE");
+		}
+	}
+
 	if (caller->readLine() != "114514") {
 		caller->close();
-		throw "NO_RESPONSE";
+		throw std::exception("NO_RESPONSE");
 	}
 
 	json exchange;
@@ -109,6 +124,15 @@ void Network_QT::call(std::string ip, int port){
 
 	exchange["data"]["model_id"] = Setting::getSetting()->getModelID();
 	caller->write(exchange.dump().c_str(),exchange.dump().length());
+
+	{
+		time_t call = time(nullptr);
+		while (!caller->canReadLine()) {
+			if (time(nullptr) - call > 3)
+				throw std::exception("NO_RESPONSE");
+		}
+	}
+
 	json info = json::parse(caller->readLine());
 	if (info["ID"]["Accept"]) {
 		MotionObject* thisCall = new MotionObject(info["data"]["session_id"]);
@@ -130,9 +154,10 @@ void Network_QT::call(std::string ip, int port){
 
 
 void Network_QT::call(std::string target){//IPv4 Only
+	qDebug() << "Calling:"<<" " << QString::fromStdString(target);
 	if (target.find_first_of(':') == std::string::npos) {
 		if (target.find_first_of('£º') == std::string::npos) {
-			throw "BAD_ADDRESS";
+			throw std::exception("BAD_ADDRESS");
 		}
 		else
 		{
@@ -143,7 +168,8 @@ void Network_QT::call(std::string target){//IPv4 Only
 		call(target.substr(target.find_first_of(':')), std::stoi(target.substr(target.find_first_of(':') + 1, target.length() - target.find_first_of(':') - 1)));
 	}
 	catch (std::string e) {
-		throw "BAD_ADDRESS";
+		throw std::exception("BAD_ADDRESS");
+		
 	}
 }
 
@@ -153,6 +179,18 @@ Network_QT::Network_QT() {
 	sendObject["ID"];
 	sendObject["data"];
 
+}
+Network_QT::~Network_QT() {
+	delete listener;
+	for (QThread* thd : calls) {
+		delete thd;
+	}
+	for (CallObj* obj : callObjs) {
+		delete obj;
+	}
+	for (MotionObject* obj : displayObjects) {
+		delete obj;
+	}
 }
 
 std::string GenerateGuid() {
@@ -165,4 +203,7 @@ CallObj::CallObj(MotionObject* motion, QTcpSocket* s) {
 	QObject::connect(s, &QTcpSocket::readyRead, this, &CallObj::writeObject);
 	QObject::connect(FacialLandmarkDetector::getInstance(), &FacialLandmarkDetector::NewDetection, this, &CallObj::sendObject);
 	Audio::getInstance()->audioStart();
+}
+CallObj::~CallObj() {
+	delete s;
 }

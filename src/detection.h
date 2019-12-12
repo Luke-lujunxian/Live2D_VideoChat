@@ -57,7 +57,7 @@ public:
 	}
 	void startDetector() {
 		if (detectThread != nullptr && detectThread->joinable()) {
-			throw "Already Running";
+			throw (std::string)"Already Running";
 		}
 		else {
 			CameraInitError = false;

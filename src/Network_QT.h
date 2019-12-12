@@ -80,7 +80,7 @@ public:
 	}
 
 	LatencyState getLatencyState() {
-		int delay = clock(); -lastSuccessful;
+		int delay = clock() -lastSuccessful;
 		if (delay <= 300) {
 			return NORMAL;
 		}
@@ -126,9 +126,10 @@ public:
 	}
 
 private:
-	std::vector<MotionObject*> displayObjects;
+	std::vector<MotionObject*> displayObjects  = std::vector<MotionObject*>(5);
 	json sendObject;
 	Network_QT();
+	~Network_QT();
 	Network_QT(Network_QT&) = delete;
 	Network_QT& operator=(Network_QT) = delete;
 	QTcpServer* listener;
@@ -151,6 +152,7 @@ class CallObj :public QObject {
 	QTcpSocket* s;
 public:
 	CallObj(MotionObject* motion, QTcpSocket* s);
+	~CallObj();
 	QTcpSocket* getSocket() {
 		return s;
 	}

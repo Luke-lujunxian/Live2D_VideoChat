@@ -39,7 +39,7 @@ private:
 };
 bool setError(QWidget* obj);
 
-bool clearError(QWidget* obj, bool AC);
+bool clearError(QWidget* obj, bool AC = true);
 
 int listDevices(std::vector<std::string>& list);
 

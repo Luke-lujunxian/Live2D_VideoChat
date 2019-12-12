@@ -1,5 +1,5 @@
 #include "settingwin.h"
-#include "ui_setting.h"
+#include "ui_SettingWin.h"
 #include "setting.h"
 #include "errorwin.h"
 #include <QFileDialog>

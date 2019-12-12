@@ -158,9 +158,13 @@ public:
         label_Profile = new QLabel(centralwidget);
         label_Profile->setObjectName(QString::fromUtf8("label_Profile"));
         label_Profile->setGeometry(QRect(10, 10, 41, 41));
+        sizePolicy.setHeightForWidth(label_Profile->sizePolicy().hasHeightForWidth());
+        label_Profile->setSizePolicy(sizePolicy);
         label_Name = new QLabel(centralwidget);
         label_Name->setObjectName(QString::fromUtf8("label_Name"));
         label_Name->setGeometry(QRect(60, 11, 111, 41));
+        sizePolicy.setHeightForWidth(label_Name->sizePolicy().hasHeightForWidth());
+        label_Name->setSizePolicy(sizePolicy);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));

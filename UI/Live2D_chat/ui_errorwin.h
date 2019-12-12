@@ -36,7 +36,8 @@ public:
         ErrorWin->setSizePolicy(sizePolicy);
         label = new QLabel(ErrorWin);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(90, 30, 101, 16));
+        label->setGeometry(QRect(10, 10, 251, 61));
+        label->setAlignment(Qt::AlignCenter);
         pushButton = new QPushButton(ErrorWin);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setGeometry(QRect(100, 80, 75, 23));

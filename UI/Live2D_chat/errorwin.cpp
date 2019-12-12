@@ -12,3 +12,7 @@ ErrorWin::~ErrorWin()
 {
     delete ui;
 }
+
+void ErrorWin::setErrorMsg(std::string errorMsg) {
+    ui->label->setText(QString::fromStdString(errorMsg));
+}

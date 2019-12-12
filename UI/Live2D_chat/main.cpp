@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    FacialLandmarkDetector::getInstance();
+    //FacialLandmarkDetector::getInstance();
 
     QApplication a(argc, argv);
     MainWindow w;

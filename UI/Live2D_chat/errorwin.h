@@ -15,6 +15,8 @@ public:
     explicit ErrorWin(QWidget *parent = nullptr);
     ~ErrorWin();
 
+    void setErrorMsg(std::string);
+
 private:
     Ui::ErrorWin *ui;
 };
