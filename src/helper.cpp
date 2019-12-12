@@ -1,5 +1,6 @@
 #include <helper.hpp>
-
+#include <QtNetwork/qnetworkinterface.h>
+#include <QList>
 std::string getHostMacAddress()
 {
     QList<QNetworkInterface> nets = QNetworkInterface::allInterfaces();// 获取所有网络接口列表
@@ -26,16 +27,3 @@ inline double euclideanDistance(double x1, double y1, double x2, double y2) {
     return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 }
 
-template<typename T>
-struct euclideanPoint {
-    T x;
-    T y;
-};
-
-template<typename T>
-inline euclideanPoint<T> rotate(T x, T y, double theta) {
-    euclideanPoint<T> temp;
-    temp.x = cos(theta) * x + sin(theta) * y;
-    temp.y = cos(theta) * y - sin(theta) * x;
-    return temp;
-}

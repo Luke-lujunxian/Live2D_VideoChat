@@ -133,7 +133,7 @@ void FacialLandmarkDetector::detection()
 		// Load face detection and pose estimation models.
 		frontal_face_detector detector = get_frontal_face_detector();
 		shape_predictor pose_model;
-		haarcascade_eye_tree_eyeglasses.load("..\\..\\\res\\haarcascade_eye_tree_eyeglasses.xml");
+		haarcascade_eye_tree_eyeglasses.load("..\\..\\res\\haarcascade_eye_tree_eyeglasses.xml");
 		deserialize("..\\..\\res\\shape_predictor_68_face_landmarks.dat") >> pose_model; //TODO:Fix Path
 
 		// Grab and process frames until the main window is closed by the user.
@@ -271,7 +271,7 @@ void FacialLandmarkDetector::detection()
 					}
 				}
 				catch (std::exception e) {
-					std::cout << e.what();
+					qDebug() << e.what();
 				}
 
 
