@@ -345,6 +345,7 @@ void FacialLandmarkDetector::detection()
 	}catch (serialization_error & e)
 	{
 		std::cerr << "Fail to load model" << std::endl;
+		qDebug().noquote() << "Fail to load model";
 		this->ModelLoadError = true;
 		return;
 	}

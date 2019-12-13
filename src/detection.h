@@ -5,8 +5,8 @@
 #include <opencv2/opencv.hpp>
 #include <Network_QT.h>
 #include <Setting.h>
-#include <qobject.h>
-#include <qdebug.h>
+#include <QObject>
+#include <QDebug>
 
 typedef struct RawFacePos {
 	float angle;//+clockwise TODO

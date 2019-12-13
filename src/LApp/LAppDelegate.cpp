@@ -15,6 +15,8 @@
 #include "LAppLive2DManager.hpp"
 #include "LAppTextureManager.hpp"
 
+#include <QDebug>
+
 using namespace Csm;
 using namespace std;
 using namespace LAppDefine;
@@ -25,6 +27,8 @@ namespace {
 
 LAppDelegate* LAppDelegate::GetInstance()
 {
+	qDebug().noquote() << "[CheckPoint2]";
+
     if (s_instance == NULL)
     {
         s_instance = new LAppDelegate();
@@ -45,6 +49,8 @@ void LAppDelegate::ReleaseInstance()
 
 bool LAppDelegate::Initialize()
 {
+	qDebug().noquote() << "[CheckPoint3]";
+
     if (DebugLogEnable)
     {
         LAppPal::PrintLog("START");

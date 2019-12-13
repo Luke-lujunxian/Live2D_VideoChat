@@ -14,16 +14,11 @@ public:
 public:
 	void update(const nlohmann::json* data);
 	//void initialize(ICubismModelSetting* setting)
-	void setDefaultExpression();
-	void setErrorExpression();
 
 private:
 	void setExpression(const nlohmann::json* data);
-	void resetCurrentExpression();
 
 private:
 	Csm::ACubismMotion* _currentExpression = nullptr;
-	Csm::ACubismMotion* _defaultExpression = nullptr;
-	Csm::ACubismMotion* _errorExpression = nullptr;
 
 };

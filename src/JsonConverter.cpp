@@ -57,7 +57,6 @@ private:
 
 void JsonConverter::rewrite(nlohmann::json& j, const nlohmann::json* src) {
 	j["Type"] = "Live2D Expression";
-	qDebug().noquote() << QString(src->dump().c_str());
 	auto data = (*src)["data"];
 
 	auto brow = data["brow"];

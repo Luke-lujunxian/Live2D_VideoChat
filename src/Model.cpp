@@ -13,15 +13,7 @@ Model::Model()
 	: LAppModel() { }
 
 Model::~Model() {
-	resetCurrentExpression();
-	if (_defaultExpression != nullptr) {
-		ACubismMotion::Delete(_defaultExpression);
-		_defaultExpression = nullptr;
-	}
-	if (_errorExpression != nullptr) {
-		ACubismMotion::Delete(_errorExpression);
-		_errorExpression = nullptr;
-	}
+	_currentExpression = nullptr;
 }
 
 //void Model::initialize(ICubismModelSetting* setting) {
@@ -122,10 +114,10 @@ void Model::update(const nlohmann::json* data) {
 	// Expression
 	_model->LoadParameters();	// For unknown reasons, if this line is removed the model will become ÕÅ ×ì ±Õ ÑÛ ÈË
 	if (data == nullptr) {
-		//// Case: No new facial data
+		// Case: No new facial data
 		if (_currentExpression != nullptr) {
 			// Replay the last obtained facial data
-			_expressionManager->StartMotionPriority(_currentExpression, false, 3);
+			//_expressionManager->StartMotionPriority(_currentExpression, false, 3);
 		}
 		else {
 			// Do nothing
@@ -134,13 +126,19 @@ void Model::update(const nlohmann::json* data) {
 	else {
 		// Case: New facial data obtained
 		setExpression(data);
-		_expressionManager->StartMotionPriority(_currentExpression, false, 3);	// Level3 is the highest 'Force' level
+		_expressionManager->StartMotionPriority(_currentExpression, true, 3);	// Level3 is the highest 'Force' level
 		//SetRandomExpression();
 	}
 	_model->SaveParameters();
 	//////////////////////////////////////////////////////////////////////////
 
 	_expressionManager->UpdateMotion(_model, deltaTimeSeconds);
+
+	// Auto breathing
+	if (_breath != nullptr)
+	{
+		_breath->UpdateParameters(_model, deltaTimeSeconds);
+	}
 
 	// Set pose
 	if (_pose != nullptr)
@@ -152,7 +150,8 @@ void Model::update(const nlohmann::json* data) {
 }
 
 void Model::setExpression(const nlohmann::json* data) {
-	resetCurrentExpression();
+	//resetCurrentExpression();
+	qDebug().noquote() << "[Model] Set new facial data";
 
 	csmSizeInt size;
 	csmByte* buffer;
@@ -164,21 +163,3 @@ void Model::setExpression(const nlohmann::json* data) {
 	DeleteBuffer(buffer, "[Live expression data]");
 }
 
-void Model::setDefaultExpression() {
-	resetCurrentExpression();
-	_currentExpression = _defaultExpression;
-}
-
-void Model::setErrorExpression() {
-	resetCurrentExpression();
-	_currentExpression = _errorExpression;
-}
-
-void Model::resetCurrentExpression() {
-	if (_currentExpression != nullptr) {
-		if (_currentExpression != _defaultExpression && _currentExpression != _errorExpression) {
-			ACubismMotion::Delete(_currentExpression);
-		}
-		_currentExpression = nullptr;
-	}
-}

@@ -3,7 +3,7 @@
 #include "Communicator.hpp"
 
 #define _TEST_RUN__
-#include "../tests/TestAnimator.hpp"
+#include "../tests/TestFacialDetection.hpp"
 #undef _TEST_RUN__
 
 
@@ -11,17 +11,18 @@ int main(int argc, char *argv[]) {
 	using namespace Live2D::Cubism::Framework;
 
 	// Cubism Framework initialization
-	//LAppAllocator allocator;
-	//CubismFramework::StartUp(&allocator);
-	//CubismFramework::Initialize();
+	LAppAllocator allocator;
+	CubismFramework::StartUp(&allocator);
+	CubismFramework::Initialize();
+
 
 	// Other initializations
-	Communicator::initialize();
+	//Communicator::initialize();
 
 	// Do something here
-	return TestAnimator::runTest();
+	TestFacialDetection::runTest();
 	
 
 	// Cubism Framework disposal
-	//CubismFramework::Dispose();
+	CubismFramework::Dispose();
 }

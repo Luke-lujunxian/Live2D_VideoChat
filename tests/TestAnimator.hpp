@@ -10,6 +10,7 @@ public:
 	static int runTest() {
 		auto dummyHandle = FacialLandmarkDetector::getInstance();
 
+		qDebug().noquote() << "[CheckPoint1]";
 		// create the application instance
 		if (LAppDelegate::GetInstance()->Initialize() == GL_FALSE)
 		{
