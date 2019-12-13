@@ -17,39 +17,6 @@
 			{"Name":"f06","File":"expressions/F07.exp3.json"},
 			{"Name":"f07","File":"expressions/F08.exp3.json"}
 		],
-		"Motions": {
-			"Idle": [
-			  {"File":"motions/haru_g_idle.motion3.json" ,"FadeInTime":0.5, "FadeOutTime":0.5},
-			  {"File":"motions/haru_g_m15.motion3.json" ,"FadeInTime":0.5, "FadeOutTime":0.5}
-			],
-			"TapBody": [
-			  {"File":"motions/haru_g_m06.motion3.json" ,"FadeInTime":0.5, "FadeOutTime":0.5},
-			  {"File":"motions/haru_g_m09.motion3.json" ,"FadeInTime":0.5, "FadeOutTime":0.5},
-			  {"File":"motions/haru_g_m20.motion3.json" ,"FadeInTime":0.5, "FadeOutTime":0.5},
-			  {"File":"motions/haru_g_m26.motion3.json" ,"FadeInTime":0.5, "FadeOutTime":0.5}
-			]
-		},
 		"UserData": "Haru.userdata3.json"
-	},
-	"Groups": [
-		{
-			"Target": "Parameter",
-			"Name": "LipSync",
-			"Ids": [
-				"ParamMouthOpenY"
-			]
-		},
-		{
-			"Target": "Parameter",
-			"Name": "EyeBlink",
-			"Ids": [
-				"ParamEyeLOpen",
-				"ParamEyeROpen"
-			]
-		}
-	],
-	"HitAreas": [
-		{"Name":"Head", "Id":"HitArea"},
-		{"Name":"Body", "Id":"HitArea2"}
-	]
+	}
 }

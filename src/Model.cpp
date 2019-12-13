@@ -120,19 +120,35 @@ void Model::update(const nlohmann::json* data) {
 	_userTimeSeconds += deltaTimeSeconds;
 
 	// Expression
-	_model->LoadParameters();
+	_model->LoadParameters();	// For unknown reasons, if this line is removed the model will become ÕÅ ×ì ±Õ ÑÛ ÈË
 	if (data == nullptr) {
-		//StartRandomMotion(LAppDefine::MotionGroupIdle, LAppDefine::PriorityIdle);
-		//SetRandomExpression();
+		//// Case: No new facial data
+		if (_currentExpression != nullptr) {
+			// Replay the last obtained facial data
+			_expressionManager->StartMotionPriority(_currentExpression, false, 3);
+		}
+		else {
+			// Do nothing
+		}
 	}
 	else {
+		// Case: New facial data obtained
 		setExpression(data);
 		_expressionManager->StartMotionPriority(_currentExpression, false, 3);	// Level3 is the highest 'Force' level
+		//SetRandomExpression();
 	}
 	_model->SaveParameters();
 	//////////////////////////////////////////////////////////////////////////
 
-	Update();
+	_expressionManager->UpdateMotion(_model, deltaTimeSeconds);
+
+	// Set pose
+	if (_pose != nullptr)
+	{
+		_pose->UpdateParameters(_model, deltaTimeSeconds);
+	}
+
+	_model->Update();
 }
 
 void Model::setExpression(const nlohmann::json* data) {

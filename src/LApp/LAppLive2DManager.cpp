@@ -152,12 +152,25 @@ void LAppLive2DManager::OnUpdate() const
 
 	projection = saveProjection;
 
+
+	// Pre-call before a model is rendered
 	LAppDelegate::GetInstance()->GetView()->PreModelDraw(*_self_model);
 
-	auto nj = Communicator::getInstance()->getNJson();
-	_self_model->update(nj);
+	// Fetch the facial data json.
+	auto nj =  Communicator::getInstance()->getNJson();
+	if (nj == nullptr) {
+		_self_model->update(nullptr);
+	}
+	else {
+		// Make a copy in case the original json is overwritten by other threads.
+		nlohmann::json njCopy(*nj);
+
+		// Perform update
+		_self_model->update(&njCopy);
+	}
 	_self_model->Draw(projection);
 
+	// Post-call after a model is rendered
 	LAppDelegate::GetInstance()->GetView()->PostModelDraw(*_self_model);
 }
 
