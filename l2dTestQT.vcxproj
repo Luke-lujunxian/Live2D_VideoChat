@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <TRACEDESIGNTIME>true</TRACEDESIGNTIME>
+    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <Keyword>QtVS_v301</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)src\UI;$(ProjectDir)include\stb\include;$(ProjectDir)include\Cubism\thirdparty\glfw-3.3.bin.WIN64\include;$(ProjectDir)include\Cubism\thirdparty\glew-2.1.0\include;$(ProjectDir)src;$(ProjectDir)include\Cubism\Core;$(ProjectDir)include\Cubism\Framework\src;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\Cubism\Framework\Debug;$(ProjectDir)lib\Cubism\Core\lib\windows\x86_64\141;$(ProjectDir)lib\Cubism\Core\dll\windows\x86_64;$(ProjectDir)lib\Cubism\thirdParty\glew-2.1.0\x64;$(ProjectDir)lib\Cubism\thirdParty\glfw-3.3.bin.WIN64\lib-vc2017;$(ProjectDir)lib\opencv\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>F:\github\Live2D_VideoChat\include;F:\github\Live2D_VideoChat\include\stb\include;F:\github\Live2D_VideoChat\include\Cubism\thirdparty\glfw-3.3.bin.WIN64\include;F:\github\Live2D_VideoChat\include\Cubism\thirdparty\glew-2.1.0\include;F:\github\Live2D_VideoChat\src;F:\github\Live2D_VideoChat\include\Cubism\Core;F:\github\Live2D_VideoChat\include\Cubism\Framework\src;F:\cpp_libs\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\github\Live2D_VideoChat\lib\Cubism\Framework\Release;F:\github\Live2D_VideoChat\lib\Cubism\Core\lib\windows\x86_64\141;F:\github\Live2D_VideoChat\lib\Cubism\Core\dll\windows\x86_64;F:\github\Live2D_VideoChat\lib\Cubism\thirdParty\glew-2.1.0\x64;F:\github\Live2D_VideoChat\lib\Cubism\thirdParty\glfw-3.3.bin.WIN64\lib-vc2017;F:\cpp_libs\opencv\build\x64\vc15\lib;F:\cpp_libs\opencv\build\x64\vc15\bin;$(LibraryPath)</LibraryPath>
+    <OutDir>F:\github\Live2D_VideoChat\Release\x64\</OutDir>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>Qt 5.13.2</QtInstall>
+    <QtModules>core;gui;multimedia;network;widgets</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>Qt 5.13.2</QtInstall>
+    <QtModules>core;gui;multimedia;network;widgets</QtModules>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;Framework.lib;Live2DCubismCore_MDd.lib;Live2DCubismCore_MTd.lib;Live2DCubismCore_MD.lib;Live2DCubismCore_MT.lib;opencv_world412d.lib;opencv_world412.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <QtMoc>
+      <QtMocDir>$(OutDir)moc\</QtMocDir>
+    </QtMoc>
+    <QtRcc>
+      <QtRccDir>$(OutDir)rcc\</QtRccDir>
+    </QtRcc>
+    <QtUic>
+      <QtUicDir>$(OutDir)uic\</QtUicDir>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;Framework.lib;Live2DCubismCore_MD.lib;opencv_world412d.lib;opencv_world412.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+    <QtMoc>
+      <QtMocDir>$(OutDir)moc\</QtMocDir>
+    </QtMoc>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <QtRcc Include="l2dTestQT.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\detection.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\Communicator.hpp" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\about.h" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\chat.h" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\connecting.h" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\errorwin.h" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\mainwindow.h" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\settingwin.h" />
+    <ClInclude Include="TestMainWindow.hpp" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\Audio.h" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\helper.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppAllocator.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppDefine.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppDelegate.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppLive2DManager.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppModel.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppPal.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppSprite.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppTextureManager.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppView.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\Model.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\JsonConverter.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\src\Setting.h" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\tests\TestAnimator.hpp" />
+    <ClInclude Include="F:\github\Live2D_VideoChat\tests\TestFacialDetection.hpp" />
+    <QtMoc Include="F:\github\Live2D_VideoChat\src\Network_QT.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\Audio.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\Communicator.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\detection.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\helper.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppAllocator.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppDefine.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppDelegate.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppLive2DManager.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppModel.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppPal.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppSprite.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppTextureManager.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppView.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\main.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\Model.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\Network_QT.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\JsonConverter.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\Setting.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\about.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\chat.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\connecting.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\errorwin.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\mainwindow.cpp" />
+    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\settingwin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="F:\github\Live2D_VideoChat\UI\about.ui" />
+    <QtUic Include="F:\github\Live2D_VideoChat\UI\Chat.ui" />
+    <QtUic Include="F:\github\Live2D_VideoChat\UI\connecting.ui" />
+    <QtUic Include="F:\github\Live2D_VideoChat\UI\errorwin.ui" />
+    <QtUic Include="F:\github\Live2D_VideoChat\UI\MainWindow.ui" />
+    <QtUic Include="F:\github\Live2D_VideoChat\UI\SettingWin.ui" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
