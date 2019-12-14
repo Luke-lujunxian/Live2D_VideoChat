@@ -42,178 +42,181 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\detection.h">
+    <QtMoc Include="src\detection.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\Network_QT.h">
+    <QtMoc Include="src\Network_QT.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\Audio.h">
+    <QtMoc Include="src\Audio.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\about.h">
+    <QtMoc Include="src\UI\about.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\chat.h">
+    <QtMoc Include="src\UI\chat.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\connecting.h">
+    <QtMoc Include="src\UI\connecting.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\errorwin.h">
+    <QtMoc Include="src\UI\errorwin.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\mainwindow.h">
+    <QtMoc Include="src\UI\mainwindow.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\settingwin.h">
+    <QtMoc Include="src\UI\settingwin.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\helper.hpp">
+    <ClInclude Include="src\helper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\Model.hpp">
+    <ClInclude Include="src\Model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\Setting.h">
+    <ClInclude Include="src\Setting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppAllocator.hpp">
+    <ClInclude Include="src\LApp\LAppAllocator.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppDefine.hpp">
+    <ClInclude Include="src\LApp\LAppDefine.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppDelegate.hpp">
+    <ClInclude Include="src\LApp\LAppDelegate.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppLive2DManager.hpp">
+    <ClInclude Include="src\LApp\LAppLive2DManager.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppModel.hpp">
+    <ClInclude Include="src\LApp\LAppModel.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppPal.hpp">
+    <ClInclude Include="src\LApp\LAppPal.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppSprite.hpp">
+    <ClInclude Include="src\LApp\LAppSprite.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppTextureManager.hpp">
+    <ClInclude Include="src\LApp\LAppTextureManager.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppView.hpp">
+    <ClInclude Include="src\LApp\LAppView.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\tests\TestFacialDetection.hpp">
+    <ClInclude Include="tests\TestFacialDetection.hpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\JsonConverter.hpp">
+    <ClInclude Include="src\JsonConverter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\tests\TestAnimator.hpp">
+    <ClInclude Include="tests\TestAnimator.hpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\Communicator.hpp">
+    <ClInclude Include="src\Communicator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestMainWindow.hpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\helper.cpp">
+    <ClCompile Include="src\helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Model.cpp">
+    <ClCompile Include="src\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Network_QT.cpp">
+    <ClCompile Include="src\Network_QT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Setting.cpp">
+    <ClCompile Include="src\Setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppAllocator.cpp">
+    <ClCompile Include="src\LApp\LAppAllocator.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppDefine.cpp">
+    <ClCompile Include="src\LApp\LAppDefine.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppDelegate.cpp">
+    <ClCompile Include="src\LApp\LAppDelegate.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppLive2DManager.cpp">
+    <ClCompile Include="src\LApp\LAppLive2DManager.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppModel.cpp">
+    <ClCompile Include="src\LApp\LAppModel.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppPal.cpp">
+    <ClCompile Include="src\LApp\LAppPal.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppSprite.cpp">
+    <ClCompile Include="src\LApp\LAppSprite.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppTextureManager.cpp">
+    <ClCompile Include="src\LApp\LAppTextureManager.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppView.cpp">
+    <ClCompile Include="src\LApp\LAppView.cpp">
       <Filter>Source Files\LApp</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\JsonConverter.cpp">
+    <ClCompile Include="src\JsonConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Communicator.cpp">
+    <ClCompile Include="src\Communicator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Audio.cpp">
+    <ClCompile Include="src\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\detection.cpp">
+    <ClCompile Include="src\detection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\about.cpp">
+    <ClCompile Include="src\UI\about.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\chat.cpp">
+    <ClCompile Include="src\UI\chat.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\connecting.cpp">
+    <ClCompile Include="src\UI\connecting.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\errorwin.cpp">
+    <ClCompile Include="src\UI\errorwin.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\mainwindow.cpp">
+    <ClCompile Include="src\UI\mainwindow.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\settingwin.cpp">
+    <ClCompile Include="src\UI\settingwin.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\about.ui">
+    <QtUic Include="UI\about.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\Chat.ui">
+    <QtUic Include="UI\Chat.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\connecting.ui">
+    <QtUic Include="UI\connecting.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\errorwin.ui">
+    <QtUic Include="UI\errorwin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\MainWindow.ui">
+    <QtUic Include="UI\MainWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\SettingWin.ui">
+    <QtUic Include="UI\SettingWin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

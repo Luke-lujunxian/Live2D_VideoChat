@@ -35,9 +35,9 @@
     <OutDir>$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>F:\github\Live2D_VideoChat\include;F:\github\Live2D_VideoChat\include\stb\include;F:\github\Live2D_VideoChat\include\Cubism\thirdparty\glfw-3.3.bin.WIN64\include;F:\github\Live2D_VideoChat\include\Cubism\thirdparty\glew-2.1.0\include;F:\github\Live2D_VideoChat\src;F:\github\Live2D_VideoChat\include\Cubism\Core;F:\github\Live2D_VideoChat\include\Cubism\Framework\src;F:\cpp_libs\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\github\Live2D_VideoChat\lib\Cubism\Framework\Release;F:\github\Live2D_VideoChat\lib\Cubism\Core\lib\windows\x86_64\141;F:\github\Live2D_VideoChat\lib\Cubism\Core\dll\windows\x86_64;F:\github\Live2D_VideoChat\lib\Cubism\thirdParty\glew-2.1.0\x64;F:\github\Live2D_VideoChat\lib\Cubism\thirdParty\glfw-3.3.bin.WIN64\lib-vc2017;F:\cpp_libs\opencv\build\x64\vc15\lib;F:\cpp_libs\opencv\build\x64\vc15\bin;$(LibraryPath)</LibraryPath>
-    <OutDir>F:\github\Live2D_VideoChat\Release\x64\</OutDir>
+    <IncludePath>$(ProjectDir)src\UI;$(ProjectDir)include\stb\include;$(ProjectDir)include\Cubism\thirdparty\glfw-3.3.bin.WIN64\include;$(ProjectDir)include\Cubism\thirdparty\glew-2.1.0\include;$(ProjectDir)src;$(ProjectDir)include\Cubism\Core;$(ProjectDir)include\Cubism\Framework\src;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\Cubism\Framework\Debug;$(ProjectDir)lib\Cubism\Core\lib\windows\x86_64\141;$(ProjectDir)lib\Cubism\Core\dll\windows\x86_64;$(ProjectDir)lib\Cubism\thirdParty\glew-2.1.0\x64;$(ProjectDir)lib\Cubism\thirdParty\glfw-3.3.bin.WIN64\lib-vc2017;$(ProjectDir)lib\opencv\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -110,68 +110,69 @@
     <QtRcc Include="l2dTestQT.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\detection.h" />
+    <QtMoc Include="src\detection.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\Communicator.hpp" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\about.h" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\chat.h" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\connecting.h" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\errorwin.h" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\mainwindow.h" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\UI\settingwin.h" />
+    <ClInclude Include="src\Communicator.hpp" />
+    <QtMoc Include="src\UI\about.h" />
+    <QtMoc Include="src\UI\chat.h" />
+    <QtMoc Include="src\UI\connecting.h" />
+    <QtMoc Include="src\UI\errorwin.h" />
+    <QtMoc Include="src\UI\mainwindow.h" />
+    <QtMoc Include="src\UI\settingwin.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="TestMainWindow.hpp" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\Audio.h" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\helper.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppAllocator.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppDefine.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppDelegate.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppLive2DManager.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppModel.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppPal.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppSprite.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppTextureManager.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\LApp\LAppView.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\Model.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\JsonConverter.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\src\Setting.h" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\tests\TestAnimator.hpp" />
-    <ClInclude Include="F:\github\Live2D_VideoChat\tests\TestFacialDetection.hpp" />
-    <QtMoc Include="F:\github\Live2D_VideoChat\src\Network_QT.h" />
+    <QtMoc Include="src\Audio.h" />
+    <ClInclude Include="src\helper.hpp" />
+    <ClInclude Include="src\LApp\LAppAllocator.hpp" />
+    <ClInclude Include="src\LApp\LAppDefine.hpp" />
+    <ClInclude Include="src\LApp\LAppDelegate.hpp" />
+    <ClInclude Include="src\LApp\LAppLive2DManager.hpp" />
+    <ClInclude Include="src\LApp\LAppModel.hpp" />
+    <ClInclude Include="src\LApp\LAppPal.hpp" />
+    <ClInclude Include="src\LApp\LAppSprite.hpp" />
+    <ClInclude Include="src\LApp\LAppTextureManager.hpp" />
+    <ClInclude Include="src\LApp\LAppView.hpp" />
+    <ClInclude Include="src\Model.hpp" />
+    <ClInclude Include="src\JsonConverter.hpp" />
+    <ClInclude Include="src\Setting.h" />
+    <ClInclude Include="tests\TestAnimator.hpp" />
+    <ClInclude Include="tests\TestFacialDetection.hpp" />
+    <QtMoc Include="src\Network_QT.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Audio.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Communicator.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\detection.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\helper.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppAllocator.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppDefine.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppDelegate.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppLive2DManager.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppModel.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppPal.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppSprite.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppTextureManager.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\LApp\LAppView.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\main.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Model.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Network_QT.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\JsonConverter.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\Setting.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\about.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\chat.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\connecting.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\errorwin.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\mainwindow.cpp" />
-    <ClCompile Include="F:\github\Live2D_VideoChat\src\UI\settingwin.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\Communicator.cpp" />
+    <ClCompile Include="src\detection.cpp" />
+    <ClCompile Include="src\helper.cpp" />
+    <ClCompile Include="src\LApp\LAppAllocator.cpp" />
+    <ClCompile Include="src\LApp\LAppDefine.cpp" />
+    <ClCompile Include="src\LApp\LAppDelegate.cpp" />
+    <ClCompile Include="src\LApp\LAppLive2DManager.cpp" />
+    <ClCompile Include="src\LApp\LAppModel.cpp" />
+    <ClCompile Include="src\LApp\LAppPal.cpp" />
+    <ClCompile Include="src\LApp\LAppSprite.cpp" />
+    <ClCompile Include="src\LApp\LAppTextureManager.cpp" />
+    <ClCompile Include="src\LApp\LAppView.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Network_QT.cpp" />
+    <ClCompile Include="src\JsonConverter.cpp" />
+    <ClCompile Include="src\Setting.cpp" />
+    <ClCompile Include="src\UI\about.cpp" />
+    <ClCompile Include="src\UI\chat.cpp" />
+    <ClCompile Include="src\UI\connecting.cpp" />
+    <ClCompile Include="src\UI\errorwin.cpp" />
+    <ClCompile Include="src\UI\mainwindow.cpp" />
+    <ClCompile Include="src\UI\settingwin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\about.ui" />
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\Chat.ui" />
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\connecting.ui" />
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\errorwin.ui" />
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\MainWindow.ui" />
-    <QtUic Include="F:\github\Live2D_VideoChat\UI\SettingWin.ui" />
+    <QtUic Include="UI\about.ui" />
+    <QtUic Include="UI\Chat.ui" />
+    <QtUic Include="UI\connecting.ui" />
+    <QtUic Include="UI\errorwin.ui" />
+    <QtUic Include="UI\MainWindow.ui" />
+    <QtUic Include="UI\SettingWin.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
