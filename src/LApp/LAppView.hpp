@@ -66,30 +66,6 @@ public:
     void ResizeSprite();
 
     /**
-    * @brief タッチされたときに呼ばれる。
-    *
-    * @param[in]       pointX            スクリーンX座標
-    * @param[in]       pointY            スクリーンY座標
-    */
-    void OnTouchesBegan(float pointX, float pointY) const;
-
-    /**
-    * @brief タッチしているときにポインタが動いたら呼ばれる。
-    *
-    * @param[in]       pointX            スクリーンX座標
-    * @param[in]       pointY            スクリーンY座標
-    */
-    void OnTouchesMoved(float pointX, float pointY) const;
-
-    /**
-    * @brief タッチが終了したら呼ばれる。
-    *
-    * @param[in]       pointX            スクリーンX座標
-    * @param[in]       pointY            スクリーンY座標
-    */
-    void OnTouchesEnded(float pointX, float pointY) const;
-
-    /**
     * @brief X座標をView座標に変換する。
     *
     * @param[in]       deviceX            デバイスX座標
@@ -147,7 +123,6 @@ public:
     void SetRenderTargetClearColor(float r, float g, float b);
 
 private:
-    TouchManager* _touchManager;                 ///< タッチマネージャー
     Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
     Csm::CubismViewMatrix* _viewMatrix;      ///< viewMatrix
     GLuint _programId;                       ///< シェーダID

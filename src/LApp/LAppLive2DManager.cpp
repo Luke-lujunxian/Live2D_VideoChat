@@ -81,45 +81,45 @@ void LAppLive2DManager::ReleaseAllModel()
 //}
 
 
-void LAppLive2DManager::OnDrag(csmFloat32 x, csmFloat32 y) const
-{
-    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
-    //{
-    //    LAppModel* model = GetModel(i);
+//void LAppLive2DManager::OnDrag(csmFloat32 x, csmFloat32 y) const
+//{
+//    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
+//    //{
+//    //    LAppModel* model = GetModel(i);
+//
+//    //    model->SetDragging(x, y);
+//    //}
+//	_self_model->SetDragging(x, y);
+//}
 
-    //    model->SetDragging(x, y);
-    //}
-	_self_model->SetDragging(x, y);
-}
-
-void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
-{
-    if (DebugLogEnable)
-    {
-        LAppPal::PrintLog("[APP]tap point: {x:%.2f y:%.2f}", x, y);
-    }
-
-    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
-    //{
-    //    if (_models[i]->HitTest(HitAreaNameHead, x, y))
-    //    {
-    //        if (DebugLogEnable)
-    //        {
-    //            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
-    //        }
-    //    }
-    //    else if (_models[i]->HitTest(HitAreaNameBody, x, y))
-    //    {
-    //        if (DebugLogEnable)
-    //        {
-    //            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
-    //        }
-    //        _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
-    //    }
-    //}
-
-	// Do nothing
-}
+//void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
+//{
+//    if (DebugLogEnable)
+//    {
+//        LAppPal::PrintLog("[APP]tap point: {x:%.2f y:%.2f}", x, y);
+//    }
+//
+//    //for (csmUint32 i = 0; i < _models.GetSize(); i++)
+//    //{
+//    //    if (_models[i]->HitTest(HitAreaNameHead, x, y))
+//    //    {
+//    //        if (DebugLogEnable)
+//    //        {
+//    //            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
+//    //        }
+//    //    }
+//    //    else if (_models[i]->HitTest(HitAreaNameBody, x, y))
+//    //    {
+//    //        if (DebugLogEnable)
+//    //        {
+//    //            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
+//    //        }
+//    //        _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
+//    //    }
+//    //}
+//
+//	// Do nothing
+//}
 
 void LAppLive2DManager::OnUpdate() const
 {

@@ -51,25 +51,6 @@ public:
     void Run();
 
     /**
-    * @brief   OpenGL用　glfwSetMouseButtonCallback用関数。
-    *
-    * @param[in]       window            コールバックを呼んだWindow情報
-    * @param[in]       button            ボタン種類
-    * @param[in]       action            実行結果
-    * @param[in]       modify
-    */
-    void OnMouseCallBack(GLFWwindow* window, int button, int action, int modify);
-
-    /**
-    * @brief   OpenGL用　glfwSetCursorPosCallback用関数。
-    *
-    * @param[in]       window            コールバックを呼んだWindow情報
-    * @param[in]       x                 x座標
-    * @param[in]       y                 x座標
-    */
-    void OnMouseCallBack(GLFWwindow* window, double x, double y);
-
-    /**
     * @brief　シェーダーを登録する。
     */
     GLuint CreateShader();
@@ -131,23 +112,3 @@ private:
     int _windowHeight;                           ///< Initialize関数で設定したウィンドウ高さ
 };
 
-class EventHandler
-{
-public:
-    /**
-    * @brief   glfwSetMouseButtonCallback用コールバック関数。
-    */
-    static void OnMouseCallBack(GLFWwindow* window, int button, int action, int modify)
-    {
-        LAppDelegate::GetInstance()->OnMouseCallBack(window, button, action, modify);
-    }
-
-    /**
-    * @brief   glfwSetCursorPosCallback用コールバック関数。
-    */
-    static void OnMouseCallBack(GLFWwindow* window, double x, double y)
-    {
-         LAppDelegate::GetInstance()->OnMouseCallBack(window, x, y);
-    }
-
-};

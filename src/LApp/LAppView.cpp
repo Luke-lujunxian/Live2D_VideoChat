@@ -31,9 +31,6 @@ LAppView::LAppView():
     _clearColor[2] = 1.0f;
     _clearColor[3] = 0.0f;
 
-    // タッチ関係のイベント管理
-    _touchManager = new TouchManager();
-
     // デバイス座標からスクリーン座標に変換するための
     _deviceToScreen = new CubismMatrix44();
 
@@ -47,7 +44,6 @@ LAppView::~LAppView()
     delete _renderSprite;
     delete _viewMatrix;
     delete _deviceToScreen;
-    delete _touchManager;
     delete _back;
 }
 
@@ -170,40 +166,6 @@ void LAppView::InitializeSprite()
     x = width * 0.5f;
     y = height * 0.5f;
     _renderSprite = new LAppSprite(x, y, static_cast<float>(width), static_cast<float>(height), 0, _programId);
-}
-
-void LAppView::OnTouchesBegan(float px, float py) const
-{
-    _touchManager->TouchesBegan(px, py);
-}
-
-void LAppView::OnTouchesMoved(float px, float py) const
-{
-    float viewX = this->TransformViewX(_touchManager->GetX());
-    float viewY = this->TransformViewY(_touchManager->GetY());
-
-    _touchManager->TouchesMoved(px, py);
-
-    LAppLive2DManager* Live2DManager = LAppLive2DManager::GetInstance();
-    Live2DManager->OnDrag(viewX, viewY);
-}
-
-void LAppView::OnTouchesEnded(float px, float py) const
-{
-    // タッチ終了
-    LAppLive2DManager* live2DManager = LAppLive2DManager::GetInstance();
-    live2DManager->OnDrag(0.0f, 0.0f);
-    {
-
-        // シングルタップ
-        float x = _deviceToScreen->TransformX(_touchManager->GetX()); // 論理座標変換した座標を取得。
-        float y = _deviceToScreen->TransformY(_touchManager->GetY()); // 論理座標変換した座標を取得。
-        if (DebugTouchLogEnable)
-        {
-            LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", x, y);
-        }
-        live2DManager->OnTap(x, y);
-    }
 }
 
 float LAppView::TransformViewX(float deviceX) const
