@@ -4,25 +4,13 @@
 
 #define _TEST_RUN__
 #include "../tests/TestMainWindow.hpp"
+#include "../tests/TestAnimator.hpp"
 #undef _TEST_RUN__
 
 
 int main(int argc, char *argv[]) {
-	using namespace Live2D::Cubism::Framework;
-
-	// Cubism Framework initialization
-	//LAppAllocator allocator;
-	//CubismFramework::StartUp(&allocator);
-	//CubismFramework::Initialize();
-
-
-	// Other initializations
-	//Communicator::initialize();
 
 	// Do something here
-	TestMainWindow::runTest(argc, argv);
-	
+	return TestAnimator::runTest();
 
-	// Cubism Framework disposal
-	//CubismFramework::Dispose();
 }

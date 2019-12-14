@@ -8,7 +8,9 @@
 class TestAnimator {
 public:
 	static int runTest() {
-		auto dummyHandle = FacialLandmarkDetector::getInstance();
+		// Initializations
+		auto _ = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
+		Communicator::initialize();
 
 		// create the application instance
 		if (LAppDelegate::GetInstance()->Initialize() == GL_FALSE)

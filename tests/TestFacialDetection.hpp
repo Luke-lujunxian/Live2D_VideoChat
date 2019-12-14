@@ -13,7 +13,12 @@
 class TestFacialDetection {
 public:
 	static void runTest() {
-		auto dummyHandle = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
+		// Cubism Framework initialization
+		Csm::LAppAllocator allocator;
+		Csm::CubismFramework::StartUp(&allocator);
+		Csm::CubismFramework::Initialize();
+
+		auto _ = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
 
 		while (true) {
 			system("pause");
@@ -33,6 +38,10 @@ public:
 				Utils::CubismJson::Delete(cuJson);
 			}
 		}
+
+
+		// Cubism Framework disposal
+		Csm::CubismFramework::Dispose();
 	}
 
 private:
