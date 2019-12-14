@@ -19,7 +19,7 @@
 using namespace std;
 using namespace LAppDefine;
 
-LAppView::LAppView():
+LAppView::LAppView() :
     _programId(0),
     _back(NULL),
     _renderSprite(NULL),

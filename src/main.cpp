@@ -2,8 +2,8 @@
 
 #define _TEST_RUN__
 //#include "../tests/TestMainWindow.hpp"
-//#include "../tests/TestAnimator.hpp"
-#include "../tests/TestFacialDetection.hpp"
+#include "../tests/TestAnimator.hpp"
+//#include "../tests/TestFacialDetection.hpp"
 #undef _TEST_RUN__
 
 #include "LApp/LAppAllocator.hpp"
@@ -12,6 +12,6 @@
 int main(int argc, char *argv[]) {
 	
 	// Do something here
-	TestFacialDetection::runTest(argc, argv);
+	//TestAnimator::runTest(argc, argv);
 
 }

@@ -10,8 +10,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "LAppAllocator.hpp"
-#include <QObject>
-#include <QThread>
+#include <QWidget>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 class LAppView;
 class LAppTextureManager;
@@ -20,7 +21,7 @@ class LAppTextureManager;
 * @brief   アプリケーションクラス。
 *   Cubism SDK の管理を行う。
 */
-class LAppDelegate : public QObject
+class LAppDelegate : public QOpenGLWidget, protected QOpenGLFunctions
 {
 	Q_OBJECT;
 
@@ -49,11 +50,6 @@ public:
     */
     void Release();
 
-	/**
-	* @brief   Kick off the thread and starts running.
-	*/
-	void startThreadRun();
-
     /**
     * @brief　シェーダーを登録する。
     */
@@ -81,21 +77,16 @@ public:
 
     LAppTextureManager* GetTextureManager() { return _textureManager; }
 
-private slots:
-
 	/**
 	* @brief   実行処理。
 	*/
 	void Run();
 
-signals:
-	void startRunSignal();	// A signal to start Run()
-
 private:
     /**
     * @brief   コンストラクタ
     */
-    LAppDelegate();
+    LAppDelegate(QWidget* parent);
 
     /**
     * @brief   デストラクタ
@@ -125,6 +116,5 @@ private:
     int _windowWidth;                            ///< Initialize関数で設定したウィンドウ幅
     int _windowHeight;                           ///< Initialize関数で設定したウィンドウ高さ
 
-	QThread* _qthread = nullptr;				 /// QThread that maintains the Live2D window
 };
 

@@ -14,6 +14,7 @@
 #include "CubismFramework.hpp"
 #include <Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp>
 
+
 class TouchManager;
 class LAppSprite;
 class LAppModel;
@@ -121,6 +122,13 @@ public:
      * @param[in]   b   青(0.0~1.0)
      */
     void SetRenderTargetClearColor(float r, float g, float b);
+
+protected:
+	//void initializeGL() override;
+
+	//void resizeGL(int width, int height) override;
+
+	//void paintGL() override;
 
 private:
     Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列

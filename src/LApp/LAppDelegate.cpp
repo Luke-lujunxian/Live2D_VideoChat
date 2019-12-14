@@ -7,7 +7,7 @@
 
 #include "LAppDelegate.hpp"
 #include <iostream>
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "LAppView.hpp"
 #include "LAppPal.hpp"
@@ -21,6 +21,8 @@ using namespace Csm;
 using namespace std;
 using namespace LAppDefine;
 
+
+
 namespace {
     LAppDelegate* s_instance = NULL;
 }
@@ -29,7 +31,7 @@ LAppDelegate* LAppDelegate::GetInstance()
 {
     if (s_instance == NULL)
     {
-        s_instance = new LAppDelegate();
+        s_instance = new LAppDelegate(nullptr);	// TODO: change parent pointer to the video chat window
     }
 
     return s_instance;
@@ -120,8 +122,6 @@ void LAppDelegate::Release()
     delete _textureManager;
     delete _view;
 
-	delete _qthread;	// Delete the QThread object
-
     // リソースを解放
     LAppLive2DManager::ReleaseInstance();
 
@@ -174,21 +174,9 @@ void LAppDelegate::Run()
     LAppDelegate::ReleaseInstance();
 }
 
-void LAppDelegate::startThreadRun() {
-	if (_qthread != nullptr && _qthread->isRunning()) {
-		qDebug().noquote() << "[LAppDelegate::startThreadRun] The thread is already started";
-	}
-	else {
-		_qthread = new QThread;
-		GetInstance()->moveToThread(_qthread);
-		QObject::connect(GetInstance(), &LAppDelegate::startRunSignal, GetInstance(), &LAppDelegate::Run);
-		_qthread->start();
-		_qthread->msleep(500);
-		emit startRunSignal();
-	}
-}
 
-LAppDelegate::LAppDelegate():
+LAppDelegate::LAppDelegate(QWidget* parent):
+	QOpenGLWidget(parent),
     _cubismOption(),
     _window(NULL),
     _captured(false),

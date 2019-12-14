@@ -173,6 +173,7 @@
     <QtUic Include="UI\errorwin.ui" />
     <QtUic Include="UI\MainWindow.ui" />
     <QtUic Include="UI\SettingWin.ui" />
+    <QtUic Include="UI\VideoWindow.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

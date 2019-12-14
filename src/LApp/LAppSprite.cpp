@@ -33,7 +33,7 @@ LAppSprite::~LAppSprite()
 {
 }
 
-void LAppSprite::Render() const
+void LAppSprite::Render()
 {
     // 画面サイズを取得する
     int maxWidth, maxHeight;
@@ -81,7 +81,7 @@ void LAppSprite::Render() const
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
-void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]) const
+void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8])
 {
     // 画面サイズを取得する
     int maxWidth, maxHeight;

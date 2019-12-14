@@ -10,13 +10,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+
 /**
 * @brief スプライトを実装するクラス。
 *
 * テクスチャID、Rectの管理。
 *
 */
-class LAppSprite
+class LAppSprite : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
     /**
@@ -58,13 +61,13 @@ public:
     * @brief 描画する
     *
     */
-    void Render() const;
+    void Render();
 
     /**
     * @brief テクスチャIDを指定して描画する
     *
     */
-    void RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]) const;
+    void RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]);
 
     /**
     * @brief コンストラクタ

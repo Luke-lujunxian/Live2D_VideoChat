@@ -6,6 +6,7 @@
 #include "Communicator.hpp"
 #include "detection.h"
 #include <QApplication>
+#include <QTimer>
 
 class TestAnimator {
 public:
@@ -14,15 +15,15 @@ public:
 		FacialLandmarkDetector::getInstance()->startDetector();
 
 		// create the application instance
-		if (LAppDelegate::GetInstance()->Initialize() == GL_FALSE)
-		{
-			return 1;
-		}
+		auto lapp = LAppDelegate::GetInstance();
 
-		LAppDelegate::GetInstance()->startThreadRun();
+		QCoreApplication a(argc, argv);
+		a.exec();
+		
+		lapp->Release();
+		LAppDelegate::ReleaseInstance();
 
-
-		return 0;
+		return 114;
 	}
 
 private:
