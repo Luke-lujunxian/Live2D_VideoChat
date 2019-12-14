@@ -33,14 +33,13 @@ private:
 		nuturalFace.inited = false;
 		captureNuturalFaceFlag = false;
 		detectThread = nullptr;
-		startDetector();
 	};
 	~FacialLandmarkDetector() {
-		detectThread->join();
+		//detectThread->join();
 	}
 	FacialLandmarkDetector(FacialLandmarkDetector&) = delete;
 	FacialLandmarkDetector operator=(FacialLandmarkDetector) = delete;
-	std::thread* detectThread;
+	QThread* detectThread;
 	static FacialLandmarkDetector* facialLandmarkDetector;
 	RawFacePos nuturalFace;
 	bool captureNuturalFaceFlag;
@@ -56,14 +55,19 @@ public:
 		return facialLandmarkDetector;
 	}
 	void startDetector() {
-		if (detectThread != nullptr && detectThread->joinable()) {
+		if (detectThread != nullptr && detectThread->isRunning()) {
 			throw (std::string)"Already Running";
 		}
 		else {
 			CameraInitError = false;
 			ModelLoadError = false;
 			MultipleFaceWarning = false;
-			detectThread = new std::thread(&FacialLandmarkDetector::detection, this);
+			//detectThread = new std::thread(&FacialLandmarkDetector::detection, this);
+			detectThread = new QThread();
+			facialLandmarkDetector->moveToThread(detectThread);
+			detectThread->start();
+			QObject::connect(facialLandmarkDetector, &FacialLandmarkDetector::startDetectionSignal, facialLandmarkDetector, &FacialLandmarkDetector::startDetectionSlot);
+			emit startDetectionSignal();
 		}
 	}
 	//Blocking!
@@ -74,6 +78,13 @@ public:
 	}
 signals:
 	void NewDetection();
+	void startDetectionSignal();
+
+private slots:
+	void startDetectionSlot() {
+		detection();
+	}
+
 };
 
 

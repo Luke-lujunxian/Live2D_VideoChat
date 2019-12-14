@@ -14,12 +14,12 @@ class TestFacialDetection {
 public:
 	static void runTest() {
 		// Cubism Framework initialization
-		Csm::LAppAllocator allocator;
+		LAppAllocator allocator;
 		Csm::CubismFramework::StartUp(&allocator);
 		Csm::CubismFramework::Initialize();
 
 		auto _ = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
-
+		FacialLandmarkDetector::getInstance()->startDetector();
 		while (true) {
 			system("pause");
 

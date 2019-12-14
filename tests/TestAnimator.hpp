@@ -10,6 +10,7 @@ public:
 	static int runTest() {
 		// Initializations
 		auto _ = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
+		FacialLandmarkDetector::getInstance()->startDetector();
 		Communicator::initialize();
 
 		// create the application instance
