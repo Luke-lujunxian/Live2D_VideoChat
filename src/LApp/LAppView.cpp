@@ -13,7 +13,6 @@
 #include "LAppLive2DManager.hpp"
 #include "LAppTextureManager.hpp"
 #include "LAppDefine.hpp"
-#include "TouchManager.hpp"
 #include "LAppSprite.hpp"
 #include "LAppModel.hpp"
 

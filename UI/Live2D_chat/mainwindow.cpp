@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 #include <Network_QT.h>
 #include <qpixmap.h>
-#include<settingwin.h>
-#include<qvalidator.h>
+#include <settingwin.h>
+#include <qvalidator.h>
 #include <errorwin.h>
 
 MainWindow::MainWindow(QWidget *parent)
