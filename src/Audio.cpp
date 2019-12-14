@@ -1,6 +1,6 @@
 #include <Audio.h>
-#define MAX_AUDIO_LEN 960000 //Èç¹û½ÓÊÕ»º³åÇø´óÓÚÕâ¸öÊıÖµ¾Í¼ôµô
-#define FRAME_LEN_60ms 960 //Ã¿Ò»¸öÓïÒôÖ¡³¤¶ÈÊÇ960×Ö½Ú
+#define MAX_AUDIO_LEN 960000 //å¦‚æœæ¥æ”¶ç¼“å†²åŒºå¤§äºè¿™ä¸ªæ•°å€¼å°±å‰ªæ‰
+#define FRAME_LEN_60ms 960 //æ¯ä¸€ä¸ªè¯­éŸ³å¸§é•¿åº¦æ˜¯960å­—èŠ‚
 Audio* Audio::audio = nullptr;
 
 Audio* Audio::getInstance()
@@ -72,18 +72,18 @@ void Audio::onReadyRecord() {
 }
 
 void Audio::play() {
-    if (m_PCMDataBuffer.size() < m_CurrentPlayIndex + FRAME_LEN_60ms) {//»º³åÇø²»¹»²¥·Å60msÒôÆµ
+    if (m_PCMDataBuffer.size() < m_CurrentPlayIndex + FRAME_LEN_60ms) {//ç¼“å†²åŒºä¸å¤Ÿæ’­æ”¾60mséŸ³é¢‘
         return;
     }
     char* writeData = new char[FRAME_LEN_60ms];
     memcpy(writeData, &m_PCMDataBuffer.data()[m_CurrentPlayIndex], FRAME_LEN_60ms);
-    // Ğ´ÈëÒôÆµÊı¾İ
+    // å†™å…¥éŸ³é¢‘æ•°æ®
     outputDevice->write(writeData, FRAME_LEN_60ms);
     m_CurrentPlayIndex += FRAME_LEN_60ms;
     qDebug() << m_CurrentPlayIndex;
     delete[]writeData;
 
-    //Èç¹û³¤¶È³¬¹ıÁËMAX_AUDIO_LEN¾Í´Ó
+    //å¦‚æœé•¿åº¦è¶…è¿‡äº†MAX_AUDIO_LENå°±ä»
     if (m_CurrentPlayIndex > MAX_AUDIO_LEN) {
         m_PCMDataBuffer = m_PCMDataBuffer.right(m_PCMDataBuffer.size() - MAX_AUDIO_LEN);
         m_CurrentPlayIndex -= MAX_AUDIO_LEN;

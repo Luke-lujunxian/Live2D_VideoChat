@@ -3,12 +3,12 @@
 #include <QList>
 std::string getHostMacAddress()
 {
-    QList<QNetworkInterface> nets = QNetworkInterface::allInterfaces();// »ñÈ¡ËùÓÐÍøÂç½Ó¿ÚÁÐ±í
+    QList<QNetworkInterface> nets = QNetworkInterface::allInterfaces();// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½Ð±ï¿½
     int nCnt = nets.count();
     QString strMacAddr = "";
     for (int i = 0; i < nCnt; i++)
     {
-        // Èç¹û´ËÍøÂç½Ó¿Ú±»¼¤»î²¢ÇÒÕýÔÚÔËÐÐ²¢ÇÒ²»ÊÇ»Ø»·µØÖ·£¬Ôò¾ÍÊÇÎÒÃÇÐèÒªÕÒµÄMacµØÖ·
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Ú±ï¿½ï¿½ï¿½ï¿½î²¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Ò²ï¿½ï¿½Ç»Ø»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Òµï¿½Macï¿½ï¿½Ö·
         if (nets[i].flags().testFlag(QNetworkInterface::IsUp) && nets[i].flags().testFlag(QNetworkInterface::IsRunning) && !nets[i].flags().testFlag(QNetworkInterface::IsLoopBack))
         {
             strMacAddr = nets[i].hardwareAddress();
@@ -17,9 +17,9 @@ std::string getHostMacAddress()
     }
     return strMacAddr.toStdString();
 }
-//¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-//°æÈ¨ÉùÃ÷£º±¾ÎÄÎªCSDN²©Ö÷¡¸dofaster¡¹µÄÔ­´´ÎÄÕÂ£¬×ñÑ­ CC 4.0 BY - SA °æÈ¨Ð­Òé£¬×ªÔØÇë¸½ÉÏÔ­ÎÄ³ö´¦Á´½Ó¼°±¾ÉùÃ÷¡£
-//Ô­ÎÄÁ´½Ó£ºhttps ://blog.csdn.net/llmys/article/details/52861545
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªCSDNï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dofasterï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½Ñ­ CC 4.0 BY - SA ï¿½ï¿½È¨Ð­ï¿½é£¬×ªï¿½ï¿½ï¿½ë¸½ï¿½ï¿½Ô­ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½https ://blog.csdn.net/llmys/article/details/52861545
 
 
 

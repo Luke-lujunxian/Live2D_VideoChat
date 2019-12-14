@@ -1,6 +1,10 @@
 #include <Network_QT.h>
 Network_QT* Network_QT::network_QT = nullptr;
 
+	/**
+ 	* @description: Initializer of Network class, should be CALL ONLY ONCE in the beginning of program
+	* @return success initing? False when port unavaliable
+	*/
 bool Network_QT::networkInit() {
 	getInstance();
 	stopFlag = false;
@@ -10,12 +14,16 @@ bool Network_QT::networkInit() {
 	}
 	QObject::connect(listener, &QTcpServer::newConnection, this, &Network_QT::ConnectHandler);
 	//open listen port
+	return true
 }
 
+/**
+ * @description: Handler of new Call
+ */
 void Network_QT::ConnectHandler() {
-	QTcpSocket* s = this->listener->nextPendingConnection();
+	QTcpSocket* s = this->listener->nextPendingConnection();//get the new socket
 
-	{
+	{//wait for 3s of the first message
 		time_t call = time(nullptr);
 		while (!s->canReadLine()) {
 			if (time(nullptr) - call > 3) {
@@ -24,15 +32,23 @@ void Network_QT::ConnectHandler() {
 			}
 		}
 	}
-	if (s->readLine() != "1919810") {
+	if (s->readLine() != "1919810") {//the "ping" should be 1919810
 		s->close();
 		return;
 	}
-	std::string temp = "";
-	while (temp == "") {
-		temp = s->readLine();
+	s->write("114514");//Pong!
+
+	{//wait for 3s of the second(caller info) message
+		time_t call = time(nullptr);
+		while (!s->canReadLine()) {
+			if (time(nullptr) - call > 3) {
+				s->close();
+				return;
+			}
+		}	
 	}
 
+	temp = s->readLine();
 	json callerInfo;
 	try {
 		callerInfo = json::parse(temp);
@@ -45,6 +61,7 @@ void Network_QT::ConnectHandler() {
 
 	//TODO: Accept?
 
+	//Process and send indetity information
 	json sendTemp;
 	sendTemp["ID"]["Accept"] = true;
 	sendTemp["ID"]["name"] = Setting::getSetting()->getName();
@@ -53,6 +70,7 @@ void Network_QT::ConnectHandler() {
 	sendTemp["data"]["session_id"] = GenerateGuid();
 	s->write(sendTemp.dump().c_str(), sendTemp.dump().length());
 
+	//Prepare local motion object
 	MotionObject* motion = new MotionObject(sendTemp["data"]["session_id"]);
 	Network_QT::getInstance()->getDisplayObjects()->push_back(motion);
 	motion->setProfileByBase64(callerInfo["ID"]["profile_photo"]);
@@ -61,12 +79,18 @@ void Network_QT::ConnectHandler() {
 	else
 		motion->name = "UNKNOW";
 
+	//Send the first motion pack
 	json sendJson;
 	sendJson["ID"]["session_id"] = sendTemp["data"]["session_id"];
 	//sendJson["ID"]["send_time"] = Necessary?
 	sendJson["data"] = *Network_QT::getInstance()->getSendJson();
 	s->write(sendTemp.dump().c_str(), sendTemp.dump().length());
 
+/*
+* Create a new call object and Thread
+* record thrie address
+* start the thread and give it to the new thread	
+*/
 	QThread* newCallThd = new QThread(this);
 	CallObj* newCall = new CallObj(motion, s);
 	Network_QT::getInstance()->calls.push_back(newCallThd);
@@ -76,10 +100,15 @@ void Network_QT::ConnectHandler() {
 	
 
 	//TODO: Some finishing work
-	motion->alive = false;
+	//motion->alive = false;
 }
 
 
+/**
+ * @description: update the send data
+ * @param {json} ***"data"*** part of the send object aka "motion data"
+ * @return: 
+ */
 void Network_QT::updateMotion(json& motion)
 {
 	//qDebug() << QString::fromStdString(motion.dump(1));
@@ -101,21 +130,35 @@ json* Network_QT::getSendJson()
 void Network_QT::call(std::string ip, int port){
 	QTcpSocket* caller = new QTcpSocket();
 	caller->connectToHost(QString::fromStdString(ip), port);
-	caller->write("1919810");
+
+	{//wait for 3s of connect
+		time_t call = time(nullptr);
+		while (caller->state != QTcpSocket::ConnectedState) {
+			if (time(nullptr) - call > 3) {
+				caller->close();
+				//TODO: window
+				return;
+			}
+		}	
+	}
+
+	caller->write("1919810");//Ping!
 
 	{
 		time_t call = time(nullptr);
 		while (!caller->canReadLine()) {
 			if (time(nullptr) - call > 3)
+				caller->close();
 				throw std::exception("NO_RESPONSE");
 		}
 	}
 
-	if (caller->readLine() != "114514") {
+	if (caller->readLine() != "114514") {//Pong?
 		caller->close();
 		throw std::exception("NO_RESPONSE");
 	}
 
+//Prepare info
 	json exchange;
 	exchange["ID"]["name"] = Setting::getSetting()->getName();
 	exchange["ID"]["name"] = Mat2Base64(Setting::getSetting()->getProfile(), Setting::getSetting()->getProfileType());
@@ -152,19 +195,26 @@ void Network_QT::call(std::string ip, int port){
 		newCallObj->moveToThread(newCallThd);
 		Network_QT::getInstance()->calls.push_back(newCallThd);
 		Network_QT::getInstance()->callObjs.push_back(newCallObj);
+	}else{
+		call.close();
 	}
 }
 
 
+/**
+ * @description: Wrapper of call,
+ * @param {string} target host, form e.g. 127.0.0.1:8080 
+ * @return: 
+ */
 void Network_QT::call(std::string target){//IPv4 Only
 	qDebug() << "Calling:"<<" " << QString::fromStdString(target);
 	if (target.find_first_of(':') == std::string::npos) {
-		if (target.find_first_of('£º') == std::string::npos) {
+		if (target.find_first_of('ï¿½ï¿½') == std::string::npos) {
 			throw std::exception("BAD_ADDRESS");
 		}
 		else
 		{
-			target[target.find_first_of('£º')] = ':';
+			target[target.find_first_of('ï¿½ï¿½')] = ':';
 		}
 	}
 	try {
@@ -203,6 +253,7 @@ std::string GenerateGuid() {
 CallObj::CallObj(MotionObject* motion, QTcpSocket* s) {
 	this->motion = motion;
 	this->s = s;
+	sendJson["ID"]["session_id"] = motion->getSessionID();
 	QObject::connect(s, &QTcpSocket::readyRead, this, &CallObj::writeObject);
 	QObject::connect(FacialLandmarkDetector::getInstance(), &FacialLandmarkDetector::NewDetection, this, &CallObj::sendObject);
 	Audio::getInstance()->audioStart();

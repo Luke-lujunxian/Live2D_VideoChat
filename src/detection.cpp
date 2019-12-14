@@ -45,14 +45,9 @@ FacialLandmarkDetector* FacialLandmarkDetector::facialLandmarkDetector = nullptr
 
 
 /*
-double meter
-double eyebrow_move
-double eye_open
-void FacialLandmarkDetector::detection
+Helper funtions
 From https://github.com/HTTdesu/SimpleFacerig
-Modified
 */
-
 double meter(double A, double B, double C, double x, double y)
 {
 	double diversion = A * x + B * y + C;
@@ -85,13 +80,21 @@ double eye_open(dlib::point& p1, dlib::point& p2, dlib::point& v11, dlib::point&
 	ratio = last * (1 - rate) + ratio * rate;
 	return ratio;
 }
+/*
+Helper funtions end
+*/
 
 
+/**
+ * @description: Main detection loop
+ * Interpetation of facial landmark point from https://github.com/HTTdesu/SimpleFacerig
+ * Modified
+ */
 void FacialLandmarkDetector::detection()
 {
-	dlib::frontal_face_detector detector;
-	dlib::shape_predictor pose_model;
-	cv::CascadeClassifier haarcascade_eye_tree_eyeglasses;
+	dlib::frontal_face_detector detector;//facial regonition
+	dlib::shape_predictor pose_model;//landmark detection
+	cv::CascadeClassifier haarcascade_eye_tree_eyeglasses;//Iris detection
 	// live2d parameters
 	float x_rotate = 0.0f;
 	float y_rotate = 0.0f;
@@ -107,6 +110,7 @@ void FacialLandmarkDetector::detection()
 	float eyeBallY = 0.0f;
 
 	float mouth_open = 0.0f;
+	//Eyes positions
 	int leftEyeMaxX = 0;
 	int leftEyeMinX = 0;
 	int leftEyeMinY = 0;
@@ -129,19 +133,21 @@ void FacialLandmarkDetector::detection()
 		// Load face detection and pose estimation models.
 		frontal_face_detector detector = get_frontal_face_detector();
 		shape_predictor pose_model;
-		haarcascade_eye_tree_eyeglasses.load("..\\..\\res\\haarcascade_eye_tree_eyeglasses.xml");
-		deserialize("..\\..\\res\\shape_predictor_68_face_landmarks.dat") >> pose_model; //TODO:Fix Path
+		haarcascade_eye_tree_eyeglasses.load("..\\..\\res\\haarcascade_eye_tree_eyeglasses.xml");//OpenCV Model
+		deserialize("..\\..\\res\\shape_predictor_68_face_landmarks.dat") >> pose_model; //dlib model
 
 		// Grab and process frames until the main window is closed by the user.
 		while (camera.isOpened())
 		{
-			cv::Mat buff, temp;
-			camera.read(temp);
+			cv::Mat buff, frame;
+			camera.read(frame);
 			//cv::GaussianBlur(temp, buff, cv::Size(5, 5), 5, 5);
-			cv::flip(temp, temp, 1);
+			cv::flip(frame, frame, 1);
 
-			dlib::cv_image<dlib::bgr_pixel> cimg(temp);
-			std::vector<dlib::rectangle> faces = detector(cimg);
+//The result of following Process is process facial landmark points and get positions
+//Copy from https://github.com/HTTdesu/SimpleFacerig. Authorized by author
+			dlib::cv_image<dlib::bgr_pixel> cimg(frame);
+			std::vector<dlib::rectangle> faces = detector(cimg);//get faces
 			std::vector<dlib::full_object_detection> shapes;
 
 			for (unsigned long i = 0; i < faces.size(); ++i)
@@ -149,7 +155,7 @@ void FacialLandmarkDetector::detection()
 
 			if (!shapes.empty()) {
 				for (int i = 0; i < 68; i++) {
-					cv::circle(temp, cvPoint(shapes[0].part(i).x(), shapes[0].part(i).y()), 2, cv::Scalar(0, 0, 255), -1);
+					cv::circle(frame, cvPoint(shapes[0].part(i).x(), shapes[0].part(i).y()), 2, cv::Scalar(0, 0, 255), -1);
 				}
 
 				int div_x = shapes[0].part(16).x() - shapes[0].part(0).x();
@@ -187,16 +193,18 @@ void FacialLandmarkDetector::detection()
 				distance = sqrt(pow(shapes[0].part(60).x() - shapes[0].part(64).x(), 2) + pow(shapes[0].part(60).y() - shapes[0].part(64).y(), 2));
 				mouth_open = (diversion / distance - 0.15) * 2;
 
+//process facial landmark points end
 
-				dlib::full_object_detection& d = shapes[0];
+				dlib::full_object_detection& firstFace = shapes[0];//only proces one face, don't support multiple faces
+				// Left eye range
 				{
 
 					int minX = INT_MAX, maxX = 0, minY = INT_MAX, maxY = 0;
 					for (unsigned long i = 37; i <= 41; ++i) {
-						minX = minX < d.part(i).x() ? minX : d.part(i).x();
-						maxX = maxX > d.part(i).x() ? maxX : d.part(i).x();
-						minY = minY < d.part(i).y() ? minY : d.part(i).y();
-						maxY = maxY > d.part(i).y() ? maxY : d.part(i).y();
+						minX = minX < firstFace.part(i).x() ? minX : firstFace.part(i).x();
+						maxX = maxX > firstFace.part(i).x() ? maxX : firstFace.part(i).x();
+						minY = minY < firstFace.part(i).y() ? minY : firstFace.part(i).y();
+						maxY = maxY > firstFace.part(i).y() ? maxY : firstFace.part(i).y();
 					}
 					leftEyeMaxX = maxX;
 					leftEyeMinX = minX;
@@ -205,14 +213,14 @@ void FacialLandmarkDetector::detection()
 
 				}
 
-				// Right eye
+				// Right eye range
 				{
 					int minX = INT_MAX, maxX = 0, minY = INT_MAX, maxY = 0;
 					for (unsigned long i = 43; i <= 47; ++i) {
-						minX = minX < d.part(i).x() ? minX : d.part(i).x();
-						maxX = maxX > d.part(i).x() ? maxX : d.part(i).x();
-						minY = minY < d.part(i).y() ? minY : d.part(i).y();
-						maxY = maxY > d.part(i).y() ? maxY : d.part(i).y();
+						minX = minX < firstFace.part(i).x() ? minX : firstFace.part(i).x();
+						maxX = maxX > firstFace.part(i).x() ? maxX : firstFace.part(i).x();
+						minY = minY < firstFace.part(i).y() ? minY : firstFace.part(i).y();
+						maxY = maxY > firstFace.part(i).y() ? maxY : firstFace.part(i).y();
 					}
 					rightEyeMaxX = maxX;
 					rightEyeMinX = minX;
@@ -225,8 +233,8 @@ void FacialLandmarkDetector::detection()
 					cv::Mat eyesRaw;
 					camera.read(eyesRaw);
 					cv::flip(eyesRaw, eyesRaw, 1);
-					cv::cvtColor(eyesRaw, eyesRaw, cv::COLOR_BGR2GRAY);// ²ÊÉ«Í¼×ª»»³É»Ò¶ÈÍ¼
-					equalizeHist(eyesRaw, eyesRaw);//Ö±·½Í¼¾ùÖµ»¯
+					cv::cvtColor(eyesRaw, eyesRaw, cv::COLOR_BGR2GRAY);//ç°åº¦
+					equalizeHist(eyesRaw, eyesRaw);//ç›´æ–¹å›¾å‡åŒ–
 					haarcascade_eye_tree_eyeglasses.detectMultiScale(eyesRaw, eyes,
 						1.1, 2, 0
 						//|CV_HAAR_FIND_BIGGEST_OBJECT
@@ -241,39 +249,39 @@ void FacialLandmarkDetector::detection()
 					{
 						cv::Point center;
 						int radius;
-						//center¿ÉÒÔ×÷ÎªÍ«¿×µÄ×ø±ê
+						//centerå¯ä»¥ä½œä¸ºçž³å­”çš„åæ ‡
 						center.x = cvRound(r->x + r->width * 0.5);
 						center.y = cvRound(r->y + r->height * 0.5);
 						//radius = (int)(cvRound(r->width + r->height)*0.25);
 						radius = 2;
 						//cv::imshow("eyesRaw", eyesRaw);
 						int margin = 10;
+						//Calaulate relative position of iris
 						if (center.x < rightEyeMaxX + margin && center.x > rightEyeMinX - margin && center.y < rightEyeMaxY + margin && center.y > rightEyeMinY - margin) {
 							eyeBallX = (center.x - ((rightEyeMaxX - rightEyeMinX) / 2.0f + rightEyeMinX)) / (rightEyeMaxX - rightEyeMinX) * 2;
 							eyeBallY = (center.y - ((rightEyeMaxY - rightEyeMinY) / 2.0f + rightEyeMinY)) / (rightEyeMaxY - rightEyeMinY) * 2;
-							cv::circle(temp, center, radius, cv::Scalar(255, 0, 0), 3, 8, 0);
+							cv::circle(frame, center, radius, cv::Scalar(255, 0, 0), 3, 8, 0);
 
 						}
 						else if (center.x < leftEyeMaxX + margin && center.x > leftEyeMinX - margin && center.y < leftEyeMaxY + margin && center.y > leftEyeMinY - margin) {
 							eyeBallX = (center.x - ((leftEyeMaxX - leftEyeMinX) / 2.0f + leftEyeMinX)) / (leftEyeMaxX - leftEyeMinX) * 2;
 							eyeBallY = (center.y - ((leftEyeMaxY - leftEyeMinY) / 2.0f + leftEyeMinY)) / (leftEyeMaxY - leftEyeMinY) * 2;
-							cv::circle(temp, center, radius, cv::Scalar(255, 0, 0), 3, 8, 0);
+							cv::circle(frame, center, radius, cv::Scalar(255, 0, 0), 3, 8, 0);
 
 						}
 						else {
-							cv::circle(temp, center, radius, cv::Scalar(0, 255, 0), 3, 8, 0);
+							cv::circle(frame, center, radius, cv::Scalar(0, 255, 0), 3, 8, 0);
 						}
 
 					}
 				}
 				catch (std::exception e) {
-					qDebug() << e.what();
+					qDebug() << e.what();//Usually catch fail to load model
 				}
 
-
-				//¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-				//	°æÈ¨ÉùÃ÷£º±¾ÎÄÎªCSDN²©Ö÷¡¸ITÐÞµÀÕß¡¹µÄÔ­´´ÎÄÕÂ£¬×ñÑ­ CC 4.0 BY - SA °æÈ¨Ð­Òé£¬×ªÔØÇë¸½ÉÏÔ­ÎÄ³ö´¦Á´½Ó¼°±¾ÉùÃ÷¡£
-				//	Ô­ÎÄÁ´½Ó£ºhttps ://blog.csdn.net/computerme/article/details/38142125
+				//Idea from
+				//ç‰ˆæƒå£°æ˜Žï¼šæœ¬æ–‡ä¸ºåšä¸»åŽŸåˆ›æ–‡ç« ï¼Œéµå¾ª CC 4.0 BY-SA ç‰ˆæƒåè®®ï¼Œè½¬è½½è¯·é™„ä¸ŠåŽŸæ–‡å‡ºå¤„é“¾æŽ¥å’Œæœ¬å£°æ˜Žã€‚
+				//æœ¬æ–‡é“¾æŽ¥ï¼šhttps://blog.csdn.net/computerme/article/details/38142125
 
 				//Finalize and put into Json
 				{
@@ -330,7 +338,7 @@ void FacialLandmarkDetector::detection()
 					<< "eyeBallY" << eyeBallY << "\n";	
 			}
 			if (Setting::getSetting()->ShowFR) {
-				cv::imshow("Feature points", temp);
+				cv::imshow("Feature points", frame);
 				cv::waitKey(30);
 			}
 
@@ -339,7 +347,7 @@ void FacialLandmarkDetector::detection()
 
 		
 	}catch (serialization_error & e)
-	{
+	{//When fail to load dlib model
 		std::cerr << "Fail to load model" << std::endl;
 		qDebug().noquote() << "Fail to load model";
 		this->ModelLoadError = true;
@@ -351,9 +359,3 @@ void FacialLandmarkDetector::detection()
 		return;
 	}
 }
-
-//[in]dets
-//[out]rawPoses
-//Part of the code from
-// Copyright (C) 2014  Davis E. King (davis@dlib.net)
-// License: Boost Software License   See LICENSE.txt for the full license.

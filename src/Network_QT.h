@@ -1,3 +1,9 @@
+/*
+ * @Author: Luke_lu
+ * @Date: 2019-12-12 18:39:37
+ * @LastEditTime: 2019-12-14 22:01:15
+ * @Description: Main network class and Wrapper class
+ */
 #pragma once
 #ifndef NETWORK_QT_H_
 #define NETWORK_QT_H_
@@ -29,6 +35,10 @@ std::string GenerateGuid();
 
 typedef enum LatencyState { NORMAL, DELAY, DISCONNECTED };
 class CallObj;
+
+/**
+ * @description: MotionObject Class containing all the information needed for GUI to display each call
+ */
 class MotionObject {
 private:
 	std::string sessionId;
@@ -39,47 +49,63 @@ private:
 public:
 	std::string name;
 	bool alive;
-	MotionObject() {
+	MotionObject() {//used by incoming calls
 		this->alive = true;
 		this->sessionId = GenerateGuid();
 		lastSuccessful = clock();
 	}
-	MotionObject(std::string sessionId) {
+	MotionObject(std::string sessionId) {//used by calling
 		this->alive = true;
 		this->sessionId = sessionId;
 	}
 
-	void writeObject(std::string received) {
+	/**
+  * @description: Check and update the json object containing motion data
+  * @param {string} received serialized json package
+  * @return: success?
+  */ 
+ bool writeObject(std::string received) {
 		json jtemp;
 		try {
 			jtemp = json::parse(received);
-
 		}
 		catch (json::exception e) {
 			if (e.id == 101) {
 				if (received == "") {
 					//not Receiving
+					qDebug() << "Empty package \n" << e.what();
+					qDebug() << sessionId.c_str;
 				}
 				else {
 					//data incorrect
+					qDebug() << "Data incorrect \n" << e.what();
+					qDebug() << sessionId.c_str;
 				}
 			}
 			else {
 				//unknown error
+				qDebug() << "MotionObject Write unknown error \n" << e.what();
+				qDebug() << sessionId.c_str;
 			}
 
-			return;
+			return false;
 		}
 		motion.erase("data");
-		motion.emplace("data", jtemp["data"]);
+		motion["data"] = jtemp["data"];
 		lastSuccessful = clock();
+		return true;
 	}
 
 	json* getMotion() {
 		return &motion;
 	}
 
-	LatencyState getLatencyState() {
+	/**
+  * @description: Check the latency of current call
+  * @param {void} 
+  * @return: enum class LatencyState
+  */ 
+ LatencyState getLatencyState() {
 		int delay = clock() -lastSuccessful;
 		if (delay <= 300) {
 			return NORMAL;
@@ -92,18 +118,21 @@ public:
 		}
 	}
 
-	void setProfileByBase64(std::string base64) {
-		try {
-			profile = Base2Mat(base64);
-		}
-		catch (int e) {
-			//prifile = dafault
-			return;
-		}
+	bool setProfileByBase64(std::string base64) {
+		profile = Base2Mat(base64);
+		return profile.data == NULL;
+	}
+
+	std::string getSessionID(){
+		return sessionId;
 	}
 
 };
 
+/**
+ * @description: Main network class using QT socket
+ * Single Instance
+ */
 class Network_QT:public QObject {
 	Q_OBJECT;
 public:
@@ -114,7 +143,11 @@ public:
 	bool shouldStop() {
 		return stopFlag;
 	}
-	static Network_QT* getInstance() {
+	
+	/**
+  	* @description: Accesser of network object
+  	*/ 
+ 	static Network_QT* getInstance() {
 		if (network_QT == nullptr)
 			network_QT = new Network_QT();
 		return network_QT;
@@ -146,10 +179,14 @@ private:
 };
 
 
+/**
+ * @description: Call object handled by QThread
+ */
 class CallObj :public QObject {
 	Q_OBJECT;
 	MotionObject* motion;
 	QTcpSocket* s;
+	json sendJson;
 public:
 	CallObj(MotionObject* motion, QTcpSocket* s);
 	~CallObj();
@@ -160,7 +197,9 @@ public:
 
 private slots:
 	void sendObject() {
-		s->write(Network_QT::getInstance()->getSendJson()->dump().c_str(), Network_QT::getInstance()->getSendJson()->dump().length());
+		sendJson["data"].erase();
+		sendJson["data"] = Network_QT::getInstance()->getSendJson();
+		s->write(sendJson->dump().c_str(), sendJson->dump().length());
 	}
 	void writeObject() {
 		if(s->canReadLine())
