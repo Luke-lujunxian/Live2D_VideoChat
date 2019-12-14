@@ -103,28 +103,28 @@ void SettingWin::on_pushButton_Apply_clicked(){
 
 void SettingWin::on_pushButton_ProfilePhoto_clicked(){
     //Do something`
-	//¶¨ÒåÎÄ¼þ¶Ô»°¿òÀà
+	//å®šä¹‰æ–‡ä»¶å¯¹è¯æ¡†ç±»
 	QFileDialog* fileDialog = new QFileDialog(this);
-	//¶¨ÒåÎÄ¼þ¶Ô»°¿ò±êÌâ
+	//å®šä¹‰æ–‡ä»¶å¯¹è¯æ¡†æ ‡é¢˜
 	fileDialog->setWindowTitle(QStringLiteral("Select Profile"));
-	//ÉèÖÃÄ¬ÈÏÎÄ¼þÂ·¾¶
+	//è®¾ç½®é»˜è®¤æ–‡ä»¶è·¯å¾„
 	fileDialog->setDirectory(".");
-	//ÉèÖÃÎÄ¼þ¹ýÂËÆ÷
+	//è®¾ç½®æ–‡ä»¶è¿‡æ»¤å™¨
 	fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
-	//ÉèÖÃ¿ÉÒÔÑ¡Ôñ¶à¸öÎÄ¼þ,Ä¬ÈÏÎªÖ»ÄÜÑ¡ÔñÒ»¸öÎÄ¼þQFileDialog::ExistingFiles
+	//è®¾ç½®å¯ä»¥é€‰æ‹©å¤šä¸ªæ–‡ä»¶,é»˜è®¤ä¸ºåªèƒ½é€‰æ‹©ä¸€ä¸ªæ–‡ä»¶QFileDialog::ExistingFiles
 	fileDialog->setFileMode(QFileDialog::ExistingFiles);
-	//ÉèÖÃÊÓÍ¼Ä£Ê½
+	//è®¾ç½®è§†å›¾æ¨¡å¼
 	fileDialog->setViewMode(QFileDialog::Detail);
-	//´òÓ¡ËùÓÐÑ¡ÔñµÄÎÄ¼þµÄÂ·¾¶
+	//æ‰“å°æ‰€æœ‰é€‰æ‹©çš„æ–‡ä»¶çš„è·¯å¾„
 	QStringList fileNames;
 	if (fileDialog->exec()) {
 		ui->comboBox_ProfilePhoto->addItem(fileDialog->selectedFiles()[0]);
 		ui->comboBox_ProfilePhoto->setCurrentText(fileDialog->selectedFiles()[0]);
 
 	}
-	//¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-	//	°æÈ¨ÉùÃ÷£º±¾ÎÄÎªCSDN²©Ö÷¡¸wb175208¡¹µÄÔ­´´ÎÄÕÂ£¬×ñÑ­ CC 4.0 BY - SA °æÈ¨Ð­Òé£¬×ªÔØÇë¸½ÉÏÔ­ÎÄ³ö´¦Á´½Ó¼°±¾ÉùÃ÷¡£
-	//	Ô­ÎÄÁ´½Ó£ºhttps ://blog.csdn.net/wb175208/article/details/86661722
+	//â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+	//	ç‰ˆæƒå£°æ˜Žï¼šæœ¬æ–‡ä¸ºCSDNåšä¸»ã€Œwb175208ã€çš„åŽŸåˆ›æ–‡ç« ï¼Œéµå¾ª CC 4.0 BY - SA ç‰ˆæƒåè®®ï¼Œè½¬è½½è¯·é™„ä¸ŠåŽŸæ–‡å‡ºå¤„é“¾æŽ¥åŠæœ¬å£°æ˜Žã€‚
+	//	åŽŸæ–‡é“¾æŽ¥ï¼šhttps ://blog.csdn.net/wb175208/article/details/86661722
     ui->pushButton_Apply->setEnabled(true);
 }
 
@@ -173,7 +173,7 @@ DEFINE_GUID(CLSID_SystemDeviceEnum, 0x62be5d10, 0x60eb, 0x11d0, 0xbd, 0x3b, 0x00
 DEFINE_GUID(CLSID_VideoInputDeviceCategory, 0x860bb310, 0x5d01, 0x11d0, 0xbd, 0x3b, 0x00, 0xa0, 0xc9, 0x11, 0xce, 0x86);
 DEFINE_GUID(IID_ICreateDevEnum, 0x29840822, 0x5b84, 0x11d0, 0xbd, 0x3b, 0x00, 0xa0, 0xc9, 0x11, 0xce, 0x86);
 
-//ÁÐ³öÓ²¼þÉè±¸
+//åˆ—å‡ºç¡¬ä»¶è®¾å¤‡
 //https://www.cnblogs.com/herd/p/9277402.html
 int listDevices(std::vector<std::string>& list)
 {

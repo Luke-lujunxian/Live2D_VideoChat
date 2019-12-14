@@ -1,3 +1,9 @@
+/*
+ * @Author: Luke_lu
+ * @Date: 2019-12-14 17:23:14
+ * @LastEditTime: 2019-12-14 22:35:35
+ * @Description: Class of Facial regonition, landmark detection, and iris detect
+ */
 #pragma once
 #include <thread>
 #include <vector>
@@ -8,6 +14,10 @@
 #include <QObject>
 #include <QDebug>
 
+
+/**
+ * @description: Obsolete data struct
+ */
 typedef struct RawFacePos {
 	float angle;//+clockwise TODO
 	bool inited = true;
@@ -24,6 +34,9 @@ typedef struct RawFacePos {
 	cv::Vec3f rightIris;
 };
 
+/**
+ * @description: Single instance class of all detections
+ */
 class FacialLandmarkDetector:public QObject {
 	Q_OBJECT;
 private:
@@ -54,9 +67,14 @@ public:
 		}
 		return facialLandmarkDetector;
 	}
-	void startDetector() {
+
+	/**
+  * @description: Start the detection thread, throw exception if already runing
+  * @Exception "Already Running"
+  */ 
+ void startDetector() {
 		if (detectThread != nullptr && detectThread->isRunning()) {
-			throw (std::string)"Already Running";
+			throw std::exception("Already Running");
 		}
 		else {
 			CameraInitError = false;
@@ -67,12 +85,15 @@ public:
 			facialLandmarkDetector->moveToThread(detectThread);
 			detectThread->start();
 			QObject::connect(facialLandmarkDetector, &FacialLandmarkDetector::startDetectionSignal, facialLandmarkDetector, &FacialLandmarkDetector::startDetectionSlot);
-			emit startDetectionSignal();
+			emit startDetectionSignal();//Start detection
 		}
 	}
-	//Blocking!
-	//call and dones
-	void captureNuturalFace() {
+
+
+	/**
+  * @description: Obsolete funtion
+  */ 
+ void captureNuturalFace() {
 		captureNuturalFaceFlag = true;
 		while (captureNuturalFaceFlag) {}
 	}
