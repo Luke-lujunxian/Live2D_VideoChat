@@ -21,11 +21,11 @@ public:
 		auto _ = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
 		FacialLandmarkDetector::getInstance()->startDetector();
 		while (true) {
-			system("pause");
+			//system("pause");
 
 			auto j = Network_QT::getInstance()->getSendJson();
 			if ((*j)["data"].is_null()) {
-				qDebug().noquote() << QString("null\n");
+				//qDebug().noquote() << QString("null\n");
 			}
 			else {
 				using namespace Csm;
