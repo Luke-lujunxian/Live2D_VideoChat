@@ -69,8 +69,11 @@
     <QtMoc Include="src\UI\settingwin.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
-    <QtMoc Include="tests\TestFacialDetection.hpp">
-      <Filter>Source Files\tests</Filter>
+    <QtMoc Include="src\LApp\LAppDelegate.hpp">
+      <Filter>Source Files\LApp</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Communicator.hpp">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -87,9 +90,6 @@
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
     <ClInclude Include="src\LApp\LAppDefine.hpp">
-      <Filter>Source Files\LApp</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LApp\LAppDelegate.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
     <ClInclude Include="src\LApp\LAppLive2DManager.hpp">
@@ -116,13 +116,13 @@
     <ClInclude Include="tests\TestAnimator.hpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
-    <ClInclude Include="src\Communicator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\TestMainWindow.hpp">
+      <Filter>Source Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\TestFacialDetection.hpp">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>

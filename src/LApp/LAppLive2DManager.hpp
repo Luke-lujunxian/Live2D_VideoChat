@@ -107,5 +107,4 @@ private:
     Csm::CubismMatrix44*        _viewMatrix; ///< モデル描画に用いるView行列
     //Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
 	Model* _self_model = nullptr;
-	mutable nlohmann::json _facialData;
 };

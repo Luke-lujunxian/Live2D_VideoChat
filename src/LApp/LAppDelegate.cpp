@@ -120,6 +120,8 @@ void LAppDelegate::Release()
     delete _textureManager;
     delete _view;
 
+	delete _qthread;	// Delete the QThread object
+
     // リソースを解放
     LAppLive2DManager::ReleaseInstance();
 
@@ -170,6 +172,20 @@ void LAppDelegate::Run()
     Release();
 
     LAppDelegate::ReleaseInstance();
+}
+
+void LAppDelegate::startThreadRun() {
+	if (_qthread != nullptr && _qthread->isRunning()) {
+		qDebug().noquote() << "[LAppDelegate::startThreadRun] The thread is already started";
+	}
+	else {
+		_qthread = new QThread;
+		GetInstance()->moveToThread(_qthread);
+		QObject::connect(GetInstance(), &LAppDelegate::startRunSignal, GetInstance(), &LAppDelegate::Run);
+		_qthread->start();
+		_qthread->msleep(500);
+		emit startRunSignal();
+	}
 }
 
 LAppDelegate::LAppDelegate():

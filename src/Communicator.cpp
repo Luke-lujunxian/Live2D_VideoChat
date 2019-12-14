@@ -5,34 +5,42 @@
 
 using namespace Csm;
 
-Communicator* Communicator::s_instance = nullptr;
+Communicator* s_instance = nullptr;
 
 Communicator::Communicator() {
-
+	QObject::connect(FacialLandmarkDetector::getInstance(), &FacialLandmarkDetector::NewDetection,
+					this, &Communicator::fetchFacialData);
 }
 
-void Communicator::initialize() {
-	s_instance = new Communicator();
-}
-
-void Communicator::dispose() {
+void Communicator::releaseInstance() {
 	delete s_instance;
 }
 
-const Communicator* Communicator::getInstance() {
+Communicator* Communicator::getInstance() {
 	if (s_instance == nullptr) {
-		initialize();
+		s_instance = new Communicator();
 	}
 	return s_instance;
 }
 
-const nlohmann::json* Communicator::getNJson() const {
-	const nlohmann::json* temp = Network_QT::getInstance()->getSendJson();
-	if (temp == nullptr 
-		|| (*temp)["data"].is_null() ) {
+const nlohmann::json* Communicator::getFacialData() {
+	if (!_isUpdated) {
 		return nullptr;
 	}
 	else {
-		return temp;
+		_isUpdated = false;
+		return _facialData;
+	}
+}
+
+void Communicator::fetchFacialData() {
+	const nlohmann::json* temp = Network_QT::getInstance()->getSendJson();
+	if (temp == nullptr
+		|| (*temp)["data"].is_null()) {
+		_isUpdated = false;
+	}
+	else {
+		_facialData = temp;
+		_isUpdated = true;
 	}
 }

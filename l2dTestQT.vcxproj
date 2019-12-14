@@ -113,7 +113,7 @@
     <QtMoc Include="src\detection.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Communicator.hpp" />
+    <QtMoc Include="src\Communicator.hpp" />
     <QtMoc Include="src\UI\about.h" />
     <QtMoc Include="src\UI\chat.h" />
     <QtMoc Include="src\UI\connecting.h" />
@@ -125,7 +125,7 @@
     <ClInclude Include="src\helper.hpp" />
     <ClInclude Include="src\LApp\LAppAllocator.hpp" />
     <ClInclude Include="src\LApp\LAppDefine.hpp" />
-    <ClInclude Include="src\LApp\LAppDelegate.hpp" />
+    <QtMoc Include="src\LApp\LAppDelegate.hpp" />
     <ClInclude Include="src\LApp\LAppLive2DManager.hpp" />
     <ClInclude Include="src\LApp\LAppModel.hpp" />
     <ClInclude Include="src\LApp\LAppPal.hpp" />
@@ -136,7 +136,7 @@
     <ClInclude Include="src\JsonConverter.hpp" />
     <ClInclude Include="src\Setting.h" />
     <ClInclude Include="tests\TestAnimator.hpp" />
-    <QtMoc Include="tests\TestFacialDetection.hpp" />
+    <ClInclude Include="tests\TestFacialDetection.hpp" />
     <ClInclude Include="tests\TestMainWindow.hpp" />
     <QtMoc Include="src\Network_QT.h" />
   </ItemGroup>
