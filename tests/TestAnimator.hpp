@@ -5,14 +5,13 @@
 #include <LApp/LAppDelegate.hpp>
 #include "Communicator.hpp"
 #include "detection.h"
+#include <QApplication>
 
 class TestAnimator {
 public:
-	static int runTest() {
-		// Initializations
-		auto _ = FacialLandmarkDetector::getInstance();	// Force the construction of the singleton instance
+	static int runTest(int argc, char *argv[]) {
+
 		FacialLandmarkDetector::getInstance()->startDetector();
-		Communicator::initialize();
 
 		// create the application instance
 		if (LAppDelegate::GetInstance()->Initialize() == GL_FALSE)
@@ -20,7 +19,8 @@ public:
 			return 1;
 		}
 
-		LAppDelegate::GetInstance()->Run();
+		LAppDelegate::GetInstance()->startThreadRun();
+
 
 		return 0;
 	}

@@ -2,24 +2,29 @@
 
 #include <nlohmann/json.hpp>
 #include <Utils/CubismJson.hpp>
+#include <QObject>
 
-class Communicator{
+class Communicator : public QObject {
+	Q_OBJECT;
+
 public:
-	static void initialize();
-	static void dispose();
-	static const Communicator* getInstance();
+	static void releaseInstance();
+	static Communicator* getInstance();
 
 public:
 	// Fetch and return a nlohmann-style json object valid for conversion
 	// Return nullptr if the attempt fails
-	const nlohmann::json* getNJson() const;
+	const nlohmann::json* getFacialData();
 
 private:
 	Communicator();
 	Communicator(const Communicator&) = delete;
 	~Communicator() {}
-
+	
 private:
-	static Communicator* s_instance;
+	bool _isUpdated = false;
+	const nlohmann::json* _facialData = nullptr;
 
+private slots:
+	void fetchFacialData();
 };

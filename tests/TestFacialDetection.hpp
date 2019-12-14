@@ -15,7 +15,7 @@
 #include <QApplication>
 
 class TestFacialDetection : public QObject {
-	Q_OBJECT;
+	//Q_OBJECT;		// [IMPORTANT] For unknown reasons, if Q_OBJECT is added then the linker will complain
 
 public:
 	static void runTest(int argc, char* argv[]) {
@@ -32,7 +32,7 @@ public:
 		instance.moveToThread(&thread);
 		thread.start();
 
-		QApplication a(argc, argv);
+		QCoreApplication a(argc, argv);
 		a.exec();
 
 		// Cubism Framework disposal
