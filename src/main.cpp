@@ -3,7 +3,7 @@
 #include "Communicator.hpp"
 
 #define _TEST_RUN__
-#include "../tests/TestAnimator.hpp"
+#include "../tests/TestMainWindow.hpp"
 #undef _TEST_RUN__
 
 
@@ -17,10 +17,10 @@ int main(int argc, char *argv[]) {
 
 
 	// Other initializations
-	Communicator::initialize();
+	//Communicator::initialize();
 
 	// Do something here
-	TestAnimator::runTest();
+	TestMainWindow::runTest(argc, argv);
 	
 
 	// Cubism Framework disposal
