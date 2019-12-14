@@ -19,6 +19,9 @@ test.cpp
 # Mono auto generated files
 mono_crash.*
 
+#vcpkg
+packages.config
+
 # Build results
 #[Dd]ebug/
 [Dd]ebugPublic/

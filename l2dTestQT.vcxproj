@@ -121,7 +121,6 @@
     <QtMoc Include="src\UI\mainwindow.h" />
     <QtMoc Include="src\UI\settingwin.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="TestMainWindow.hpp" />
     <QtMoc Include="src\Audio.h" />
     <ClInclude Include="src\helper.hpp" />
     <ClInclude Include="src\LApp\LAppAllocator.hpp" />
@@ -137,7 +136,8 @@
     <ClInclude Include="src\JsonConverter.hpp" />
     <ClInclude Include="src\Setting.h" />
     <ClInclude Include="tests\TestAnimator.hpp" />
-    <ClInclude Include="tests\TestFacialDetection.hpp" />
+    <QtMoc Include="tests\TestFacialDetection.hpp" />
+    <ClInclude Include="tests\TestMainWindow.hpp" />
     <QtMoc Include="src\Network_QT.h" />
   </ItemGroup>
   <ItemGroup>

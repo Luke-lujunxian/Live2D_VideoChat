@@ -3,6 +3,7 @@
 #ifdef _TEST_RUN__
 
 #include <LApp/LAppDelegate.hpp>
+#include "Communicator.hpp"
 #include "detection.h"
 
 class TestAnimator {

@@ -69,6 +69,9 @@
     <QtMoc Include="src\UI\settingwin.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
+    <QtMoc Include="tests\TestFacialDetection.hpp">
+      <Filter>Source Files\tests</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\helper.hpp">
@@ -107,9 +110,6 @@
     <ClInclude Include="src\LApp\LAppView.hpp">
       <Filter>Source Files\LApp</Filter>
     </ClInclude>
-    <ClInclude Include="tests\TestFacialDetection.hpp">
-      <Filter>Source Files\tests</Filter>
-    </ClInclude>
     <ClInclude Include="src\JsonConverter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,11 +119,11 @@
     <ClInclude Include="src\Communicator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestMainWindow.hpp">
-      <Filter>Source Files\tests</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\TestMainWindow.hpp">
+      <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
