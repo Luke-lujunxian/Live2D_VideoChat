@@ -79,10 +79,13 @@ void Network_QT::ConnectHandler() {
 	motion->alive = false;
 }
 
+
 void Network_QT::updateMotion(json& motion)
 {
+	//qDebug() << QString::fromStdString(motion.dump(1));
 	this->sendObject.erase("data");
-	this->sendObject.emplace("data", motion);
+	this->sendObject["data"] = motion;
+	//qDebug() << QString::fromStdString(this->sendObject.dump(1));
 }
 
 std::vector<MotionObject*>* Network_QT::getDisplayObjects()
