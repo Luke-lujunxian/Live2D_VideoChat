@@ -50,11 +50,11 @@ void MainWindow::on_pushButton_Call_clicked() {
     try {
         if (ui->lineEdit_IP->text().isEmpty()) {
             setError(ui->lineEdit_IP);
-            throw std::exception("BAD_ADDRESS");
+            throw std::runtime_error("BAD_ADDRESS");
         }
         if (ui->lineEdit_Port->text().isEmpty()) {
             setError(ui->lineEdit_Port);
-            throw std::exception("BAD_ADDRESS");
+            throw std::runtime_error("BAD_ADDRESS");
         }
         
         clearError(ui->lineEdit_Port);    

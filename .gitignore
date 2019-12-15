@@ -27,7 +27,7 @@ packages.config
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
-*.pro
+#*.pro
 
 # Build results
 #[Dd]ebug/
@@ -45,6 +45,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+[Oo]ut/Debug
+[Oo]ut/Release
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

@@ -160,13 +160,13 @@ void Network_QT::call(std::string ip, int port){
 		while (!caller->canReadLine()) {
 			if (time(nullptr) - call > 3)
 				caller->close();
-				throw std::exception("NO_RESPONSE");
+                throw std::runtime_error("NO_RESPONSE");
 		}
 	}
 
 	if (caller->readLine() != "114514") {//Pong?
 		caller->close();
-		throw std::exception("NO_RESPONSE");
+        throw std::runtime_error("NO_RESPONSE");
 	}
 
 //Prepare info
@@ -186,7 +186,7 @@ void Network_QT::call(std::string ip, int port){
 		time_t call = time(nullptr);
 		while (!caller->canReadLine()) {
 			if (time(nullptr) - call > 15) //15s Timeout for accept
-				throw std::exception("NOT_ACCEPTING");
+                throw std::runtime_error("NOT_ACCEPTING");
 		}
 	}
 
@@ -222,7 +222,7 @@ void Network_QT::call(std::string target){//IPv4 Only
 	qDebug() << "Calling:"<<" " << QString::fromStdString(target);
 	if (target.find_first_of(':') == std::string::npos) {
 		if (target.find((std::string)"：") == std::string::npos) {
-			throw std::exception("BAD_ADDRESS");
+            throw std::runtime_error("BAD_ADDRESS");
 		}
 		else
 		{
@@ -233,7 +233,7 @@ void Network_QT::call(std::string target){//IPv4 Only
 		call(target.substr(target.find_first_of(':')), std::stoi(target.substr(target.find_first_of(':') + 1, target.length() - target.find_first_of(':') - 1)));
 	}
 	catch (std::string e) {
-		throw std::exception("BAD_ADDRESS");
+        throw std::runtime_error("BAD_ADDRESS");
 		
 	}
 }
