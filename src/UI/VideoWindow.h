@@ -1,15 +1,14 @@
-#pragma once
-
 #ifndef VIDEOWINDOW_H
 #define VIDEOWINDOW_H
 
-#include <QWindow>
+#include <QDialog>
+#include <QOpenGLWidget>
 
 namespace Ui {
 	class VideoWindow;
 }
 
-class VideoWindow : public QWindow
+class VideoWindow : public QDialog
 {
 	Q_OBJECT
 
@@ -19,6 +18,7 @@ public:
 
 private:
 	Ui::VideoWindow *ui;
+	QOpenGLWidget* openGLWidget;
 };
 
 #endif // VIDEOWINDOW_H

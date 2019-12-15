@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <Network_QT.h>
@@ -6,13 +7,17 @@
 #include <qvalidator.h>
 #include <errorwin.h>
 
+#include <LApp/LAppDelegate.hpp>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+	, mirrorWindow(new VideoWindow)
 {
     ui->setupUi(this);
     settingWin = nullptr;
     aboutWin = nullptr;
+
     QObject::connect(ui->actionExit,&QAction::triggered,this,&MainWindow::endProgram);
     QObject::connect(ui->actionAbout,&QAction::triggered,this,[this](){this->aboutWin = this->aboutWin == nullptr ?  new About():this->aboutWin;this->aboutWin->show();});
     QObject::connect(ui->actionSetting,&QAction::triggered,this,[this](){
@@ -30,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+	delete mirrorWindow;
     delete ui;
 }
 
@@ -74,6 +80,19 @@ void MainWindow::on_pushButton_Call_clicked() {
             return;
         }
     }
+}
+
+void MainWindow::on_mirrorButton_clicked() {
+	if (mirrorWindow->isActiveWindow()) {
+		// Do nothing
+	}
+	else {
+		auto d = LAppDelegate::GetInstance();
+		d->makeCurrent();
+		d->Initialize();
+		//d->Run();
+		mirrorWindow->exec();
+	}
 }
 
 void MainWindow::updateInfo() {

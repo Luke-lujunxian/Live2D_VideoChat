@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "settingwin.h"
 #include "about.h"
+#include "VideoWindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,10 +24,14 @@ public slots:
 private slots:
     void on_pushButton_Call_clicked();
     void endProgram();
+	void on_mirrorButton_clicked();
+
 private:
     SettingWin* settingWin;
     About* aboutWin;
     Ui::MainWindow *ui;
     QThread* listener;
+
+	VideoWindow* mirrorWindow;
 };
 #endif // MAINWINDOW_H

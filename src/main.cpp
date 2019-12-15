@@ -1,8 +1,8 @@
 
 
 #define _TEST_RUN__
-//#include "../tests/TestMainWindow.hpp"
-#include "../tests/TestAnimator.hpp"
+#include "../tests/TestMainWindow.hpp"
+//#include "../tests/TestAnimator.hpp"
 //#include "../tests/TestFacialDetection.hpp"
 #undef _TEST_RUN__
 
@@ -12,6 +12,6 @@
 int main(int argc, char *argv[]) {
 	
 	// Do something here
-	//TestAnimator::runTest(argc, argv);
-
+	int ret = TestMainWindow::runTest(argc, argv);
+	return ret;
 }

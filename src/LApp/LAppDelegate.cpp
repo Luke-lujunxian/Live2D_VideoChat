@@ -8,7 +8,7 @@
 #include "LAppDelegate.hpp"
 #include <iostream>
 //#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
 #include "LAppView.hpp"
 #include "LAppPal.hpp"
 #include "LAppDefine.hpp"
@@ -32,6 +32,7 @@ LAppDelegate* LAppDelegate::GetInstance()
     if (s_instance == NULL)
     {
         s_instance = new LAppDelegate(nullptr);	// TODO: change parent pointer to the video chat window
+		s_instance->initializeOpenGLFunctions();
     }
 
     return s_instance;
