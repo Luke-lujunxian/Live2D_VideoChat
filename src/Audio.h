@@ -1,3 +1,9 @@
+/*
+ * @Author: Luke_lu
+ * @Date: 2019-12-12 18:39:37
+ * @LastEditTime: 2019-12-15 19:37:58
+ * @Description: Audio processing and sending thread
+ */
 #pragma once
 #include <QtNetwork/qudpsocket.h>
 #include <Network_QT.h>
@@ -51,6 +57,4 @@ struct stream {
 Some code and idea from 
 https://blog.csdn.net/hanzhen7541/article/details/98794555
 https://github.com/Wzing0421/QTAudio
-
-
 */
