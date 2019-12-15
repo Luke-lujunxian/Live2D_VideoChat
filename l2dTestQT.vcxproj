@@ -136,6 +136,7 @@
     <ClInclude Include="src\JsonConverter.hpp" />
     <ClInclude Include="src\Setting.h" />
     <QtMoc Include="src\UI\VideoWindow.h" />
+    <QtMoc Include="src\UI\acceptcall.h" />
     <ClInclude Include="tests\TestAnimator.hpp" />
     <ClInclude Include="tests\TestFacialDetection.hpp" />
     <ClInclude Include="tests\TestMainWindow.hpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="src\JsonConverter.cpp" />
     <ClCompile Include="src\Setting.cpp" />
     <ClCompile Include="src\UI\about.cpp" />
+    <ClCompile Include="src\UI\acceptcall.cpp" />
     <ClCompile Include="src\UI\chat.cpp" />
     <ClCompile Include="src\UI\connecting.cpp" />
     <ClCompile Include="src\UI\errorwin.cpp" />
@@ -170,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="UI\about.ui" />
+    <QtUic Include="UI\acceptcall.ui" />
     <QtUic Include="UI\Chat.ui" />
     <QtUic Include="UI\connecting.ui" />
     <QtUic Include="UI\errorwin.ui" />

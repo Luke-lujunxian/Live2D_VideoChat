@@ -61,7 +61,16 @@ void Network_QT::ConnectHandler() {
 		return;
 	}
 
-	//TODO: Accept?
+	//Accept?
+	AcceptCall* acceptThis = new AcceptCall();
+	QPixmap tempPix;
+	tempPix.loadFromData(QByteArray::fromBase64(callerInfo["ID"]["profile_photo"]));
+	acceptThis->setBasicInfo(callerInfo["ID"]["name"], tempPix);
+	acceptThis->show();
+	if (acceptThis->exec() != (int)QDialog::Accepted); {
+		s->close();
+		return;
+	}
 
 	//Process and send indetity information
 	json sendTemp;
@@ -176,8 +185,8 @@ void Network_QT::call(std::string ip, int port){
 	{
 		time_t call = time(nullptr);
 		while (!caller->canReadLine()) {
-			if (time(nullptr) - call > 3)
-				throw std::exception("NO_RESPONSE");
+			if (time(nullptr) - call > 15) //15s Timeout for accept
+				throw std::exception("NOT_ACCEPTING");
 		}
 	}
 
