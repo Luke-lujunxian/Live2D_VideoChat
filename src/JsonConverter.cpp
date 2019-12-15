@@ -1,5 +1,3 @@
-#pragma once
-
 #include "JsonConverter.hpp"
 #include <QDebug>
 

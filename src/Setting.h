@@ -5,7 +5,9 @@
  * @Description: A single instance Setting class to store and get settings
  */
 
-#pragma once
+#ifndef SETTING_H_
+#define SETTING_H_
+
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <QtMultimedia/QAudioDeviceInfo>
@@ -198,3 +200,5 @@ public:
 	bool showCamera;
 	bool ShowFR; // Show facial recognization image
 };
+
+#endif

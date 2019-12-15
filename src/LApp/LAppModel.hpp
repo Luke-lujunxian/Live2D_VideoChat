@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_MODEL_HPP_
+#define LAPP_MODEL_HPP_
 
 #include <CubismFramework.hpp>
 #include <Model/CubismUserModel.hpp>
@@ -189,4 +190,4 @@ private:
 };
 
 
-
+#endif

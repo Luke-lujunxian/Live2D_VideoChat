@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_TEXTURE_MANAGER_HPP_
+#define LAPP_TEXTURE_MANAGER_HPP_
 
 #include <string>
 #include <GL/glew.h>
@@ -106,3 +107,6 @@ public:
 private:
     Csm::csmVector<TextureInfo*> _textures;
 };
+
+
+#endif

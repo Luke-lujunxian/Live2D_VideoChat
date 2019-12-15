@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_ALLOCATOR_HPP_
+#define LAPP_ALLOCATOR_HPP_
 
 #include <CubismFramework.hpp>
 #include <ICubismAllocator.hpp>
@@ -50,3 +51,5 @@ class LAppAllocator : public Csm::ICubismAllocator
     */
 	void DeallocateAligned(void* alignedMemory) override;
 };
+
+#endif

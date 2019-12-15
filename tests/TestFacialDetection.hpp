@@ -1,6 +1,7 @@
-#pragma once
-
 #ifdef _TEST_RUN__
+
+#ifndef TEST_FACIAL_DETECTION_HPP_
+#define TEST_FACIAL_DETECTION_HPP_
 
 #include <nlohmann/json.hpp>
 #include "detection.h"
@@ -77,5 +78,7 @@ private slots:
 		}
 	}
 };
+
+#endif
 
 #endif

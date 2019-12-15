@@ -1,6 +1,7 @@
-#pragma once
-
 #ifdef _TEST_RUN__
+
+#ifndef TEST_ANIMATOR_HPP_
+#define TEST_ANIMATOR_HPP_
 
 #include <LApp/LAppDelegate.hpp>
 #include "Communicator.hpp"
@@ -29,5 +30,7 @@ public:
 private:
 
 };
+
+#endif
 
 #endif

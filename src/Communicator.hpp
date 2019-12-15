@@ -1,4 +1,5 @@
-#pragma once
+#ifndef COMMUNICATOR_HPP_
+#define COMMUNICATOR_HPP_
 
 #include <nlohmann/json.hpp>
 #include <Utils/CubismJson.hpp>
@@ -28,3 +29,5 @@ private:
 private slots:
 	void fetchFacialData();
 };
+
+#endif

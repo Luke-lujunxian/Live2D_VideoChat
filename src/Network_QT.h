@@ -4,7 +4,7 @@
  * @LastEditTime: 2019-12-14 22:01:15
  * @Description: Main network class and Wrapper class
  */
-#pragma once
+
 #ifndef NETWORK_QT_H_
 #define NETWORK_QT_H_
 

@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_SPRITE_HPP_
+#define LAPP_SPRITE_HPP_
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -106,3 +107,4 @@ private:
     float _spriteColor[4];  ///< 表示カラー
 };
 
+#endif

@@ -1,5 +1,8 @@
 #ifdef _TEST_RUN__
 
+#ifndef TEST_MAIN_WINDOW_HPP_
+#define TEST_MAIN_WINDOW_HPP_
+
 #include "mainwindow.h"
 #include "detection.h"
 #include <QApplication>
@@ -13,5 +16,7 @@ public:
 		return a.exec();
 	}
 };
+
+#endif
 
 #endif

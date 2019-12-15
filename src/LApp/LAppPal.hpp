@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_PAL_HPP_
+#define LAPP_PAL_HPP_
 
 #include <CubismFramework.hpp>
 #include <string>
@@ -82,3 +83,4 @@ private:
     static double s_deltaTime;
 };
 
+#endif

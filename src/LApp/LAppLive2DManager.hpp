@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_LIVE2D_MANAGER_HPP_
+#define LAPP_LIVE2D_MANAGER_HPP_
 
 #include <CubismFramework.hpp>
 #include <Math/CubismMatrix44.hpp>
@@ -108,3 +109,6 @@ private:
     //Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
 	Model* _self_model = nullptr;
 };
+
+
+#endif

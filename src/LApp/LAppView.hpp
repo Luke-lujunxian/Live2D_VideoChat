@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_VIEW_HPP_
+#define LAPP_VIEW_HPP_
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -142,3 +143,5 @@ private:
     SelectTarget _renderTarget;     ///< レンダリング先の選択肢
     float _clearColor[4];           ///< レンダリングターゲットのクリアカラー
 };
+
+#endif

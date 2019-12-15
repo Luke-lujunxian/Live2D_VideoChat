@@ -2,9 +2,12 @@
  * @Author: Luke_lu
  * @Date: 2019-12-14 17:23:14
  * @LastEditTime: 2019-12-14 22:35:35
- * @Description: Class of Facial regonition, landmark detection, and iris detect
+ * @Description: Class of Facial recognition, landmark detection, and iris detect
  */
-#pragma once
+
+#ifndef DETECTION_H_
+#define DETECTION_H_
+
 #include <thread>
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -91,7 +94,7 @@ public:
 
 
 	/**
-  * @description: Obsolete funtion
+  * @description: Obsolete function
   */ 
  void captureNuturalFace() {
 		captureNuturalFaceFlag = true;
@@ -108,4 +111,4 @@ private slots:
 
 };
 
-
+#endif

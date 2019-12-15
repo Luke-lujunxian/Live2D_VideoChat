@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AUDIO_H_
+#define AUDIO_H_
+
 #include <QtNetwork/qudpsocket.h>
 #include <Network_QT.h>
 #include <Setting.h>
@@ -54,3 +56,5 @@ https://github.com/Wzing0421/QTAudio
 
 
 */
+
+#endif
