@@ -1,3 +1,9 @@
+/*
+ * @Author: Luke_lu
+ * @Date: 2019-12-12 18:39:37
+ * @LastEditTime: 2019-12-15 20:57:51
+ * @Description: file content
+ */
 #include <Audio.h>
 #define MAX_AUDIO_LEN 960000 //如果接收缓冲区大于这个数值就剪掉
 #define FRAME_LEN_60ms 960 //每一个语音帧长度是960字节
@@ -10,20 +16,31 @@ Audio* Audio::getInstance()
 	return audio;
 }
 
+/**
+ * @description: Start the audio process
+ * @param
+ * @return: true if success
+ */
 bool Audio::audioStart()
 {
-    int port = Setting::getSetting()->getAudioPort();
     if (m_Output != nullptr && m_Input != nullptr)
         return false;
     return audioRestart();
 }
+
+/**
+ * @description: Start or restart the audio process
+ * @param
+ * @return: true if success
+ */
 bool Audio::audioRestart() {
+    bool status = true;
     if (m_Output != nullptr && m_Input != nullptr) {
         delete m_Output;
         delete m_Input;
     }
     int port = Setting::getSetting()->getAudioPort();
-    audioSocket->bind(QHostAddress::Any, port);
+    status = audioSocket->bind(QHostAddress::Any, port);
     setaudioformat(8000, 1, 16);//TODO:add setting
     inputDevice = m_Input->start();
     outputDevice = m_Output->start();
@@ -31,7 +48,7 @@ bool Audio::audioRestart() {
     QObject::connect(inputDevice, &QIODevice::readyRead, this, &Audio::onReadyRecord);
     QObject::connect(timer, &QTimer::timeout, this, &Audio::play);
     QObject::connect(audioSocket, &QUdpSocket::readyRead, this, &Audio::receiveData);
-    return true;
+    return status;
 }
 
 Audio::Audio()
@@ -41,6 +58,12 @@ Audio::Audio()
 	audioStart();
 }
 
+/**
+ * @description: Set the sudio sampling format
+ * @param {int} samplerate(Hz) e.g. 8000
+ * @param {int} channelcount: how many channel e.g. 2 for Stereo
+ * @param {int} samplesize(bit) e.g. 16 bit for normal, 32bit for high quality
+ */
 void Audio::setaudioformat(int samplerate, int channelcount, int samplesize) {
     format.setSampleRate(samplerate);
     format.setChannelCount(channelcount);
@@ -58,6 +81,10 @@ void Audio::setaudioformat(int samplerate, int channelcount, int samplesize) {
     m_Output = new QAudioOutput(outfo,format);
 
 }
+
+/**
+ * @description: slot. Call when there is audio data to read from mic
+ */
 void Audio::onReadyRecord() {
     stream vp;
     memset(&vp.data, 0, sizeof(vp));
@@ -71,6 +98,10 @@ void Audio::onReadyRecord() {
 
 }
 
+/**
+ * @description: slot. Call every 60ms to play audio data receied
+ * TODO: Mix audio from multiple sources
+ */
 void Audio::play() {
     if (m_PCMDataBuffer.size() < m_CurrentPlayIndex + FRAME_LEN_60ms) {//缓冲区不够播放60ms音频
         return;
@@ -90,6 +121,10 @@ void Audio::play() {
     }
 }
 
+/**
+ * @description: slot. Call when there is audio data to read from socket
+ * Data will be push into buffer
+ */
 void Audio::receiveData() {
     while (audioSocket->hasPendingDatagrams()) {
         QHostAddress senderip;

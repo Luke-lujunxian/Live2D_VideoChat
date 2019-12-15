@@ -1,3 +1,10 @@
+/*
+ * @Author: Luke_lu
+ * @Date: 2019-12-12 18:39:37
+ * @LastEditTime: 2019-12-15 19:37:58
+ * @Description: Audio processing and sending thread
+ */
+
 #ifndef AUDIO_H_
 #define AUDIO_H_
 

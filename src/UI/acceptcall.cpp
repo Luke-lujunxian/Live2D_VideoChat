@@ -12,7 +12,8 @@ AcceptCall::AcceptCall(QDialog*parent) :
     QObject::connect(ui->pushButton_Accept, &QPushButton::clicked, this, &QDialog::accept);
     QObject::connect(ui->pushButton_Refuse, &QPushButton::clicked, this, &QDialog::reject);
     QObject::connect(timer, &QTimer::timeout, this, &QDialog::reject);
-    timer->start(1000 * 15);//15s timeout
+    timer->start(1000 * 15);//15s timeoutÄÄ¸ö
+
 }
 
 AcceptCall::~AcceptCall()
