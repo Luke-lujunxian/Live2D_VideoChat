@@ -30,6 +30,8 @@
 #include <helper.hpp>
 #include <QtNetwork/qudpsocket.h>
 #include <Audio.h>
+#include "acceptcall.h"
+
 using namespace nlohmann;
 std::string GenerateGuid();
 
