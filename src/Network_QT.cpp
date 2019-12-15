@@ -1,4 +1,6 @@
-#include <Network_QT.h>
+﻿#include <Network_QT.h>
+#pragma execution_character_set("utf-8")
+
 Network_QT* Network_QT::network_QT = nullptr;
 
 	/**
@@ -14,7 +16,7 @@ bool Network_QT::networkInit() {
 	}
 	QObject::connect(listener, &QTcpServer::newConnection, this, &Network_QT::ConnectHandler);
 	//open listen port
-	return true
+	return true;
 }
 
 /**
@@ -48,7 +50,7 @@ void Network_QT::ConnectHandler() {
 		}	
 	}
 
-	temp = s->readLine();
+	std::string temp = s->readLine();
 	json callerInfo;
 	try {
 		callerInfo = json::parse(temp);
@@ -133,7 +135,7 @@ void Network_QT::call(std::string ip, int port){
 
 	{//wait for 3s of connect
 		time_t call = time(nullptr);
-		while (caller->state != QTcpSocket::ConnectedState) {
+		while (caller->state() != QTcpSocket::ConnectedState) {
 			if (time(nullptr) - call > 3) {
 				caller->close();
 				//TODO: window
@@ -196,7 +198,7 @@ void Network_QT::call(std::string ip, int port){
 		Network_QT::getInstance()->calls.push_back(newCallThd);
 		Network_QT::getInstance()->callObjs.push_back(newCallObj);
 	}else{
-		call.close();
+		caller->close();
 	}
 }
 
@@ -207,14 +209,15 @@ void Network_QT::call(std::string ip, int port){
  * @return: 
  */
 void Network_QT::call(std::string target){//IPv4 Only
+
 	qDebug() << "Calling:"<<" " << QString::fromStdString(target);
 	if (target.find_first_of(':') == std::string::npos) {
-		if (target.find_first_of('��') == std::string::npos) {
+		if (target.find((std::string)"：") == std::string::npos) {
 			throw std::exception("BAD_ADDRESS");
 		}
 		else
 		{
-			target[target.find_first_of('��')] = ':';
+			target[target.find_first_of((std::string)"：")] = ':';
 		}
 	}
 	try {

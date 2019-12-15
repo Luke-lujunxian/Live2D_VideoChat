@@ -74,18 +74,18 @@ public:
 				if (received == "") {
 					//not Receiving
 					qDebug() << "Empty package \n" << e.what();
-					qDebug() << sessionId.c_str;
+					qDebug() << sessionId.c_str();
 				}
 				else {
 					//data incorrect
 					qDebug() << "Data incorrect \n" << e.what();
-					qDebug() << sessionId.c_str;
+					qDebug() << sessionId.c_str();
 				}
 			}
 			else {
 				//unknown error
 				qDebug() << "MotionObject Write unknown error \n" << e.what();
-				qDebug() << sessionId.c_str;
+				qDebug() << sessionId.c_str();
 			}
 
 			return false;
@@ -197,9 +197,9 @@ public:
 
 private slots:
 	void sendObject() {
-		sendJson["data"].erase();
-		sendJson["data"] = Network_QT::getInstance()->getSendJson();
-		s->write(sendJson->dump().c_str(), sendJson->dump().length());
+		sendJson.erase("data");
+		sendJson["data"] = *Network_QT::getInstance()->getSendJson();
+		s->write(sendJson.dump().c_str(), sendJson.dump().length());
 	}
 	void writeObject() {
 		if(s->canReadLine())
