@@ -50,7 +50,7 @@ void LAppLive2DManager::ReleaseInstance()
 LAppLive2DManager::LAppLive2DManager()
     : _viewMatrix(NULL), _self_model(new Model())
 {
-    ChangeScene(0);
+    ChangeScene(1);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
