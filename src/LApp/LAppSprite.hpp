@@ -10,8 +10,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions>
 
 /**
 * @brief スプライトを実装するクラス。
@@ -19,7 +17,7 @@
 * テクスチャID、Rectの管理。
 *
 */
-class LAppSprite : public QOpenGLWidget, protected QOpenGLFunctions
+class LAppSprite
 {
 public:
     /**

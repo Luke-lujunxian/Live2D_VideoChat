@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <LApp/LAppDelegate.hpp>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <Network_QT.h>
@@ -6,8 +6,8 @@
 #include <settingwin.h>
 #include <qvalidator.h>
 #include <errorwin.h>
+#include <detection.h>
 
-#include <LApp/LAppDelegate.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 	delete mirrorWindow;
+	delete mirrorThread;
     delete ui;
 }
 
@@ -83,15 +84,18 @@ void MainWindow::on_pushButton_Call_clicked() {
 }
 
 void MainWindow::on_mirrorButton_clicked() {
-	if (mirrorWindow->isActiveWindow()) {
+	if (mirrorThread != nullptr && mirrorThread->isRunning()) {
 		// Do nothing
 	}
 	else {
+		FacialLandmarkDetector::getInstance()->startDetector();
+
+		delete mirrorThread;
+		mirrorThread = new QThread();
 		auto d = LAppDelegate::GetInstance();
-		d->makeCurrent();
-		d->Initialize();
-		//d->Run();
-		mirrorWindow->exec();
+		d->moveToThread(mirrorThread);
+		mirrorThread->start();
+		d->emitStartSignal();
 	}
 }
 

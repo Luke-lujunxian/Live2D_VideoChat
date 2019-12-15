@@ -7,8 +7,8 @@
 
 #include "LAppDelegate.hpp"
 #include <iostream>
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "LAppView.hpp"
 #include "LAppPal.hpp"
 #include "LAppDefine.hpp"
@@ -31,8 +31,7 @@ LAppDelegate* LAppDelegate::GetInstance()
 {
     if (s_instance == NULL)
     {
-        s_instance = new LAppDelegate(nullptr);	// TODO: change parent pointer to the video chat window
-		s_instance->initializeOpenGLFunctions();
+        s_instance = new LAppDelegate();
     }
 
     return s_instance;
@@ -80,6 +79,7 @@ bool LAppDelegate::Initialize()
     // Windowのコンテキストをカレントに設定
     glfwMakeContextCurrent(_window);
     glfwSwapInterval(1);
+
 
     if (glewInit() != GLEW_OK) {
         if (DebugLogEnable)
@@ -176,8 +176,7 @@ void LAppDelegate::Run()
 }
 
 
-LAppDelegate::LAppDelegate(QWidget* parent):
-	QOpenGLWidget(parent),
+LAppDelegate::LAppDelegate():
     _cubismOption(),
     _window(NULL),
     _captured(false),
@@ -189,6 +188,8 @@ LAppDelegate::LAppDelegate(QWidget* parent):
 {
     _view = new LAppView();
     _textureManager = new LAppTextureManager();
+
+	QObject::connect(this, &LAppDelegate::startSignal, this, &LAppDelegate::start);
 }
 
 LAppDelegate::~LAppDelegate()

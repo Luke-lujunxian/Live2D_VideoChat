@@ -1,7 +1,8 @@
+#include <LApp/LAppDelegate.hpp>
+
 #include "VideoWindow.h"
 #include "ui_VideoWindow.h"
 
-//#include <LApp/LAppDelegate.hpp>
 
 VideoWindow::VideoWindow(QWidget *parent) :
 	QDialog(parent),

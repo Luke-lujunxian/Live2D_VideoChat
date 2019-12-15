@@ -5,6 +5,7 @@
 #include "settingwin.h"
 #include "about.h"
 #include "VideoWindow.h"
+#include <QThread>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,5 +34,6 @@ private:
     QThread* listener;
 
 	VideoWindow* mirrorWindow;
+	QThread* mirrorThread = nullptr;
 };
 #endif // MAINWINDOW_H

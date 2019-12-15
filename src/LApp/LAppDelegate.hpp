@@ -10,9 +10,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "LAppAllocator.hpp"
-#include <QWidget>
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+
+#include <QObject>
 
 class LAppView;
 class LAppTextureManager;
@@ -21,7 +20,7 @@ class LAppTextureManager;
 * @brief   アプリケーションクラス。
 *   Cubism SDK の管理を行う。
 */
-class LAppDelegate : public QOpenGLWidget, protected QOpenGLFunctions
+class LAppDelegate : public QObject
 {
 	Q_OBJECT;
 
@@ -82,11 +81,23 @@ public:
 	*/
 	void Run();
 
+	void emitStartSignal() { emit startSignal(); }
+
+private slots:
+
+	void start() {
+		Initialize();
+		Run(); 
+	}
+
+signals:
+	void startSignal();
+
 private:
     /**
     * @brief   コンストラクタ
     */
-    LAppDelegate(QWidget* parent);
+    LAppDelegate();
 
     /**
     * @brief   デストラクタ
