@@ -50,7 +50,7 @@ void Network_QT::ConnectHandler() {
 		}	
 	}
 
-	std::string temp = s->readLine();
+    std::string temp = s->readLine().toStdString();
 	json callerInfo;
 	try {
 		callerInfo = json::parse(temp);

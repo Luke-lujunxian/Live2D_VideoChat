@@ -2,10 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
-
-QMAKE_CXXFLAGS_DEBUG += -std=c++11
-QMAKE_CXXFLAGS += -std=c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -98,25 +95,25 @@ INCLUDEPATH += \
 
 debug {
 LIBS += \
-    lib/Cubism/Core/lib/windows/x86_64/141/Live2DCubismCore_MDd.lib \
-    lib/Cubism/Framework/Release/Framework.a \
-    lib/Cubism/thirdparty/glew-2.1.0/x64/glew32.lib \
-    lib/Cubism/thirdparty/glew-2.1.0/x64/glew32s.lib \
-    lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3.a \
-    lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3dll.a \
-    lib/opencv/x64/vc15/lib/opencv_world412d.lib
+    $$PWD/lib/Cubism/Core/lib/windows/x86_64/141/Live2DCubismCore_MDd.lib \
+    $$PWD/lib/Cubism/Framework/Release/Framework.a \
+    $$PWD/lib/Cubism/thirdparty/glew-2.1.0/x64/glew32.lib \
+    $$PWD/lib/Cubism/thirdparty/glew-2.1.0/x64/glew32s.lib \
+    $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3.a \
+    $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3dll.a \
+    $$PWD/lib/opencv/x64/vc15/lib/opencv_world412d.lib
 
 DESTDIR = out/Debug/
 }
 release {
 LIBS += \
-    lib/Cubism/Core/lib/windows/x86_64/141/Live2DCubismCore_MD.lib \
-    lib/Cubism/Framework/Release/Framework.a \
-    lib/Cubism/thirdparty/glew-2.1.0/x64/glew32.lib \
-    lib/Cubism/thirdparty/glew-2.1.0/x64/glew32s.lib \
-    lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3.a \
-    lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3dll.a \
-    lib/opencv/x64/vc15/lib/opencv_world412.lib
+    $$PWD/lib/Cubism/Core/lib/windows/x86_64/141/Live2DCubismCore_MD.lib \
+    $$PWD/lib/Cubism/Framework/Release/Framework.a \
+    $$PWD/lib/Cubism/thirdparty/glew-2.1.0/x64/glew32.lib \
+    $$PWD/lib/Cubism/thirdparty/glew-2.1.0/x64/glew32s.lib \
+    $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3.a \
+    $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3dll.a \
+    $$PWD/lib/opencv/x64/vc15/lib/opencv_world412.lib
 
 DESTDIR = out/Release/
 }
