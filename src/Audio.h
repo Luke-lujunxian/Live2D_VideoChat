@@ -11,7 +11,7 @@
 #include <QtNetwork/qudpsocket.h>
 #include <Network_QT.h>
 #include <Setting.h>
-#include <QtMultimedia/qaudio>
+#include <QtMultimedia/QAudio>
 #include <QtMultimedia/QAudioFormat>
 #include <QtMultimedia/QAudioInput>
 #include <QtMultimedia/QAudioOutput>
