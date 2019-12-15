@@ -91,7 +91,7 @@ void MainWindow::on_mirrorButton_clicked() {
 		FacialLandmarkDetector::getInstance()->startDetector();
 
 		delete mirrorThread;
-		mirrorThread = new QThread();
+		mirrorThread = new QThread(this);
 		auto d = LAppDelegate::GetInstance();
 		d->moveToThread(mirrorThread);
 		mirrorThread->start();

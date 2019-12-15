@@ -84,7 +84,7 @@ void LAppView::Initialize()
 
 void LAppView::Render()
 {
-    _back->Render();
+    //_back->Render();
 
     LAppLive2DManager* Live2DManager = LAppLive2DManager::GetInstance();
 
