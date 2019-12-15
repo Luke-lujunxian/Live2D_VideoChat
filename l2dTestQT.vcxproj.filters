@@ -75,6 +75,9 @@
     <QtMoc Include="src\Communicator.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="VideoWindow.h">
+      <Filter>Header Files\UI</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\helper.hpp">
@@ -197,6 +200,9 @@
       <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\settingwin.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoWindow.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>

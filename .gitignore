@@ -19,8 +19,14 @@ test.cpp
 # Mono auto generated files
 mono_crash.*
 
-#vcpkg
+# vcpkg
 packages.config
+
+# Project settings
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
 
 # Build results
 #[Dd]ebug/
