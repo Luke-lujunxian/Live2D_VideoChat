@@ -2,7 +2,7 @@
 #define ACCEPTCALL_H
 
 #include <QDialog>
-
+#include <QTimer>
 namespace Ui {
 class AcceptCall;
 }
@@ -22,6 +22,7 @@ private:
     Ui::AcceptCall *ui;
     QSize baseSize = QSize(317, 257);
     QSize detailedSize = QSize(317, 469);
+    QTimer* timer;
 };
 
 #endif // ACCEPTCALL_H

@@ -8,12 +8,16 @@ AcceptCall::AcceptCall(QDialog*parent) :
     ui->setupUi(this);
     this->setFixedSize(baseSize);
     ui->textBrowser_Detail->insertPlainText("TODO");
+    timer = new QTimer();
     QObject::connect(ui->pushButton_Accept, &QPushButton::clicked, this, &QDialog::accept);
     QObject::connect(ui->pushButton_Refuse, &QPushButton::clicked, this, &QDialog::reject);
+    QObject::connect(timer, &QTimer::timeout, this, &QDialog::reject);
+    timer->start(1000 * 15);//15s timeout
 }
 
 AcceptCall::~AcceptCall()
 {
+    delete timer;
     delete ui;
 }
 

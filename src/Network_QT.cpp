@@ -64,7 +64,7 @@ void Network_QT::ConnectHandler() {
 	//Accept?
 	AcceptCall* acceptThis = new AcceptCall();
 	QPixmap tempPix;
-	tempPix.loadFromData(QByteArray::fromBase64(callerInfo["ID"]["profile_photo"]));
+	tempPix.loadFromData(QByteArray::fromBase64(callerInfo["ID"]["profile_photo"].get < std::string >().c_str() ));
 	acceptThis->setBasicInfo(callerInfo["ID"]["name"], tempPix);
 	acceptThis->show();
 	if (acceptThis->exec() != (int)QDialog::Accepted); {
