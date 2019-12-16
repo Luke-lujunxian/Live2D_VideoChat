@@ -12,7 +12,7 @@ namespace LAppDefine {
 
     using namespace Csm;
 
-    // 画面
+    // Display-related constants
     const csmFloat32 ViewMaxScale = 2.0f;
     const csmFloat32 ViewMinScale = 0.8f;
 
@@ -24,50 +24,32 @@ namespace LAppDefine {
     const csmFloat32 ViewLogicalMaxBottom = -2.0f;
     const csmFloat32 ViewLogicalMaxTop = 2.0f;
 
-    // 相対パス
+    // Relative path
     const csmChar* ResourcesPath = "..\\..\\res\\";
 
-    // モデルの後ろにある背景の画像ファイル
+    // Background
     const csmChar* BackImageName = "back_class_normal.png";
-    // 歯車
-    const csmChar* GearImageName = "icon_gear.png";
-    // 終了ボタン
-    const csmChar* PowerImageName = "Close.png";
 
-    // モデル定義------------------------------------------
-    // モデルを配置したディレクトリ名の配列
-    // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
+    // Models
     const csmChar* ModelDir[] = {
-		"Haru"/*,
-		"Hiyori",
-		"Mark",
-		"Natori",
-		"Rice"*/
+		"Haru",
+		"Hiyori"
     };
     const csmInt32 ModelDirSize = sizeof(ModelDir) / sizeof(const csmChar*);
 
-    // 外部定義ファイル(json)と合わせる
-    const csmChar* MotionGroupIdle = "Idle"; // アイドリング
-    const csmChar* MotionGroupTapBody = "TapBody"; // 体をタップしたとき
-
-    // 外部定義ファイル(json)と合わせる
-    const csmChar* HitAreaNameHead = "Head";
-    const csmChar* HitAreaNameBody = "Body";
-
-    // モーションの優先度定数
+    // Motion priority levels
     const csmInt32 PriorityNone = 0;
     const csmInt32 PriorityIdle = 1;
     const csmInt32 PriorityNormal = 2;
     const csmInt32 PriorityForce = 3;
 
-    // デバッグ用ログの表示オプション
     const csmBool DebugLogEnable = true;
-    const csmBool DebugTouchLogEnable = false;
 
-    // Frameworkから出力するログのレベル設定
+
+    // Cubism Framework log level
     const CubismFramework::Option::LogLevel CubismLoggingLevel = CubismFramework::Option::LogLevel_Verbose;
 
-    // デフォルトのレンダーターゲットサイズ
+    // Default window size
     const csmInt32 RenderTargetWidth = 1900;
     const csmInt32 RenderTargetHeight = 1000;
 }

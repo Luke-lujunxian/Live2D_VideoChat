@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MODEL_HPP_ 
+#define MODEL_HPP_
 
 #include "LApp/LAppModel.hpp"
 #include <nlohmann/json.hpp>
@@ -22,3 +23,5 @@ private:
 	Csm::ACubismMotion* _currentExpression = nullptr;
 
 };
+
+#endif

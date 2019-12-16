@@ -5,110 +5,129 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_DELIGATE_HPP_
+#define LAPP_DELIGATE_HPP_
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "LAppAllocator.hpp"
 
+#include <QObject>
+
 class LAppView;
 class LAppTextureManager;
 
 /**
-* @brief   アプリケーションクラス。
-*   Cubism SDK の管理を行う。
+* @brief   Video window class
+*   Manage Cubism SDK
 */
-class LAppDelegate
+class LAppDelegate : public QObject
 {
+	Q_OBJECT;
+
 public:
     /**
-    * @brief   クラスのインスタンス（シングルトン）を返す。<br>
-    *           インスタンスが生成されていない場合は内部でインスタンを生成する。
-    *
-    * @return  クラスのインスタンス
+    * @brief   Return the singleton instance of this class
     */
     static LAppDelegate* GetInstance();
 
     /**
-    * @brief   クラスのインスタンス（シングルトン）を解放する。
+    * @brief   Release the singleton instance of this class
     *
     */
     static void ReleaseInstance();
 
     /**
-    * @brief   APPに必要なものを初期化する。
+    * @brief   OpenGL-related initializations
     */
     bool Initialize();
 
     /**
-    * @brief   解放する。
+    * @brief   (As the name suggests)
     */
     void Release();
 
     /**
-    * @brief   実行処理。
-    */
-    void Run();
-
-    /**
-    * @brief　シェーダーを登録する。
+    * @brief　Register the shader
     */
     GLuint CreateShader();
 
     /**
-    * @brief   Window情報を取得する。
+    * @brief   Obtain information about the window
     */
     GLFWwindow* GetWindow() { return _window; }
 
     /**
-    * @brief   View情報を取得する。
+    * @brief   Obtain information about the View
     */
     LAppView* GetView() { return _view; }
 
     /**
-    * @brief   アプリケーションを終了するかどうか。
+    * @brief   Is the video app ended
     */
     bool GetIsEnd() { return _isEnd; }
 
     /**
-    * @brief   アプリケーションを終了する。
+    * @brief   End the video application
     */
     void AppEnd() { _isEnd = true; }
 
     LAppTextureManager* GetTextureManager() { return _textureManager; }
 
+	/**
+	* @brief   Main loop that updates the window
+	*/
+	void Run();
+
+	void emitStartSignal() { emit startSignal(); }
+
+	int getPeerNumber() const { return _peerNumber; }
+
+	void setPeerNumber(int no) { _peerNumber = no; }
+
+private slots:
+
+	void start() {
+		Initialize();
+		Run(); 
+	}
+
+signals:
+	void startSignal();
+
 private:
     /**
-    * @brief   コンストラクタ
+    * @brief   Constructor
     */
     LAppDelegate();
 
     /**
-    * @brief   デストラクタ
+    * @brief   Destructor
     */
     ~LAppDelegate();
 
     /**
-    * @brief   Cubism SDK の初期化
+    * @brief   Initialization of Cubism SDK
     */
     void InitializeCubism();
 
     /**
-     * @brief   CreateShader内部関数 エラーチェック
+     * @brief   Helper for CreateShader(). Perform error checks
      */
     bool CheckShader(GLuint shaderId);
 
-    LAppAllocator _cubismAllocator;              ///< Cubism SDK Allocator
-    Csm::CubismFramework::Option _cubismOption;  ///< Cubism SDK Option
-    GLFWwindow* _window;                         ///< OpenGL ウィンドウ
-    LAppView* _view;                             ///< View情報
-    bool _captured;                              ///< クリックしているか
-    float _mouseX;                               ///< マウスX座標
-    float _mouseY;                               ///< マウスY座標
-    bool _isEnd;                                 ///< APP終了しているか
-    LAppTextureManager* _textureManager;         ///< テクスチャマネージャー
+	int _peerNumber;							 /// Peer number (<0 will refer to self)
 
-    int _windowWidth;                            ///< Initialize関数で設定したウィンドウ幅
-    int _windowHeight;                           ///< Initialize関数で設定したウィンドウ高さ
+    LAppAllocator _cubismAllocator;              ///  Cubism SDK Allocator
+    Csm::CubismFramework::Option _cubismOption;  ///  Cubism SDK Option
+    GLFWwindow* _window;                         ///  OpenGL window
+    LAppView* _view;                             ///  View information
+    bool _isEnd;                                 
+    LAppTextureManager* _textureManager;         ///  テクスチャマネージャー
+
+    int _windowWidth;                            ///  Window width. Set in Initialize()
+    int _windowHeight;                           ///  Window height. Set in Initialize()
+
 };
 
+#endif

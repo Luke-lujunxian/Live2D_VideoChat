@@ -5,7 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_VIEW_HPP_
+#define LAPP_VIEW_HPP_
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -14,123 +15,125 @@
 #include "CubismFramework.hpp"
 #include <Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp>
 
+
 class TouchManager;
 class LAppSprite;
 class LAppModel;
 
 /**
-* @brief 描画クラス
+* @brief View Render Class
 */
 class LAppView
 {
 public:
 
     /**
-     * @brief LAppModelのレンダリング先
+     * @brief The render target for LAppModel
      */
     enum SelectTarget
     {
-        SelectTarget_None,                ///< デフォルトのフレームバッファにレンダリング
-        SelectTarget_ModelFrameBuffer,    ///< LAppModelが各自持つフレームバッファにレンダリング
-        SelectTarget_ViewFrameBuffer,     ///< LAppViewの持つフレームバッファにレンダリング
+        SelectTarget_None,                ///  Render default frame buffer
+        SelectTarget_ModelFrameBuffer,    ///  Render the frame buffer maintained by each LAppModel
+        SelectTarget_ViewFrameBuffer,     ///  Render the frame buffer maintained by each LAppView
     };
 
     /**
-    * @brief コンストラクタ
+    * @brief Constructor
     */
     LAppView();
 
     /**
-    * @brief デストラクタ
+    * @brief Destructor
     */
     ~LAppView();
 
     /**
-    * @brief 初期化する。
+    * @brief Initialization
     */
     void Initialize();
 
     /**
-    * @brief 描画する。
+    * @brief Perform render
     */
     void Render();
 
     /**
-    * @brief 画像の初期化を行う。
+    * @brief Sprite initialization
     */
     void InitializeSprite();
 
     /**
-    * @brief スプライト系のサイズ再設定
+    * @brief (As the name suggests)
     */
     void ResizeSprite();
 
     /**
-    * @brief X座標をView座標に変換する。
+    * @brief Transform device X coordinate to the corresponding View coordinate
     *
-    * @param[in]       deviceX            デバイスX座標
+    * @param[in]       deviceX
     */
     float TransformViewX(float deviceX) const;
 
     /**
-    * @brief Y座標をView座標に変換する。
+    * @brief Transform device Y coordinate to the corresponding View coordinate
     *
-    * @param[in]       deviceY            デバイスY座標
+    * @param[in]       deviceY            
     */
     float TransformViewY(float deviceY) const;
 
     /**
-    * @brief X座標をScreen座標に変換する。
+    * @brief Transform device X coordinate to the corresponding Screen coordinate
     *
-    * @param[in]       deviceX            デバイスX座標
+    * @param[in]       deviceX
     */
     float TransformScreenX(float deviceX) const;
 
     /**
-    * @brief Y座標をScreen座標に変換する。
+    * @brief Transform device Y coordinate to the corresponding Screen coordinate
     *
-    * @param[in]       deviceY            デバイスY座標
+    * @param[in]       deviceY
     */
     float TransformScreenY(float deviceY) const;
 
     /**
-     * @brief   モデル1体を描画する直前にコールされる
+     * @brief   Called before drawing a model
      */
     void PreModelDraw(LAppModel& refModel);
 
     /**
-     * @brief   モデル1体を描画した直後にコールされる
+     * @brief   Called after drawing a model
      */
     void PostModelDraw(LAppModel& refModel);
 
     /**
-     * @brief   別レンダリングターゲットにモデルを描画するサンプルで
-     *           描画時のαを決定する
+     * @brief   Decide the alpha value from other rendering targets
      */
     float GetSpriteAlpha(int assign) const;
 
     /**
-     * @brief レンダリング先を切り替える
+     * @brief (As the name suggests)
      */
     void SwitchRenderingTarget(SelectTarget targetType);
 
     /**
-     * @brief レンダリング先をデフォルト以外に切り替えた際の背景クリア色設定
-     * @param[in]   r   赤(0.0~1.0)
-     * @param[in]   g   緑(0.0~1.0)
-     * @param[in]   b   青(0.0~1.0)
+     * @brief Set Clear Color when the rendering target is not using default render settings
+     * @param[in]   r   Red(0.0~1.0)
+     * @param[in]   g   Green(0.0~1.0)
+     * @param[in]   b   Blue(0.0~1.0)
      */
     void SetRenderTargetClearColor(float r, float g, float b);
 
 private:
-    Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
-    Csm::CubismViewMatrix* _viewMatrix;      ///< viewMatrix
-    GLuint _programId;                       ///< シェーダID
-    LAppSprite* _back;                       ///< 背景画像
+    Csm::CubismMatrix44* _deviceToScreen;    ///  Device-to-screen matrix
+    Csm::CubismViewMatrix* _viewMatrix;      ///  viewMatrix
+    GLuint _programId;                       ///  Shader ID
+    LAppSprite* _back;                       ///  Background image
 
-    // レンダリング先を別ターゲットにする方式の場合に使用
-    LAppSprite* _renderSprite;                                      ///< モードによっては_renderBufferのテクスチャを描画
-    Csm::Rendering::CubismOffscreenFrame_OpenGLES2 _renderBuffer;   ///< モードによってはCubismモデル結果をこっちにレンダリング
-    SelectTarget _renderTarget;     ///< レンダリング先の選択肢
-    float _clearColor[4];           ///< レンダリングターゲットのクリアカラー
+    // The following are used when the rendering target is switched
+    LAppSprite* _renderSprite;                                      
+    Csm::Rendering::CubismOffscreenFrame_OpenGLES2 _renderBuffer;   
+    SelectTarget _renderTarget;     
+    float _clearColor[4];           
 };
+
+#endif

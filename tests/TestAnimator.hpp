@@ -1,28 +1,36 @@
-#pragma once
-
 #ifdef _TEST_RUN__
 
+#ifndef TEST_ANIMATOR_HPP_
+#define TEST_ANIMATOR_HPP_
+
 #include <LApp/LAppDelegate.hpp>
+#include "Communicator.hpp"
 #include "detection.h"
+#include <QApplication>
+#include <QTimer>
 
 class TestAnimator {
 public:
-	static int runTest() {
-		auto dummyHandle = FacialLandmarkDetector::getInstance();
+	static int runTest(int argc, char *argv[]) {
+
+		FacialLandmarkDetector::getInstance()->startDetector();
 
 		// create the application instance
-		if (LAppDelegate::GetInstance()->Initialize() == GL_FALSE)
-		{
-			return 1;
-		}
+		auto lapp = LAppDelegate::GetInstance();
 
-		LAppDelegate::GetInstance()->Run();
+		QCoreApplication a(argc, argv);
+		a.exec();
+		
+		lapp->Release();
+		LAppDelegate::ReleaseInstance();
 
-		return 0;
+		return 114;
 	}
 
 private:
 
 };
+
+#endif
 
 #endif

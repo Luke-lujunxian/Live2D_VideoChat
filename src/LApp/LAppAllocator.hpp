@@ -5,48 +5,51 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_ALLOCATOR_HPP_
+#define LAPP_ALLOCATOR_HPP_
 
 #include <CubismFramework.hpp>
 #include <ICubismAllocator.hpp>
 
 /**
-* @brief メモリアロケーションを実装するクラス。
+* @brief Memory allocator that implements the ICubismAllocator interface
 *
-* メモリ確保・解放処理のインターフェースの実装。
-* フレームワークから呼び出される。
+* Memory allocation & deallocation.
+* Required by the Cubism Framework.
 *
 */
 class LAppAllocator : public Csm::ICubismAllocator
 {
     /**
-    * @brief  メモリ領域を割り当てる。
+    * @brief  Allocate a memory buffer of designated size
     *
-    * @param[in]   size    割り当てたいサイズ。
-    * @return  指定したメモリ領域
+    * @param[in]   size    Size to allocate.
+    * @return  Allocated buffer pointer.
     */
 	void* Allocate(const Csm::csmSizeType size) override;
 
     /**
-    * @brief   メモリ領域を解放する
+    * @brief   Deallocate memory
     *
-    * @param[in]   memory    解放するメモリ。
+    * @param[in]   memory    The memory to deallocate
     */
 	void Deallocate(void* memory) override;
 
     /**
-    * @brief
+    * @brief   Allocate a memory buffer of designated size & alignment
     *
-    * @param[in]   size         割り当てたいサイズ。
-    * @param[in]   alignment    割り当てたいサイズ。
-    * @return  alignedAddress
+    * @param[in]   size         Size to set.
+    * @param[in]   alignment    Alignment to set.
+    * @return  Allocated buffer pointer
     */
 	void* AllocateAligned(const Csm::csmSizeType size, const Csm::csmUint32 alignment) override;
 
     /**
-    * @brief
+    * @brief    Deallocate aligned memory
     *
-    * @param[in]   alignedMemory    解放するメモリ。
+    * @param[in]   alignedMemory    The aligned memory to deallocate
     */
 	void DeallocateAligned(void* alignedMemory) override;
 };
+
+#endif

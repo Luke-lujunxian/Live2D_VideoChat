@@ -1,4 +1,13 @@
-#pragma once
+/*
+ * @Author: Luke_lu
+ * @Date: 2019-12-12 18:39:37
+ * @LastEditTime: 2019-12-15 19:37:58
+ * @Description: Audio processing and sending thread
+ */
+
+#ifndef AUDIO_H_
+#define AUDIO_H_
+
 #include <QtNetwork/qudpsocket.h>
 #include <Network_QT.h>
 #include <Setting.h>
@@ -21,7 +30,6 @@ private:
 	Audio();
 	Audio(Audio&) = delete;
 	Audio& operator=(Audio) = delete;
-
 	void setaudioformat(int samplerate, int channelcount, int samplesize);
 
 	QAudioInput* m_Input = nullptr;
@@ -37,11 +45,16 @@ private:
 	void addAudioBuffer(char* pData, int len);
 
 	~Audio();
+signals:
+	void startSignal();
 
 private slots:
 	void onReadyRecord();
 	void play();
 	void receiveData();
+	void startSlot() {
+		this->audioStart();
+	}
 };
 struct stream {
 	int lens;
@@ -54,3 +67,5 @@ https://github.com/Wzing0421/QTAudio
 
 
 */
+
+#endif

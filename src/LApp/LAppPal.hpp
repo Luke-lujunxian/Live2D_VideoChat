@@ -5,50 +5,43 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-#pragma once
+#ifndef LAPP_PAL_HPP_
+#define LAPP_PAL_HPP_
 
 #include <CubismFramework.hpp>
 #include <string>
 
-// [Modification] My headers
+
 #include <Utils/CubismJson.hpp>
 #include <nlohmann/json.hpp>
-// [End of Modification]
+
 
 /**
-* @brief プラットフォーム依存機能を抽象化する Cubism Platform Abstraction Layer.
-*
-* ファイル読み込みや時刻取得等のプラットフォームに依存する関数をまとめる
+* @brief A helper class for Cubism-related functions
 *
 */
 class LAppPal
 {
 public:
     /**
-    * @brief ファイルをバイトデータとして読み込む
+    * @brief Load a file as a byte array
     *
-    * ファイルをバイトデータとして読み込む
-    *
-    * @param[in]   filePath    読み込み対象ファイルのパス
-    * @param[out]  outSize     ファイルサイズ
-    * @return                  バイトデータ
+    * @param[in]   filePath    Path to the file
+    * @param[out]  outSize     Size of the loaded buffer to be assigned. (A mimic of the C# syntax)
+    * @return                  Loaded binary file buffer
     */
     static Csm::csmByte* LoadFileAsBytes(const std::string filePath, Csm::csmSizeInt* outSize);
 
 
     /**
-    * @brief バイトデータを解放する
+    * @brief Release the buffer created by LAppPal::LoadFileAsBytes
     *
-    * バイトデータを解放する
-    *
-    * @param[in]   byteData    解放したいバイトデータ
+    * @param[in]   byteData    The buffer to release
     */
     static void ReleaseBytes(Csm::csmByte* byteData);
 
     /**
-    * @biref   デルタ時間（前回フレームとの差分）を取得する
-    *
-    * @return  デルタ時間[ms]
+    * @biref   Return the delta time (the time difference from the last frame)
     *
     */
     static Csm::csmFloat32 GetDeltaTime();
@@ -56,22 +49,13 @@ public:
     static void UpdateTime();
 
     /**
-    * @brief ログを出力する
-    *
-    * ログを出力する
-    *
-    * @param[in]   format  書式付文字列
-    * @param[in]   ...     (可変長引数)文字列
+    * @brief Write log to the console. Usage is similar to C-style printf
     *
     */
     static void PrintLog(const Csm::csmChar* format, ...);
 
     /**
-    * @brief メッセージを出力する
-    *
-    * メッセージを出力する
-    *
-    * @param[in]   message  文字列
+    * @brief Write message to the console
     *
     */
     static void PrintMessage(const Csm::csmChar* message);
@@ -82,3 +66,4 @@ private:
     static double s_deltaTime;
 };
 
+#endif

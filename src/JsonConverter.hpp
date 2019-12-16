@@ -1,4 +1,5 @@
-#pragma once
+#ifndef JSON_CONVERTER_HPP_
+#define JSON_CONVERTER_HPP_
 
 #include <nlohmann/json.hpp>
 #include <Utils/CubismJson.hpp>
@@ -22,3 +23,4 @@ private:
 	JsonConverter(const JsonConverter&) = delete;
 };
 
+#endif

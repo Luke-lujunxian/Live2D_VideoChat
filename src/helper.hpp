@@ -1,4 +1,3 @@
-#pragma once
 #ifndef HELPER_HPP_
 #define HELPER_HPP_
 
