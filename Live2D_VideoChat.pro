@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network multimedia
 
 CONFIG += c++14
 
@@ -101,7 +101,8 @@ LIBS += \
     $$PWD/lib/Cubism/thirdparty/glew-2.1.0/x64/glew32s.lib \
     $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3.a \
     $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3dll.a \
-    $$PWD/lib/opencv/x64/vc15/lib/opencv_world412d.lib
+    $$PWD/lib/opencv/x64/opencv_world412.dll.a \
+    $$PWD/lib/dlib/dlib.a
 
 DESTDIR = out/Debug/
 }
@@ -113,7 +114,8 @@ LIBS += \
     $$PWD/lib/Cubism/thirdparty/glew-2.1.0/x64/glew32s.lib \
     $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3.a \
     $$PWD/lib/Cubism/thirdParty/glfw-3.3.bin.WIN64/lib-mingw-w64/libglfw3dll.a \
-    $$PWD/lib/opencv/x64/vc15/lib/opencv_world412.lib
+    $$PWD/lib/opencv/x64/opencv_world412.dll.a \
+    $$PWD/lib/dlib/dlib.a
 
 DESTDIR = out/Release/
 }
