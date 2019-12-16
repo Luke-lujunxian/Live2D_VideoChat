@@ -83,8 +83,12 @@ void LAppLive2DManager::OnUpdate() const
 	// Pre-call before a model is drawn
 	LAppDelegate::GetInstance()->GetView()->PreModelDraw(*_model);
 
-	// Fetch the facial data json.
-	auto nj =  Communicator::getInstance()->getSelfFacialData();
+	// Fetch the facial data json
+	int peerNo = LAppDelegate::GetInstance()->getPeerNumber();
+	if (peerNo >= 0) {
+		Communicator::getInstance()->fetchPeerFacialData();
+	}
+	auto nj =  Communicator::getInstance()->getFacialData(peerNo);
 	if (nj == nullptr) {
 		_model->update(nullptr);
 	}

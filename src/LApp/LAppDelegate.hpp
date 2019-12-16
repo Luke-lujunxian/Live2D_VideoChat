@@ -81,6 +81,10 @@ public:
 
 	void emitStartSignal() { emit startSignal(); }
 
+	int getPeerNumber() const { return _peerNumber; }
+
+	void setPeerNumber(int no) { _peerNumber = no; }
+
 private slots:
 
 	void start() {
@@ -111,6 +115,8 @@ private:
      * @brief   Helper for CreateShader(). Perform error checks
      */
     bool CheckShader(GLuint shaderId);
+
+	int _peerNumber;							 /// Peer number (<0 will refer to self)
 
     LAppAllocator _cubismAllocator;              ///  Cubism SDK Allocator
     Csm::CubismFramework::Option _cubismOption;  ///  Cubism SDK Option

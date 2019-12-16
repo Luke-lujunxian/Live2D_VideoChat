@@ -24,23 +24,66 @@ Communicator* Communicator::getInstance() {
 }
 
 const nlohmann::json* Communicator::getSelfFacialData() {
-	if (!_isSelfUpdated) {
+	if (!_selfFacialData.isUpdated) {
 		return nullptr;
 	}
 	else {
-		_isSelfUpdated = false;
-		return _selfFacialData;
+		_selfFacialData.isUpdated = false;
+		return _selfFacialData.data;
+	}
+}
+
+const nlohmann::json* Communicator::getPeerFacialData() {
+	if (!_peerFacialData.isUpdated) {
+		return nullptr;
+	}
+	else {
+		_peerFacialData.isUpdated = false;
+		return _peerFacialData.data;
+	}
+}
+
+const nlohmann::json* Communicator::getFacialData(int no) {
+	if (no < 0) {
+		return getSelfFacialData();
+	}
+	else {
+		return getPeerFacialData();
 	}
 }
 
 void Communicator::fetchSelfFacialData() {
 	const nlohmann::json* temp = Network_QT::getInstance()->getSendJson();
+	Network_QT::getInstance()->getCallObjs();
 	if (temp == nullptr
 		|| (*temp)["data"].is_null()) {
-		_isSelfUpdated = false;
+		// do nothing
 	}
 	else {
-		_selfFacialData = temp;
-		_isSelfUpdated = true;
+		_selfFacialData = FacialData(true, temp);
+	}
+}
+
+void Communicator::fetchPeerFacialData() {
+	std::vector<CallObj*>* callObjs = Network_QT::getInstance()->getCallObjs();
+
+	// Loop through the vector to locate the first valid callObj
+	for (const auto callObj : *callObjs) {
+		if (callObj != nullptr && callObj->getSocket() != nullptr) {
+			if (callObj->getSocket()->state() == QTcpSocket::ConnectedState) {
+
+				auto motion = callObj->getMotionObject()->getMotion();
+
+				if (motion == nullptr || (*motion)["data"].is_null()) {
+					return;
+				}
+				else {
+					_peerJsonCopy = *motion;
+					_peerFacialData = FacialData(true, &_peerJsonCopy);
+					return;
+				}
+
+			}
+		}
 	}
 }

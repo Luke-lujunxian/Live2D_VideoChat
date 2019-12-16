@@ -1,7 +1,7 @@
 /*
  * @Author: Luke_lu
  * @Date: 2019-12-12 18:39:37
- * @LastEditTime: 2019-12-14 22:01:15
+ * @LastEditTime: 2019-12-16 20:33:39
  * @Description: Main network class and Wrapper class
  */
 
@@ -207,6 +207,9 @@ public:
 	}
 
 	//TODO: Connect disconneted signal
+	MotionObject* getMotionObject() {
+		return motion;
+	}
 
 private slots:
 	void sendObject() {
