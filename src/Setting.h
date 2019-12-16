@@ -87,10 +87,13 @@ public:
   * @param {string} Path to the photo 
   * @return: success?
   */
-	bool setProfile(std::string addr)
+	bool setProfile(const std::string addr)
 	{
+
 		//Probably some translate? / \?
+
 		profilePhoto = cv::imread(addr);
+
 		if (profilePhoto.data == NULL)
 			return false;
 		profiletype = addr.substr(addr.find_last_of('.'), addr.length() - addr.find_last_of('.'));
@@ -132,7 +135,7 @@ public:
   * @return: success?
   TODO
   */
-	bool setModelID(std::string ModelID)
+	bool setModelID(std::string ModelID = "")
 	{
 		this->modelID = ModelID;
 		return true;

@@ -33,6 +33,8 @@ SettingWin::SettingWin(QWidget *parent) :
 	Setting::getSetting()->setProfile("..\\..\\res\\defaultProfile.jpg");
     QObject::connect(ui->comboBox_Model,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
     QObject::connect(ui->comboBox_Camera,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
+	QObject::connect(ui->comboBox_InputDevice, &QComboBox::currentTextChanged, this, &SettingWin::canApply);
+	QObject::connect(ui->comboBox_OutputDevice, &QComboBox::currentTextChanged, this, &SettingWin::canApply);
 
     QObject::connect(ui->spinBox_MaxCallQueue, QOverload<int>::of(&QSpinBox::valueChanged),this,&SettingWin::canApply);
 

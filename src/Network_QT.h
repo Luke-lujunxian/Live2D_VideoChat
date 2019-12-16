@@ -178,8 +178,8 @@ private:
 	QTcpServer* listener;
 	bool stopFlag;
 	static Network_QT* network_QT;
-	std::vector<QThread*> calls = std::vector<QThread*>(5);
-	std::vector<CallObj*> callObjs = std::vector<CallObj*>(5);
+	std::vector<QThread*> calls = std::vector<QThread*>();
+	std::vector<CallObj*> callObjs = std::vector<CallObj*>();
 	//Warning: All Network will end
 	void stop() {
 		stopFlag = true;
@@ -193,6 +193,7 @@ private:
  * @description: Call object handled by QThread
  */
 class CallObj :public QObject {
+	friend class Audio;
 	Q_OBJECT;
 	MotionObject* motion;
 	QTcpSocket* s;
@@ -205,7 +206,7 @@ public:
 		return s;
 	}
 
-
+	//TODO: Connect disconneted signal
 
 private slots:
 	void sendObject() {

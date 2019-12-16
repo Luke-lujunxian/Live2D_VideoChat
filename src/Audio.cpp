@@ -96,7 +96,7 @@ void Audio::onReadyRecord() {
     for (CallObj* callobj : *Network_QT::getInstance()->getCallObjs()) {
         if(callobj != nullptr && callobj->getSocket() != nullptr)
         if(callobj->getSocket()->state() == QTcpSocket::ConnectedState)
-            audioSocket->writeDatagram((const char*)&vp, sizeof(vp), callobj->getSocket()->peerAddress(), callobj->getSocket()->peerPort());
+            audioSocket->writeDatagram((const char*)&vp, sizeof(vp), callobj->getSocket()->peerAddress(), callobj->audioPort);
     }
 
 }
@@ -114,7 +114,7 @@ void Audio::play() {
     // 写入音频数据
     outputDevice->write(writeData, FRAME_LEN_60ms);
     m_CurrentPlayIndex += FRAME_LEN_60ms;
-    qDebug() << m_CurrentPlayIndex;
+    //qDebug() << m_CurrentPlayIndex;
     delete[]writeData;
 
     //如果长度超过了MAX_AUDIO_LEN就从

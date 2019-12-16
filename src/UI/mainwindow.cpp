@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     Network_QT::getInstance()->moveToThread(listener);
     audioThread = new QThread(this);
     audioThread->start();
+    audioThread->setPriority(QThread::HighPriority);
+
     Audio::getInstance()->moveToThread(audioThread);
     //Network_QT::getInstance()->networkInit();
     emit Network_QT::getInstance()->restartSignal();
