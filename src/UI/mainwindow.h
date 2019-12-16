@@ -32,6 +32,8 @@ private:
     About* aboutWin;
     Ui::MainWindow *ui;
     QThread* listener;
+    QThread* audioThread;
+
 
 	VideoWindow* mirrorWindow;
 	QThread* mirrorThread = nullptr;

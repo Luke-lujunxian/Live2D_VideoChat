@@ -30,7 +30,6 @@ private:
 	Audio();
 	Audio(Audio&) = delete;
 	Audio& operator=(Audio) = delete;
-
 	void setaudioformat(int samplerate, int channelcount, int samplesize);
 
 	QAudioInput* m_Input = nullptr;
@@ -46,11 +45,16 @@ private:
 	void addAudioBuffer(char* pData, int len);
 
 	~Audio();
+signals:
+	void startSignal();
 
 private slots:
 	void onReadyRecord();
 	void play();
 	void receiveData();
+	void startSlot() {
+		this->audioStart();
+	}
 };
 struct stream {
 	int lens;

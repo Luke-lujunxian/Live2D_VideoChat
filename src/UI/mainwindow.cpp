@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 	, mirrorWindow(new VideoWindow)
 {
     ui->setupUi(this);
-    settingWin = nullptr;
+    settingWin = new SettingWin();
     aboutWin = nullptr;
 
     QObject::connect(ui->actionExit,&QAction::triggered,this,&MainWindow::endProgram);
@@ -26,10 +26,15 @@ MainWindow::MainWindow(QWidget *parent)
         });
     ui->lineEdit_Port->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
     updateInfo();
-    Network_QT::getInstance()->networkInit();
+    
     listener = new QThread(this);
     listener->start();
     Network_QT::getInstance()->moveToThread(listener);
+    audioThread = new QThread(this);
+    audioThread->start();
+    Audio::getInstance()->moveToThread(audioThread);
+    //Network_QT::getInstance()->networkInit();
+    emit Network_QT::getInstance()->restartSignal();
 
 }
 

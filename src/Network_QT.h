@@ -136,9 +136,11 @@ public:
  * Single Instance
  */
 class Network_QT:public QObject {
+	friend class AdvanceTCPSocket;
 	Q_OBJECT;
 public:
 	bool networkInit();
+	bool networkRestart();
 	void updateMotion(json& motion);
 	std::vector<MotionObject*>* getDisplayObjects();
 	json* getSendJson();
@@ -159,6 +161,12 @@ public:
 	std::vector<CallObj*>* getCallObjs() {
 		return &callObjs;
 	}
+public slots:
+	void restartSlot() {
+		networkRestart();
+	}
+signals:
+	void restartSignal();
 
 private:
 	std::vector<MotionObject*> displayObjects  = std::vector<MotionObject*>(5);
@@ -189,12 +197,14 @@ class CallObj :public QObject {
 	MotionObject* motion;
 	QTcpSocket* s;
 	json sendJson;
+	int audioPort;
 public:
-	CallObj(MotionObject* motion, QTcpSocket* s);
+	CallObj(MotionObject* motion, QTcpSocket* s,int audioPort);
 	~CallObj();
 	QTcpSocket* getSocket() {
 		return s;
 	}
+
 
 
 private slots:
@@ -209,5 +219,10 @@ private slots:
 	}
 };
 
+class AdvanceTCPSocket:public QTcpServer {
+	friend class Network_QT;
+	void AdvanceTCPSocket::incomingConnection(qintptr socketDescriptor) {
 
+	}
+};
 #endif // !NETWORK_QT_H_

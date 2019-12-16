@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QtNetwork/qtcpsocket.h>
 #include <QtMultimedia/QAudioDeviceInfo>
+#include <Network_QT.h>
 
 bool allClear;
 SettingWin::SettingWin(QWidget *parent) :
@@ -29,6 +30,7 @@ SettingWin::SettingWin(QWidget *parent) :
 
     QObject::connect(ui->comboBox_ProfilePhoto,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
 	ui->comboBox_ProfilePhoto->addItem("..\\..\\res\\defaultProfile.jpg");
+	Setting::getSetting()->setProfile("..\\..\\res\\defaultProfile.jpg");
     QObject::connect(ui->comboBox_Model,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
     QObject::connect(ui->comboBox_Camera,&QComboBox::currentTextChanged,this,&SettingWin::canApply);
 
@@ -92,6 +94,7 @@ void SettingWin::on_pushButton_Apply_clicked(){
 	if (allClear) {
 		ui->pushButton_Apply->setEnabled(false);
 		emit settingApplySuccess();
+		emit Network_QT::getInstance()->restartSignal();
 	}
 	else {
 		ErrorWin* temp = new ErrorWin();

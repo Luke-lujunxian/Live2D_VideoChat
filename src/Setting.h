@@ -93,7 +93,7 @@ public:
 		profilePhoto = cv::imread(addr);
 		if (profilePhoto.data == NULL)
 			return false;
-		profiletype = addr.substr(addr.find_last_of('.') + 1, addr.length() - addr.find_last_of('.') - 1);
+		profiletype = addr.substr(addr.find_last_of('.'), addr.length() - addr.find_last_of('.'));
 		pathToProfile = addr;
 		return true;
 	}

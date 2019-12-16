@@ -48,14 +48,16 @@ bool Audio::audioRestart() {
     QObject::connect(inputDevice, &QIODevice::readyRead, this, &Audio::onReadyRecord);
     QObject::connect(timer, &QTimer::timeout, this, &Audio::play);
     QObject::connect(audioSocket, &QUdpSocket::readyRead, this, &Audio::receiveData);
+    qDebug() << "[Audio]audio is re/started" << endl;
     return status;
 }
 
 Audio::Audio()
 {
-	audioSocket = new QUdpSocket();
-    timer = new QTimer();
-	audioStart();
+	audioSocket = new QUdpSocket(this);
+    timer = new QTimer(this);
+    QObject::connect(this, &Audio::startSignal, this, &Audio::startSlot);
+
 }
 
 /**
@@ -92,6 +94,7 @@ void Audio::onReadyRecord() {
     // read audio from input device
     vp.lens = inputDevice->read(vp.data, 960);
     for (CallObj* callobj : *Network_QT::getInstance()->getCallObjs()) {
+        if(callobj != nullptr && callobj->getSocket() != nullptr)
         if(callobj->getSocket()->state() == QTcpSocket::ConnectedState)
             audioSocket->writeDatagram((const char*)&vp, sizeof(vp), callobj->getSocket()->peerAddress(), callobj->getSocket()->peerPort());
     }
@@ -126,10 +129,10 @@ void Audio::play() {
  * Data will be push into buffer
  */
 void Audio::receiveData() {
+    
     while (audioSocket->hasPendingDatagrams()) {
         QHostAddress senderip;
         quint16 senderport;
-        qDebug() << "audio is being received..." << endl;
         stream vp;
         memset(&vp, 0, sizeof(vp));
         audioSocket->readDatagram((char*)&vp, sizeof(vp), &senderip, &senderport);
