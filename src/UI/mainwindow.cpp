@@ -98,6 +98,7 @@ void MainWindow::on_mirrorButton_clicked() {
 		delete mirrorThread;
 		mirrorThread = new QThread(this);
 		auto d = LAppDelegate::GetInstance();
+		d->setPeerNumber(-1);
 		d->moveToThread(mirrorThread);
 		mirrorThread->start();
 		d->emitStartSignal();

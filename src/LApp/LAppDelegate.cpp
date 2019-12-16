@@ -176,6 +176,7 @@ void LAppDelegate::Run()
 
 
 LAppDelegate::LAppDelegate():
+	_peerNumber(-114514),
     _cubismOption(),
     _window(NULL),
     _isEnd(false),

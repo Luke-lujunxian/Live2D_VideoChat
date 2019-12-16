@@ -205,7 +205,9 @@ public:
 		return s;
 	}
 
-
+	MotionObject* getMotionObject() {
+		return motion;
+	}
 
 private slots:
 	void sendObject() {
