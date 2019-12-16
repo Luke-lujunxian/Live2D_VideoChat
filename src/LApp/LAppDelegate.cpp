@@ -54,7 +54,7 @@ bool LAppDelegate::Initialize()
         LAppPal::PrintLog("START");
     }
 
-    // GLFWの初期化
+    // GLFW initialization
     if (glfwInit() == GL_FALSE)
     {
         if (DebugLogEnable)
@@ -64,7 +64,7 @@ bool LAppDelegate::Initialize()
         return GL_FALSE;
     }
 
-    // Windowの生成_
+    // Window construction
     _window = glfwCreateWindow(RenderTargetWidth, RenderTargetHeight, "SAMPLE", NULL, NULL);
     if (_window == NULL)
     {
@@ -76,7 +76,7 @@ bool LAppDelegate::Initialize()
         return GL_FALSE;
     }
 
-    // Windowのコンテキストをカレントに設定
+    // [Important] (Thread-related) Make the context of the Window the current context
     glfwMakeContextCurrent(_window);
     glfwSwapInterval(1);
 
@@ -90,24 +90,24 @@ bool LAppDelegate::Initialize()
         return GL_FALSE;
     }
 
-    //テクスチャサンプリング設定
+    // Set texture samplings
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    //透過設定
+    // Set alpha
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // ウィンドウサイズ記憶
+    // Save window size
     int width, height;
     glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &width, &height);
     _windowWidth = width;
     _windowHeight = height;
 
-    //AppViewの初期化
+    // Initialize the Window View
     _view->Initialize();
 
-    // Cubism SDK の初期化
+    // Cubism SDK initialization
     InitializeCubism();
 
     return GL_TRUE;
@@ -115,7 +115,7 @@ bool LAppDelegate::Initialize()
 
 void LAppDelegate::Release()
 {
-    // Windowの削除
+    // Window destruction
     glfwDestroyWindow(_window);
 
     glfwTerminate();
@@ -123,16 +123,15 @@ void LAppDelegate::Release()
     delete _textureManager;
     delete _view;
 
-    // リソースを解放
+    // Release resources
     LAppLive2DManager::ReleaseInstance();
 
-    //Cubism SDK の解放
+    // Cubism SDK disposal
     CubismFramework::Dispose();
 }
 
 void LAppDelegate::Run()
 {
-    //メインループ
 	// Main Loop
     while (glfwWindowShouldClose(_window) == GL_FALSE && !_isEnd)
     {
@@ -140,30 +139,30 @@ void LAppDelegate::Run()
         glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &width, &height);
         if( (_windowWidth!=width || _windowHeight!=height) && width>0 && height>0)
         {
-            //AppViewの初期化
+            // Initialize the window View
             _view->Initialize();
-            // スプライトサイズを再設定
+            // Resize
             _view->ResizeSprite();
-            // サイズを保存しておく
+            // Save the size
             _windowWidth = width;
             _windowHeight = height;
 
-            // ビューポート変更
+            // Change view port
             glViewport(0, 0, width, height);
         }
 
-        // 時間更新
+        // Update time
         LAppPal::UpdateTime();
 
-        // 画面の初期化
+        // Initialize display
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearDepth(1.0);
 
-        //描画更新
+        // Update render
         _view->Render();
 
-        // バッファの入れ替え
+        // Swap buffers
         glfwSwapBuffers(_window);
 
         // Poll for and process events
@@ -179,9 +178,6 @@ void LAppDelegate::Run()
 LAppDelegate::LAppDelegate():
     _cubismOption(),
     _window(NULL),
-    _captured(false),
-    _mouseX(0.0f),
-    _mouseY(0.0f),
     _isEnd(false),
     _windowWidth(0),
     _windowHeight(0)
@@ -199,18 +195,18 @@ LAppDelegate::~LAppDelegate()
 
 void LAppDelegate::InitializeCubism()
 {
-    //setup cubism
+    // Setup Cubism
     _cubismOption.LogFunction = LAppPal::PrintMessage;
     _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
     Csm::CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
 
-    //Initialize cubism
+    // Initialize Cubism
     CubismFramework::Initialize();
 
-    //load model
+    // Load model
     LAppLive2DManager::GetInstance();
 
-    //default proj
+    // Default projection
     CubismMatrix44 projection;
 
     LAppPal::UpdateTime();
@@ -220,7 +216,7 @@ void LAppDelegate::InitializeCubism()
 
 GLuint LAppDelegate::CreateShader()
 {
-    //バーテックスシェーダのコンパイル
+    // Compile vertex shader
     GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
     const char* vertexShader =
         "#version 120\n"
@@ -238,7 +234,7 @@ GLuint LAppDelegate::CreateShader()
         return 0;
     }
 
-    //フラグメントシェーダのコンパイル
+    // Compile fragment shader
     GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     const char* fragmentShader =
         "#version 120\n"
@@ -255,12 +251,12 @@ GLuint LAppDelegate::CreateShader()
         return 0;
     }
 
-    //プログラムオブジェクトの作成
+    // Create program object
     GLuint programId = glCreateProgram();
     glAttachShader(programId, vertexShaderId);
     glAttachShader(programId, fragmentShaderId);
 
-    // リンク
+    // Link
     glLinkProgram(programId);
 
     glUseProgram(programId);
