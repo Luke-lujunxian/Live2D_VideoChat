@@ -22,7 +22,7 @@ void Model::update(const nlohmann::json* data) {
 	_userTimeSeconds += deltaTimeSeconds;
 
 	// Expression
-	_model->LoadParameters();	// For unknown reasons, if this line is removed the model will become ÕÅ ×ì ±Õ ÑÛ ÈË
+	_model->LoadParameters();
 	if (data == nullptr) {
 		// Case: No new facial data
 		if (_currentExpression != nullptr) {

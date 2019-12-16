@@ -14,46 +14,46 @@
 #include <Type/csmVector.hpp>
 
 /**
-* @brief テクスチャ管理クラス
+* @brief Texture Manager
 *
-* 画像読み込み、管理を行うクラス。
+* Load and maintain image textures
 */
 class LAppTextureManager
 {
 public:
 
     /**
-    * @brief 画像情報構造体
+    * @brief Texture information struct
     */
     struct TextureInfo
     {
-        GLuint id = 0;              ///< テクスチャID
-        int width = 0;              ///< 横幅
-        int height = 0;             ///< 高さ
-        std::string fileName;       ///< ファイル名
+        GLuint id = 0;              ///  Texture ID
+        int width = 0;              ///  Width
+        int height = 0;             ///  Height
+        std::string fileName;       ///  File name
     };
 
     /**
-    * @brief コンストラクタ
+    * @brief Constructor
     */
     LAppTextureManager();
 
     /**
-    * @brief デストラクタ
+    * @brief Destructor
     *
     */
     ~LAppTextureManager();
 
 
     /**
-    * @brief プリマルチプライ処理
+    * @brief Perform pre-multiplication
     *
-    * @param[in] red  画像のRed値
-    * @param[in] green  画像のGreen値
-    * @param[in] blue  画像のBlue値
-    * @param[in] alpha  画像のAlpha値
+    * @param[in] red  
+    * @param[in] green  
+    * @param[in] blue 
+    * @param[in] alpha  
     *
-    * @return プリマルチプライ処理後のカラー値
+    * @return The color value after pre-multiplication
     */
     inline unsigned int Premultiply(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
     {
@@ -66,41 +66,37 @@ public:
     }
 
     /**
-    * @brief 画像読み込み
+    * @brief Load image
     *
-    * @param[in] fileName  読み込む画像ファイルパス名
-    * @return 画像情報。読み込み失敗時はNULLを返す
+    * @param[in] fileName  Image file name
+    * @return TextureInfo structure. NULL if the attempt fails
     */
     TextureInfo* CreateTextureFromPngFile(std::string fileName);
 
     /**
-    * @brief 画像の解放
-    *
-    * 配列に存在する画像全てを解放する
+    * @brief Release all images
+	*
     */
     void ReleaseTextures();
 
     /**
-     * @brief 画像の解放
+     * @brief Release the designated image (by ID)
      *
-     * 指定したテクスチャIDの画像を解放する
-     * @param[in] textureId  解放するテクスチャID
+     * @param[in] textureId  The image texture to release
      **/
     void ReleaseTexture(Csm::csmUint32 textureId);
 
     /**
-    * @brief 画像の解放
+    * @brief Release the designated image (by name)
     *
-    * 指定した名前の画像を解放する
-    * @param[in] fileName  解放する画像ファイルパス名
+    * @param[in] fileName  The image texture to release
     **/
     void ReleaseTexture(std::string fileName);
 
     /**
-     * @brief テクスチャIDからテクスチャ情報を得る
+     * @brief (As the name suggests)
      *
-     * @param   textureId[in]       取得したいテクスチャID
-     * @return  テクスチャが存在していればTextureInfoが返る
+     * @return  TextureInfo structure. May be NULL.
      */
     TextureInfo* GetTextureInfoById(GLuint textureId) const;
 

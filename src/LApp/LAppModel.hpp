@@ -16,8 +16,8 @@
 
 
 /**
- * @brief ユーザーが実際に使用するモデルの実装クラス<br>
- *         モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
+ * @brief  Implements CubismUserModel
+ *         Model construction, model components management and model rendering
  *
  */
 class LAppModel : public Csm::CubismUserModel
@@ -28,165 +28,120 @@ protected:
 
 public:
     /**
-     * @brief コンストラクタ
+     * @brief Constructor
      */
     LAppModel();
 
     /**
-     * @brief デストラクタ
+     * @brief Destructor
      *
      */
     virtual ~LAppModel();
 
     /**
-     * @brief model3.jsonが置かれたディレクトリとファイルパスからモデルを生成する
+     * @brief Construct model by reading the model3.json file
      *
      */
     void LoadAssets(const Csm::csmChar* dir, const  Csm::csmChar* fileName);
 
     /**
-     * @brief レンダラを再構築する
+     * @brief (As the name suggests)
      *
      */
     void ReloadRenderer();
 
-    /**
-     * @brief   モデルの更新処理。モデルのパラメータから描画状態を決定する。
-     *
-     */
-    void Update();
+	/**
+	 * @brief   Draw the model
+	 *
+	 * @param[in]  matrix  View-Projection matrix
+	 */
+	void Draw(Csm::CubismMatrix44& matrix);
+
 
     /**
-     * @brief   モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
-     *
-     * @param[in]  matrix  View-Projection行列
-     */
-    void Draw(Csm::CubismMatrix44& matrix);
-
-    /**
-     * @brief   引数で指定したモーションの再生を開始する。
-     *
-     * @param[in]   group           モーショングループ名
-     * @param[in]   no              グループ内の番号
-     * @param[in]   priority        優先度
-     * @return                      開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するIsFinished()の引数で使用する。開始できない時は「-1」
-     */
-    Csm::CubismMotionQueueEntryHandle StartMotion(const Csm::csmChar* group, Csm::csmInt32 no, Csm::csmInt32 priority);
-
-    /**
-     * @brief   ランダムに選ばれたモーションの再生を開始する。
-     *
-     * @param[in]   group           モーショングループ名
-     * @param[in]   priority        優先度
-     * @return                      開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するIsFinished()の引数で使用する。開始できない時は「-1」
-     */
-    Csm::CubismMotionQueueEntryHandle StartRandomMotion(const Csm::csmChar* group, Csm::csmInt32 priority);
-
-    /**
-     * @brief   引数で指定した表情モーションをセットする
-     *
-     * @param   expressionID    表情モーションのID
+     * @brief   Set expression by the given ID
+	 *
      */
     void SetExpression(const Csm::csmChar* expressionID);
 
     /**
-     * @brief   ランダムに選ばれた表情モーションをセットする
+     * @brief   (As the name suggests)
      *
      */
     void SetRandomExpression();
 
-    /**
-    * @brief   イベントの発火を受け取る
-    *
-    */
-    virtual void MotionEventFired(const Live2D::Cubism::Framework::csmString& eventValue);
 
     /**
-     * @brief    当たり判定テスト。<br>
-     *            指定IDの頂点リストから矩形を計算し、座標が矩形範囲内か判定する。
-     *
-     * @param[in]   hitAreaName     当たり判定をテストする対象のID
-     * @param[in]   x               判定を行うX座標
-     * @param[in]   y               判定を行うY座標
-     */
-    virtual Csm::csmBool HitTest(const Csm::csmChar* hitAreaName, Csm::csmFloat32 x, Csm::csmFloat32 y);
-
-    /**
-     * @brief   別ターゲットに描画する際に使用するバッファの取得
+     * @brief   Get off-screen frame render buffer
      */
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2& GetRenderBuffer();
 
 protected:
     /**
-     *  @brief  モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
+     *  @brief  Perform draw
      *
      */
     void DoDraw();
 
-	Csm::csmFloat32 _userTimeSeconds; ///< デルタ時間の積算値[秒]
+	Csm::csmFloat32 _userTimeSeconds; ///  Total time in seconds
 
 private:
     /**
-     * @brief model3.jsonからモデルを生成する。<br>
-     *         model3.jsonの記述に従ってモデル生成、モーション、物理演算などのコンポーネント生成を行う。
+     * @brief Setup model from the given setting data
      *
-     * @param[in]   setting     ICubismModelSettingのインスタンス
+     * @param[in]   setting     ICubismModelSetting instance
      *
      */
     void SetupModel(Csm::ICubismModelSetting* setting);
 
     /**
-     * @brief OpenGLのテクスチャユニットにテクスチャをロードする
+     * @brief Setup textures for OpenGL texture units
      *
      */
     void SetupTextures();
 
     /**
-     * @brief   モーションデータをグループ名から一括でロードする。<br>
-     *           モーションデータの名前は内部でModelSettingから取得する。
+     * @brief   Load a motion group according to the given group name and the setting data
      *
-     * @param[in]   group  モーションデータのグループ名
+     * @param[in]   group  Name of the motion group
      */
     void PreloadMotionGroup(const Csm::csmChar* group);
 
     /**
-     * @brief   モーションデータをグループ名から一括で解放する。<br>
-     *           モーションデータの名前は内部でModelSettingから取得する。
+     * @brief   Release a motion group according to the given group name and the setting data
      *
-     * @param[in]   group  モーションデータのグループ名
+     * @param[in]   group  Name of the motion group
      */
     void ReleaseMotionGroup(const Csm::csmChar* group) const;
 
     /**
-    * @brief すべてのモーションデータの解放
-    *
-    * すべてのモーションデータを解放する。
+    * @brief Release all loaded motion objects
+	*
     */
     void ReleaseMotions();
 
     /**
-    * @brief すべての表情データの解放
-    *
-    * すべての表情データを解放する。
+    * @brief Release all expression objects
+	*
     */
     void ReleaseExpressions();
 
-    Csm::ICubismModelSetting* _modelSetting; ///< モデルセッティング情報
-    Csm::csmString _modelHomeDir; ///< モデルセッティングが置かれたディレクトリ
-    Csm::csmVector<Csm::CubismIdHandle> _eyeBlinkIds; ///<　モデルに設定されたまばたき機能用パラメータID
-    Csm::csmVector<Csm::CubismIdHandle> _lipSyncIds; ///< モデルに設定されたリップシンク機能用パラメータID
-    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _motions; ///< 読み込まれているモーションのリスト
-    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions; ///< 読み込まれている表情のリスト
+    Csm::ICubismModelSetting* _modelSetting; 
+    Csm::csmString _modelHomeDir; 
+    Csm::csmVector<Csm::CubismIdHandle> _eyeBlinkIds; /// 　Parameter ID for auto eye-blink
+    Csm::csmVector<Csm::CubismIdHandle> _lipSyncIds; ///  Parameter ID for lip-sync
+    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _motions; ///  Loaded motion objects
+    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions; ///  Loaded expression objects
     Csm::csmVector<Csm::csmRectF> _hitArea;
     Csm::csmVector<Csm::csmRectF> _userArea;
-    const Csm::CubismId* _idParamAngleX; ///< パラメータID: ParamAngleX
-    const Csm::CubismId* _idParamAngleY; ///< パラメータID: ParamAngleX
-    const Csm::CubismId* _idParamAngleZ; ///< パラメータID: ParamAngleX
-    const Csm::CubismId* _idParamBodyAngleX; ///< パラメータID: ParamBodyAngleX
-    const Csm::CubismId* _idParamEyeBallX; ///< パラメータID: ParamEyeBallX
-    const Csm::CubismId* _idParamEyeBallY; ///< パラメータID: ParamEyeBallXY
+    const Csm::CubismId* _idParamAngleX; ///  Parameter ID: ParamAngleX
+    const Csm::CubismId* _idParamAngleY; ///  Parameter ID: ParamAngleX
+    const Csm::CubismId* _idParamAngleZ; ///  Parameter ID: ParamAngleX
+    const Csm::CubismId* _idParamBodyAngleX; ///  Parameter ID: ParamBodyAngleX
+    const Csm::CubismId* _idParamEyeBallX; ///  Parameter ID: ParamEyeBallX
+    const Csm::CubismId* _idParamEyeBallY; ///  Parameter ID: ParamEyeBallXY
 
-    Csm::Rendering::CubismOffscreenFrame_OpenGLES2  _renderBuffer;   ///< フレームバッファ以外の描画先
+    Csm::Rendering::CubismOffscreenFrame_OpenGLES2  _renderBuffer;   ///  Off-screen frame render buffer
 };
 
 

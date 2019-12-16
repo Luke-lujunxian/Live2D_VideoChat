@@ -9,7 +9,7 @@ Communicator* s_instance = nullptr;
 
 Communicator::Communicator() {
 	QObject::connect(FacialLandmarkDetector::getInstance(), &FacialLandmarkDetector::NewDetection,
-					this, &Communicator::fetchFacialData);
+					this, &Communicator::fetchSelfFacialData);
 }
 
 void Communicator::releaseInstance() {
@@ -23,24 +23,24 @@ Communicator* Communicator::getInstance() {
 	return s_instance;
 }
 
-const nlohmann::json* Communicator::getFacialData() {
-	if (!_isUpdated) {
+const nlohmann::json* Communicator::getSelfFacialData() {
+	if (!_isSelfUpdated) {
 		return nullptr;
 	}
 	else {
-		_isUpdated = false;
-		return _facialData;
+		_isSelfUpdated = false;
+		return _selfFacialData;
 	}
 }
 
-void Communicator::fetchFacialData() {
+void Communicator::fetchSelfFacialData() {
 	const nlohmann::json* temp = Network_QT::getInstance()->getSendJson();
 	if (temp == nullptr
 		|| (*temp)["data"].is_null()) {
-		_isUpdated = false;
+		_isSelfUpdated = false;
 	}
 	else {
-		_facialData = temp;
-		_isUpdated = true;
+		_selfFacialData = temp;
+		_isSelfUpdated = true;
 	}
 }

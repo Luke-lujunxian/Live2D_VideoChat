@@ -15,7 +15,7 @@ public:
 public:
 	// Fetch and return a nlohmann-style json object valid for conversion
 	// Return nullptr if the attempt fails
-	const nlohmann::json* getFacialData();
+	const nlohmann::json* getSelfFacialData();
 
 private:
 	Communicator();
@@ -23,11 +23,11 @@ private:
 	~Communicator() {}
 	
 private:
-	bool _isUpdated = false;
-	const nlohmann::json* _facialData = nullptr;
+	bool _isSelfUpdated = false;
+	const nlohmann::json* _selfFacialData = nullptr;
 
 private slots:
-	void fetchFacialData();
+	void fetchSelfFacialData();
 };
 
 #endif

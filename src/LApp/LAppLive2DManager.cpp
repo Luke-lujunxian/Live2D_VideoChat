@@ -48,21 +48,19 @@ void LAppLive2DManager::ReleaseInstance()
 }
 
 LAppLive2DManager::LAppLive2DManager()
-    : _viewMatrix(NULL), _self_model(new Model())
+    : _viewMatrix(NULL), _model(new Model())
 {
-    ChangeScene(1);
+    LoadScene(1);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
 {
-    ReleaseAllModel();
+    ReleaseModel();
 }
 
-void LAppLive2DManager::ReleaseAllModel()
+void LAppLive2DManager::ReleaseModel()
 {
-
-
-	delete _self_model;
+	delete _model;
 }
 
 void LAppLive2DManager::OnUpdate() const
@@ -78,53 +76,31 @@ void LAppLive2DManager::OnUpdate() const
     }
 
     const CubismMatrix44    saveProjection = projection;
-    //csmUint32 modelCount = _models.GetSize();
-    //for (csmUint32 i = 0; i < modelCount; ++i)
-    //{
-    //    LAppModel* model = GetModel(i);
-    //    projection = saveProjection;
-
-    //    // モデル1体描画前コール
-    //    LAppDelegate::GetInstance()->GetView()->PreModelDraw(*model);
-
-    //    model->Update();
-    //    model->Draw(projection);///< 参照渡しなのでprojectionは変質する
-
-    //    // モデル1体描画後コール
-    //    LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
-    //}
 
 	projection = saveProjection;
 
 
 	// Pre-call before a model is drawn
-	LAppDelegate::GetInstance()->GetView()->PreModelDraw(*_self_model);
+	LAppDelegate::GetInstance()->GetView()->PreModelDraw(*_model);
 
 	// Fetch the facial data json.
-	auto nj =  Communicator::getInstance()->getFacialData();
+	auto nj =  Communicator::getInstance()->getSelfFacialData();
 	if (nj == nullptr) {
-		_self_model->update(nullptr);
+		_model->update(nullptr);
 	}
 	else {
 		// Make a copy in case the original json is overwritten by other threads.
 		nlohmann::json njCopy(*nj);
-		_self_model->update(&njCopy);
+		_model->update(&njCopy);
 	}
-	_self_model->Draw(projection);
+	_model->Draw(projection);
 
 	// Post-call after a model is drawn
-	LAppDelegate::GetInstance()->GetView()->PostModelDraw(*_self_model);
+	LAppDelegate::GetInstance()->GetView()->PostModelDraw(*_model);
 }
 
-void LAppLive2DManager::NextScene()
-{
-    //csmInt32 no = (_sceneIndex + 1) % ModelDirSize;
-    //ChangeScene(no);
 
-	// Do nothing
-}
-
-void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
+void LAppLive2DManager::LoadScene(Csm::csmInt32 index)
 {
     //_sceneIndex = index;
     //if (DebugLogEnable)
@@ -143,7 +119,7 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
     //ReleaseAllModel();
     //_models.PushBack(new LAppModel());
     //_models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
-	_self_model->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
+	_model->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
 
     /*
      * モデル半透明表示を行うサンプルを提示する。

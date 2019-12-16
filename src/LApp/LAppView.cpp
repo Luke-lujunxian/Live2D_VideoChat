@@ -30,10 +30,10 @@ LAppView::LAppView() :
     _clearColor[2] = 1.0f;
     _clearColor[3] = 0.0f;
 
-    // デバイス座標からスクリーン座標に変換するための
+    // Coordinates transformation (from device to the display screen)
     _deviceToScreen = new CubismMatrix44();
 
-    // 画面の表示の拡大縮小や移動の変換を行う行列
+    // For window scaling
     _viewMatrix = new CubismViewMatrix();
 }
 
@@ -62,18 +62,18 @@ void LAppView::Initialize()
     float bottom = -ratio;
     float top = ratio;
 
-    _viewMatrix->SetScreenRect(left, right, bottom, top); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
+    _viewMatrix->SetScreenRect(left, right, bottom, top);
 
     float screenW = fabsf(left - right);
-    _deviceToScreen->LoadIdentity(); // サイズが変わった際などリセット必須
+    _deviceToScreen->LoadIdentity(); 
     _deviceToScreen->ScaleRelative(screenW / width, -screenW / width);
     _deviceToScreen->TranslateRelative(-width * 0.5f, -height * 0.5f);
 
-    // 表示範囲の設定
-    _viewMatrix->SetMaxScale(ViewMaxScale); // 限界拡大率
-    _viewMatrix->SetMinScale(ViewMinScale); // 限界縮小率
+    // Set display area
+    _viewMatrix->SetMaxScale(ViewMaxScale); // Maximum scale size
+    _viewMatrix->SetMinScale(ViewMinScale); // Minimum scale size
 
-    // 表示できる最大範囲
+    // Maximum display area
     _viewMatrix->SetMaxScreenRect(
         ViewLogicalMaxLeft,
         ViewLogicalMaxRight,
@@ -84,14 +84,14 @@ void LAppView::Initialize()
 
 void LAppView::Render()
 {
-    //_back->Render();
+    //_back->Render();	// Remove background
 
     LAppLive2DManager* Live2DManager = LAppLive2DManager::GetInstance();
 
-    // Cubism更新・描画
+    // Cubism update & rendering
     Live2DManager->OnUpdate();
 
-    // 各モデルが持つ描画ターゲットをテクスチャとする場合
+
     if (_renderTarget == SelectTarget_ModelFrameBuffer && _renderSprite)
     {
         const GLfloat uvVertex[] =
@@ -102,17 +102,6 @@ void LAppView::Render()
             1.0f, 0.0f,
         };
 
-        //for (csmUint32 i = 0; i < Live2DManager->GetModelNum(); i++)
-        //{
-        //    float alpha = GetSpriteAlpha(i); // サンプルとしてαに適当な差をつける
-        //    _renderSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
-
-        //    LAppModel *model = Live2DManager->GetModel(i);
-        //    if (model)
-        //    {
-        //        _renderSprite->RenderImmidiate( model->GetRenderBuffer().GetColorBuffer(), uvVertex);
-        //    }
-        //}
 		float alpha = GetSpriteAlpha(0); // サンプルとしてαに適当な差をつける
 		_renderSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
 
@@ -143,25 +132,6 @@ void LAppView::InitializeSprite()
     float fHeight = static_cast<float>(height * 0.95f);
     _back = new LAppSprite(x, y, fWidth, fHeight, backgroundTexture->id, _programId);
 
-    //imageName = GearImageName;
-    //LAppTextureManager::TextureInfo* gearTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
-
-    //x = static_cast<float>(width - gearTexture->width * 0.5f);
-    //y = static_cast<float>(height - gearTexture->height * 0.5f);
-    //fWidth = static_cast<float>(gearTexture->width);
-    //fHeight = static_cast<float>(gearTexture->height);
-    //_gear = new LAppSprite(x, y, fWidth, fHeight, gearTexture->id, _programId);
-
-    //imageName = PowerImageName;
-    //LAppTextureManager::TextureInfo* powerTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
-
-    //x = static_cast<float>(width - powerTexture->width * 0.5f);
-    //y = static_cast<float>(powerTexture->height * 0.5f);
-    //fWidth = static_cast<float>(powerTexture->width);
-    //fHeight = static_cast<float>(powerTexture->height);
-    //_power = new LAppSprite(x, y, fWidth, fHeight, powerTexture->id, _programId);
-
-    // 画面全体を覆うサイズ
     x = width * 0.5f;
     y = height * 0.5f;
     _renderSprite = new LAppSprite(x, y, static_cast<float>(width), static_cast<float>(height), 0, _programId);
@@ -169,14 +139,14 @@ void LAppView::InitializeSprite()
 
 float LAppView::TransformViewX(float deviceX) const
 {
-    float screenX = _deviceToScreen->TransformX(deviceX); // 論理座標変換した座標を取得。
-    return _viewMatrix->InvertTransformX(screenX); // 拡大、縮小、移動後の値。
+    float screenX = _deviceToScreen->TransformX(deviceX);
+    return _viewMatrix->InvertTransformX(screenX);
 }
 
 float LAppView::TransformViewY(float deviceY) const
 {
-    float screenY = _deviceToScreen->TransformY(deviceY); // 論理座標変換した座標を取得。
-    return _viewMatrix->InvertTransformY(screenY); // 拡大、縮小、移動後の値。
+    float screenY = _deviceToScreen->TransformY(deviceY);
+    return _viewMatrix->InvertTransformY(screenY);
 }
 
 float LAppView::TransformScreenX(float deviceX) const
@@ -191,27 +161,23 @@ float LAppView::TransformScreenY(float deviceY) const
 
 void LAppView::PreModelDraw(LAppModel& refModel)
 {
-    // 別のレンダリングターゲットへ向けて描画する場合の使用するフレームバッファ
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2* useTarget = NULL;
 
     if (_renderTarget != SelectTarget_None)
-    {// 別のレンダリングターゲットへ向けて描画する場合
+    {
 
-        // 使用するターゲット
         useTarget = (_renderTarget == SelectTarget_ViewFrameBuffer) ? &_renderBuffer : &refModel.GetRenderBuffer();
 
         if (!useTarget->IsValid())
-        {// 描画ターゲット内部未作成の場合はここで作成
+        {
             int width, height;
             glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &width, &height);
             if (width != 0 && height != 0)
             {
-                // モデル描画キャンバス
                 useTarget->CreateOffscreenFrame(static_cast<csmUint32>(width), static_cast<csmUint32>(height));
             }
         }
 
-        // レンダリング開始
         useTarget->BeginDraw();
         useTarget->Clear(_clearColor[0], _clearColor[1], _clearColor[2], _clearColor[3]); // 背景クリアカラー
     }
@@ -219,19 +185,18 @@ void LAppView::PreModelDraw(LAppModel& refModel)
 
 void LAppView::PostModelDraw(LAppModel& refModel)
 {
-    // 別のレンダリングターゲットへ向けて描画する場合の使用するフレームバッファ
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2* useTarget = NULL;
 
     if (_renderTarget != SelectTarget_None)
-    {// 別のレンダリングターゲットへ向けて描画する場合
+    {
 
-        // 使用するターゲット
-        useTarget = (_renderTarget == SelectTarget_ViewFrameBuffer) ? &_renderBuffer : &refModel.GetRenderBuffer();
 
-        // レンダリング終了
+		useTarget = (_renderTarget == SelectTarget_ViewFrameBuffer) ? &_renderBuffer : &refModel.GetRenderBuffer();
+
+
         useTarget->EndDraw();
 
-        // LAppViewの持つフレームバッファを使うなら、スプライトへの描画はここ
+
         if (_renderTarget == SelectTarget_ViewFrameBuffer && _renderSprite)
         {
             const GLfloat uvVertex[] =
@@ -263,8 +228,7 @@ void LAppView::SetRenderTargetClearColor(float r, float g, float b)
 
 float LAppView::GetSpriteAlpha(int assign) const
 {
-    // assignの数値に応じて適当に決定
-    float alpha = 0.25f + static_cast<float>(assign) * 0.5f; // サンプルとしてαに適当な差をつける
+    float alpha = 0.25f + static_cast<float>(assign) * 0.5f; // Make a little difference
     if (alpha > 1.0f)
     {
         alpha = 1.0f;
@@ -285,7 +249,7 @@ void LAppView::ResizeSprite()
         return;
     }
 
-    // 描画領域サイズ
+    // Area size
     int width, height;
     glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &width, &height);
 

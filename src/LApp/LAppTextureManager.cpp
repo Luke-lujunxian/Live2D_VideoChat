@@ -24,7 +24,7 @@ LAppTextureManager::~LAppTextureManager()
 
 LAppTextureManager::TextureInfo* LAppTextureManager::CreateTextureFromPngFile(std::string fileName)
 {
-    //search loaded texture already.
+    // Search loaded texture already.
     for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++)
     {
         if (_textures[i]->fileName == fileName)
@@ -41,7 +41,7 @@ LAppTextureManager::TextureInfo* LAppTextureManager::CreateTextureFromPngFile(st
 
     address = LAppPal::LoadFileAsBytes(fileName, &size);
 
-    // png情報を取得する
+    // Obtain png information
     png = stbi_load_from_memory(
         address,
         static_cast<int>(size),
@@ -61,7 +61,7 @@ LAppTextureManager::TextureInfo* LAppTextureManager::CreateTextureFromPngFile(st
 #endif
     }
 
-    // OpenGL用のテクスチャを生成する
+    // Create textures for OpenGL use
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, png);
@@ -70,7 +70,7 @@ LAppTextureManager::TextureInfo* LAppTextureManager::CreateTextureFromPngFile(st
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    // 解放処理
+    // Memory deallocation
     stbi_image_free(png);
     LAppPal::ReleaseBytes(address);
 

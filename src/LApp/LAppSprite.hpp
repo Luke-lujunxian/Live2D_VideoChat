@@ -13,71 +13,63 @@
 
 
 /**
-* @brief スプライトを実装するクラス。
+* @brief Sprite implementation
 *
-* テクスチャID、Rectの管理。
+* Manage texture ID & rectangles
 *
 */
 class LAppSprite
 {
 public:
     /**
-    * @brief Rect 構造体。
+    * @brief Rect struct (Rectangle)
     */
     struct Rect
     {
     public:
-        float left;     ///< 左辺
-        float right;    ///< 右辺
-        float up;       ///< 上辺
-        float down;     ///< 下辺
+        float left;     ///  The left side
+        float right;    ///  ditto.
+        float up;       ///  ditto.
+        float down;     ///  ditto.
     };
 
     /**
-    * @brief コンストラクタ
+    * @brief Constructor
     *
-    * @param[in]       x            x座標
-    * @param[in]       y            y座標
-    * @param[in]       width        横幅
-    * @param[in]       height       高さ
-    * @param[in]       textureId    テクスチャID
-    * @param[in]       programId    シェーダID
+    * @param[in]       x            
+    * @param[in]       y            
+    * @param[in]       width        
+    * @param[in]       height       
+    * @param[in]       textureId    
+    * @param[in]       programId    
     */
     LAppSprite(float x, float y, float width, float height, GLuint textureId, GLuint programId);
 
     /**
-    * @brief デストラクタ
+    * @brief Destructor
     */
     ~LAppSprite();
 
     /**
-    * @brief Getter テクスチャID
-    * @return テクスチャIDを返す
+    * @brief Return texture ID
     */
     GLuint GetTextureId() { return _textureId; }
 
     /**
-    * @brief 描画する
+    * @brief Perform render on the sprite
     *
     */
     void Render();
 
     /**
-    * @brief テクスチャIDを指定して描画する
+    * @brief Render the designated texture
     *
     */
     void RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]);
 
-    /**
-    * @brief コンストラクタ
-    *
-    * @param[in]       pointX    x座標
-    * @param[in]       pointY    y座標
-    */
-    bool IsHit(float pointX, float pointY) const;
 
     /**
-     * @brief 色設定
+     * @brief (As the name suggests)
      *
      * @param[in]       r (0.0~1.0)
      * @param[in]       g (0.0~1.0)
@@ -87,24 +79,24 @@ public:
     void SetColor(float r, float g, float b, float a);
 
     /**
-     * @brief サイズ再設定
+     * @brief Reset size
      *
-     * @param[in]       x            x座標
-     * @param[in]       y            y座標
-     * @param[in]       width        横幅
-     * @param[in]       height       高さ
+     * @param[in]       x            
+     * @param[in]       y            
+     * @param[in]       width        
+     * @param[in]       height       
      */
     void ResetRect(float x, float y, float width, float height);
 
 private:
-    GLuint _textureId;      ///< テクスチャID
-    Rect _rect;             ///< 矩形
-    int _positionLocation;  ///< 位置アトリビュート
-    int _uvLocation;        ///< UVアトリビュート
-    int _textureLocation;   ///< テクスチャアトリビュート
-    int _colorLocation;     ///< カラーアトリビュート
+    GLuint _textureId;      ///  Texture ID
+    Rect _rect;             ///  Rectangle
+    int _positionLocation;  ///  Position attribute
+    int _uvLocation;        ///  UV attribute
+    int _textureLocation;   ///  Texture attribute
+    int _colorLocation;     ///  Color attribute
 
-    float _spriteColor[4];  ///< 表示カラー
+    float _spriteColor[4];  ///  Display color
 };
 
 #endif

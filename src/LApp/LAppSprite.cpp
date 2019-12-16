@@ -17,7 +17,7 @@ LAppSprite::LAppSprite(float x, float y, float width, float height, GLuint textu
     _rect.down = (y - height * 0.5f);
     _textureId = textureId;
 
-    // 何番目のattribute変数か
+    // get attributes
     _positionLocation = glGetAttribLocation(programId, "position");
     _uvLocation      = glGetAttribLocation(programId, "uv");
     _textureLocation = glGetUniformLocation(programId, "texture");
@@ -35,13 +35,13 @@ LAppSprite::~LAppSprite()
 
 void LAppSprite::Render()
 {
-    // 画面サイズを取得する
+    // Get window size
     int maxWidth, maxHeight;
     glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &maxWidth, &maxHeight);
 
     if (maxWidth == 0 || maxHeight == 0)
     {
-        return; // この際は描画できず
+        return; // Cannot render now
     }
 
     glEnable(GL_TEXTURE_2D);
@@ -53,14 +53,14 @@ void LAppSprite::Render()
         1.0f, 1.0f,
     };
 
-    // attribute属性を有効にする
+    // Enable attributes
     glEnableVertexAttribArray(_positionLocation);
     glEnableVertexAttribArray(_uvLocation);
 
-    // uniform属性の登録
+    // Registration of uniform
     glUniform1i(_textureLocation, 0);
 
-    // 頂点データ
+    // Vertex data
     float positionVertex[] =
     {
         (_rect.right - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.up   - maxHeight * 0.5f) / (maxHeight * 0.5f),
@@ -69,39 +69,39 @@ void LAppSprite::Render()
         (_rect.right - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.down - maxHeight * 0.5f) / (maxHeight * 0.5f)
     };
 
-    // attribute属性を登録
+    // Register attributes
     glVertexAttribPointer(_positionLocation, 2, GL_FLOAT, false, 0, positionVertex);
     glVertexAttribPointer(_uvLocation, 2, GL_FLOAT, false, 0, uvVertex);
 
     glUniform4f(_colorLocation, _spriteColor[0], _spriteColor[1], _spriteColor[2], _spriteColor[3]);
 
 
-    // モデルの描画
+    // Draw model
     glBindTexture(GL_TEXTURE_2D, _textureId);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
 void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8])
 {
-    // 画面サイズを取得する
+    // Get window size
     int maxWidth, maxHeight;
     glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &maxWidth, &maxHeight);
 
     if (maxWidth == 0 || maxHeight == 0) 
 	{
-        return; // この際は描画できず
+        return; // Cannot render now
     }
 
     glEnable(GL_TEXTURE_2D);
 
-    // attribute属性を有効にする
+    // Enable attributes
     glEnableVertexAttribArray(_positionLocation);
     glEnableVertexAttribArray(_uvLocation);
 
-    // uniform属性の登録
+    // Registration of uniform
     glUniform1i(_textureLocation, 0);
 
-    // 頂点データ
+    // Vertex data
     float positionVertex[] =
     {
         (_rect.right - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.up - maxHeight * 0.5f) / (maxHeight * 0.5f),
@@ -110,32 +110,15 @@ void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8])
         (_rect.right - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.down - maxHeight * 0.5f) / (maxHeight * 0.5f)
     };
 
-    // attribute属性を登録
+    // Register attributes
     glVertexAttribPointer(_positionLocation, 2, GL_FLOAT, false, 0, positionVertex);
     glVertexAttribPointer(_uvLocation, 2, GL_FLOAT, false, 0, uvVertex);
 
     glUniform4f(_colorLocation, _spriteColor[0], _spriteColor[1], _spriteColor[2], _spriteColor[3]);
 
-    // モデルの描画
+    // Draw model
     glBindTexture(GL_TEXTURE_2D, textureId);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-}
-
-bool LAppSprite::IsHit(float pointX, float pointY) const
-{
-    // 画面サイズを取得する
-    int maxWidth, maxHeight;
-    glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &maxWidth, &maxHeight);
-
-    if (maxWidth == 0 || maxHeight == 0)
-    {
-        return false; // この際は描画できず
-    }
-
-    //Y座標は変換する必要あり
-    float y = maxHeight - pointY;
-
-    return (pointX >= _rect.left && pointX <= _rect.right && y <= _rect.up && y >= _rect.down);
 }
 
 void LAppSprite::SetColor(float r, float g, float b, float a)
