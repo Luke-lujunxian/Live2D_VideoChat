@@ -143,8 +143,8 @@ void SettingWin::on_pushButton_Model_clicked(){
 	fileDialog->setViewMode(QFileDialog::Detail);
 	QStringList fileNames;
 	if (fileDialog->exec()) {
-		ui->comboBox_ProfilePhoto->setCurrentText(fileDialog->selectedFiles()[0]);
-		ui->comboBox_ProfilePhoto->addItem(fileDialog->selectedFiles()[0]);
+		ui->comboBox_Model->setCurrentText(fileDialog->selectedFiles()[0]);
+		ui->comboBox_Model->addItem(fileDialog->selectedFiles()[0]);
 	}
     ui->pushButton_Apply->setEnabled(true);
 }
