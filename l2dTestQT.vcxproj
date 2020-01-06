@@ -97,7 +97,6 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;Framework.lib;Live2DCubismCore_MD.lib;opencv_world412d.lib;opencv_world412.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;Framework.lib;Live2DCubismCore_MD.lib;opencv_world412.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
